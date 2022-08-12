@@ -1,0 +1,4 @@
+﻿  Running Flex (PythonToAsm)
+  Running Bison (PythonToAsm)
+  Parser.y:10.1-2: syntax error, unexpected %%
+D:\Visual Studio Community\VS2022\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(247,5): error MSB8066: Custom build for 'LexAnalyzer.l;Parser.y' exited with code 1.

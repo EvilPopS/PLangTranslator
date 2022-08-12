@@ -1,0 +1,5 @@
+^D:\PROJECTS\C#\PLANGTRANSLATOR\PLT_PARSER\PLT_PARSER\LEXANALYZER.L
+"D:\Projects\c#\PLangTranslator\PLT_Parser\Tools\bin\flex" -oLexAnalyzer.c LexAnalyzer.l
+^D:\PROJECTS\C#\PLANGTRANSLATOR\PLT_PARSER\PLT_PARSER\PARSER.Y
+set PATH=D:\Projects\c#\PLangTranslator\PLT_Parser\Tools\bin;%PATH%
+bison -d Parser.y
