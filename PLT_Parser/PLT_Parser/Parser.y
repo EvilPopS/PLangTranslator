@@ -17,6 +17,7 @@
 
 %token _AND
 %token _BREAK
+%token _CLASS
 %token _CONTINUE
 %token _DEF
 %token _ELIF _ELSE _EXCEPT
@@ -31,6 +32,7 @@
 
 %token _COMMA _COLON
 
+%token _LBRACKET _RBRACKET
 %token _LPAREN _RPAREN
 %token _ASSIGN
 

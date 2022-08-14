@@ -44,34 +44,37 @@
      _DEDENT = 260,
      _AND = 261,
      _BREAK = 262,
-     _CONTINUE = 263,
-     _DEF = 264,
-     _ELIF = 265,
-     _ELSE = 266,
-     _EXCEPT = 267,
-     _FINALLY = 268,
-     _FOR = 269,
-     _IF = 270,
-     _IN = 271,
-     _NOT = 272,
-     _OR = 273,
-     _PASS = 274,
-     _RETURN = 275,
-     _TRY = 276,
-     _WHILE = 277,
-     _COMMA = 278,
-     _COLON = 279,
-     _LPAREN = 280,
-     _RPAREN = 281,
-     _ASSIGN = 282,
-     _ADD_SUB_OP = 283,
-     _MUL_DIV_OP = 284,
-     _LOP = 285,
-     _RELOP = 286,
-     _ID = 287,
-     _NUM_BOOL = 288,
-     _STRING = 289,
-     _NONE = 290
+     _CLASS = 263,
+     _CONTINUE = 264,
+     _DEF = 265,
+     _ELIF = 266,
+     _ELSE = 267,
+     _EXCEPT = 268,
+     _FINALLY = 269,
+     _FOR = 270,
+     _IF = 271,
+     _IN = 272,
+     _NOT = 273,
+     _OR = 274,
+     _PASS = 275,
+     _RETURN = 276,
+     _TRY = 277,
+     _WHILE = 278,
+     _COMMA = 279,
+     _COLON = 280,
+     _LBRACKET = 281,
+     _RBRACKET = 282,
+     _LPAREN = 283,
+     _RPAREN = 284,
+     _ASSIGN = 285,
+     _ADD_SUB_OP = 286,
+     _MUL_DIV_OP = 287,
+     _LOP = 288,
+     _RELOP = 289,
+     _ID = 290,
+     _NUM_BOOL = 291,
+     _STRING = 292,
+     _NONE = 293
    };
 #endif
 
@@ -90,7 +93,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 94 "Parser.tab.h"
+#line 97 "Parser.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

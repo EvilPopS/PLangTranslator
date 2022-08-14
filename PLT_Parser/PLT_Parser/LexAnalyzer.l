@@ -53,6 +53,7 @@
 
 "and"       { yylval.i = AND; return _LOP;}
 "break"     { return _BREAK; }
+"class"		{ return _CLASS; }
 "continue"  { return _CONTINUE; }
 "def"       { return _DEF; }  
 "elif"      { return _ELIF; }
@@ -60,6 +61,7 @@
 "except"    { return _EXCEPT; }
 "finally"   { return _FINALLY; }
 "False"     { yylval.s = strdup("0"); return _NUM_BOOL; }
+"for"		{ return _FOR; }
 "if"        { return _IF; }
 "in"        { return _IN; }
 "is"        { yylval.i = IS; return _RELOP; }
@@ -75,11 +77,13 @@
 ","		{ return _COMMA; }
 ":"		{ return _COLON; }
 
+"["     { return _LBRACKET; }
+"]"     { return _RBRACKET; }
 "("     { return _LPAREN; }
 ")"     { return _RPAREN; }
-"="		{ return _ASSIGN;}
+"="		{ return _ASSIGN; }
 
-"+"     { yylval.i = ADD; return _ADD_SUB_OP;}
+"+"     { yylval.i = ADD; return _ADD_SUB_OP; }
 "-"     { yylval.i = SUB; return _ADD_SUB_OP; }
 "*"		{ yylval.i = MUL; return _MUL_DIV_OP; }
 "/"		{ yylval.i = DIV; return _MUL_DIV_OP; }
@@ -98,6 +102,6 @@
 \"[^"\n]*\"     				{ yylval.s = strdup(yytext); return _STRING; }
 \'[^'\n]*\'     				{ yylval.s = strdup(yytext); return _STRING; }
 
-.			{ printf("line yylineno: LEXICAL ERROR on char %c\n", *yytext);}
+.			{ printf("line yylineno: LEXICAL ERROR on char %c\n", *yytext); }
 
 %%
