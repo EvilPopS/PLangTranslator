@@ -1,4 +1,22 @@
-﻿  Running Flex (PythonToAsm)
-  Running Bison (PythonToAsm)
-  Parser.y:10.1-2: syntax error, unexpected %%
-D:\Visual Studio Community\VS2022\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(247,5): error MSB8066: Custom build for 'LexAnalyzer.l;Parser.y' exited with code 1.
+﻿  LexAlgorithms.c
+  LexAnalyzer.c
+LexAnalyzer.l(32,18): warning C4013: 'strlen' undefined; assuming extern returning int
+LexAnalyzer.l(62,14): warning C4013: 'strdup' undefined; assuming extern returning int
+LexAnalyzer.l(62,25): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+LexAnalyzer.l(71,25): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+LexAnalyzer.l(94,28): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+LexAnalyzer.l(95,28): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+LexAnalyzer.l(96,28): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+LexAnalyzer.l(97,28): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+LexAnalyzer.l(98,28): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+LexAnalyzer.l(99,28): warning C4047: '=': 'char *' differs in levels of indirection from 'int'
+LexAnalyzer.c(1217,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+LexAnalyzer.c(1384,28): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+LexAnalyzer.c(1765,2): warning C4013: 'exit' undefined; assuming extern returning int
+LexAnalyzer.c(1828,18): warning C4013: 'malloc' undefined; assuming extern returning int
+LexAnalyzer.c(1828,32): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
+LexAnalyzer.c(1846,18): warning C4013: 'realloc' undefined; assuming extern returning int
+LexAnalyzer.c(1846,47): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
+LexAnalyzer.c(1856,2): warning C4013: 'free' undefined; assuming extern returning int
+  Generating Code...
+  PLT_Parser.vcxproj -> D:\Projects\c#\PLangTranslator\PLT_Parser\x64\Debug\PLT_Parser.exe
