@@ -19,7 +19,10 @@
     <Filter Include="Grammars\PythonToAsm">
       <UniqueIdentifier>{5f4d1f10-99f0-4d6d-9a44-2abb59b7d92f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\PythonToAsmGenFiles">
+    <Filter Include="Header Files\PythonToAsmHeaderFiles">
+      <UniqueIdentifier>{b283aa6c-9757-4eaf-abb0-a03840fb109c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PythonToAsmSrcFiles">
       <UniqueIdentifier>{9c86e5f2-82a6-492b-bb91-d2176b03cbbb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -28,10 +31,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LexAnalyzer.c">
-      <Filter>Source Files\PythonToAsmGenFiles</Filter>
+      <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
     <ClCompile Include="Parser.tab.c">
-      <Filter>Source Files\PythonToAsmGenFiles</Filter>
+      <Filter>Source Files\PythonToAsmSrcFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="LexAlgorithms.c">
+      <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -44,7 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Parser.tab.h">
-      <Filter>Source Files\PythonToAsmGenFiles</Filter>
+      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="LexAlgorithms.h">
+      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="EnumsAndDefs.h">
+      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

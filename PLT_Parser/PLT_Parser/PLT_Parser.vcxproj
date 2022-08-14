@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LexAlgorithms.c" />
     <ClCompile Include="LexAnalyzer.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Parser.tab.c" />
@@ -150,6 +151,10 @@ bison -d Parser.y</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EnumsAndDefs.h" />
+    <ClInclude Include="LexAlgorithms.h">
+      <FileType>CppHeader</FileType>
+    </ClInclude>
     <ClInclude Include="Parser.tab.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
