@@ -30,33 +30,38 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LexAnalyzer.c">
+    <ClCompile Include="Grammars\PyToAsm\LexAlgorithms.c">
       <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Parser.tab.c">
+    <ClCompile Include="Grammars\PyToAsm\LexAnal.flex.cpp">
       <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
-    <ClCompile Include="LexAlgorithms.c">
+    <ClCompile Include="Grammars\PyToAsm\SyntaxAnal.tab.cpp">
       <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="LexAnalyzer.l">
-      <Filter>Grammars\PythonToAsm</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Parser.y">
-      <Filter>Grammars\PythonToAsm</Filter>
-    </CustomBuild>
+    <ClInclude Include="Grammars\PyToAsm\EnumsAndDefs.h">
+      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammars\PyToAsm\LexAlgorithms.h">
+      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammars\PyToAsm\SyntaxAnal.tab.h">
+      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammars\PyToAsm\SyntaxMainHeader.h">
+      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Parser.tab.h">
-      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="LexAlgorithms.h">
-      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="EnumsAndDefs.h">
-      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
-    </ClInclude>
+    <Flex Include="Grammars\PyToAsm\LexAnal.l">
+      <Filter>Grammars\PythonToAsm</Filter>
+    </Flex>
+  </ItemGroup>
+  <ItemGroup>
+    <Bison Include="Grammars\PyToAsm\SyntaxAnal.y">
+      <Filter>Grammars\PythonToAsm</Filter>
+    </Bison>
   </ItemGroup>
 </Project>
