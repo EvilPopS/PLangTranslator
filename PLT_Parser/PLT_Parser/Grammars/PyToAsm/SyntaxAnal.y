@@ -7,6 +7,8 @@
 	#include "SyntaxMainHeader.h"
 
 	extern int yylex(void);
+	extern int yylineno;
+	extern FILE* yyin;
 	int yyparse(void);
 	int yyerror(const char *);
 
@@ -45,23 +47,31 @@
 %token <s> _ID
 %token <s> _NUM_BOOL _STRING _NONE
 
+%nonassoc VAR_ID 
+%nonassoc _LPAREN
+
+%left _LOP
+%right _NOT
+%left _RELOP
+%left _ADD_SUB_OP
+%left _MUL_DIV_OP 
 
 %%
 
 file
-	: /* empty */ 
+	: %empty  /* empty */ 
 	| statement_list
 	| new_line statement_list
 	;
 
 statement_list
 	: statement
-	| statement_list statement
+	| statement_list statement 
 	;
 
 statement
-	: simple_statement new_line
-	| compound_statement
+	: simple_statement new_line 
+	| compound_statement 
 	;
 
 simple_statement
@@ -109,7 +119,7 @@ function_call
 	;
 	
 arguments
-	: /* no arguments */
+	: %empty  /* no arguments */
 	| arguments args
 	;
 	
@@ -123,7 +133,7 @@ function_def
 	;
 
 parameters 
-	: /* no params */
+	: %empty  /* no params */
 	| _ID  						
 	| param_with_default_val
 	| parameters _COMMA _ID		
@@ -143,7 +153,7 @@ if_part
 	;
 	
 elif_part
-	: /* no elif part*/
+	: %empty  /* no elif part*/
 	| elif_part _ELIF num_exp _COLON new_line body
 	;
 
@@ -164,7 +174,7 @@ try_part
 	;
 
 except_part
-	: /* no except block */
+	: %empty  /* no except block */
 	| except_part _EXCEPT _ID except_finally_body
 	| except_part _EXCEPT except_finally_body
 	;
@@ -173,13 +183,13 @@ except_finally_body
 	: _COLON new_line body
 	;
 finally_or_else_part
-	: /* no else or finally part */
+	: %empty  /* no else or finally part */
 	| _FINALLY except_finally_body
 	| _ELSE except_finally_body
 	;
 
 else_part
-	: /* no else part*/
+	: %empty  /* no else part*/
 	|_ELSE _COLON new_line body
 	;
 
@@ -211,7 +221,7 @@ literal
 	;
 
 new_line
-	: _NEW_LINE
+	: _NEW_LINE 
 	| new_line _NEW_LINE
 	;
 
@@ -220,8 +230,14 @@ new_line
 
 int parser_main(int argc, char* argv[]) {
 	int synerr;
-	synerr = yyparse();
 
+	fopen_s(&yyin, "Tests/PyToAsm/test1.txt" , "r");
+
+	synerr = yyparse(); 
+
+	fclose(yyin);
+
+	printf("%d", synerr);
 	if(synerr)
 		return -1;
 	else
@@ -229,5 +245,6 @@ int parser_main(int argc, char* argv[]) {
 }
 
 int yyerror(const char *s) {
-  return 0;
+	fprintf(stderr, "line %d: SYNTAX ERROR %s\n", yylineno, s);
+	return 0;
 }

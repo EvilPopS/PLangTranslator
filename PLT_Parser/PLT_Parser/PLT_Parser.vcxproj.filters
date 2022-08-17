@@ -25,6 +25,12 @@
     <Filter Include="Source Files\PythonToAsmSrcFiles">
       <UniqueIdentifier>{9c86e5f2-82a6-492b-bb91-d2176b03cbbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{098e56dd-b328-434f-81b1-b34d38f453d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\PythonToAsm">
+      <UniqueIdentifier>{9c480c33-667f-40c8-8446-19af3306adf4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,10 +39,10 @@
     <ClCompile Include="Grammars\PyToAsm\LexAlgorithms.c">
       <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Grammars\PyToAsm\LexAnal.flex.cpp">
+    <ClCompile Include="Grammars\PyToAsm\SyntaxAnal.tab.c">
       <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Grammars\PyToAsm\SyntaxAnal.tab.cpp">
+    <ClCompile Include="Grammars\PyToAsm\LexAnal.flex.c">
       <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,5 +69,10 @@
     <Bison Include="Grammars\PyToAsm\SyntaxAnal.y">
       <Filter>Grammars\PythonToAsm</Filter>
     </Bison>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Tests\PyToAsm\test1.txt">
+      <Filter>Tests\PythonToAsm</Filter>
+    </Text>
   </ItemGroup>
 </Project>

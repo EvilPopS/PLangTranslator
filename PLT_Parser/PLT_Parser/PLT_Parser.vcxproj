@@ -129,8 +129,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Grammars\PyToAsm\LexAlgorithms.c" />
-    <ClCompile Include="Grammars\PyToAsm\LexAnal.flex.cpp" />
-    <ClCompile Include="Grammars\PyToAsm\SyntaxAnal.tab.cpp" />
+    <ClCompile Include="Grammars\PyToAsm\LexAnal.flex.c" />
+    <ClCompile Include="Grammars\PyToAsm\SyntaxAnal.tab.c" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -140,10 +140,20 @@
     <ClInclude Include="Grammars\PyToAsm\SyntaxMainHeader.h" />
   </ItemGroup>
   <ItemGroup>
-    <Flex Include="Grammars\PyToAsm\LexAnal.l" />
+    <Flex Include="Grammars\PyToAsm\LexAnal.l">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).flex.c</OutputFile>
+    </Flex>
   </ItemGroup>
   <ItemGroup>
-    <Bison Include="Grammars\PyToAsm\SyntaxAnal.y" />
+    <Bison Include="Grammars\PyToAsm\SyntaxAnal.y">
+      <Warnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">all</Warnings>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).tab.c</OutputFile>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">-Wconflicts-sr %(AdditionalOptions)</AdditionalOptions>
+      <Verbose Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</Verbose>
+    </Bison>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Tests\PyToAsm\test1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

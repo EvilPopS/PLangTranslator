@@ -1,5 +1,10 @@
 #include "LexAlgorithms.h"
 
+prevIndentLvl = 0;
+curIndentLvl = 0;
+
+retDedent = 0;
+retIndent = 0;
 
 void resetIndentation() {
 	if (prevIndentLvl > 0) {

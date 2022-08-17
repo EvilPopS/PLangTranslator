@@ -7,11 +7,11 @@ extern "C"
 #define IS_INDENT 1
 #define IS_DEDENT -1
 
-static int prevIndentLvl = 0;
-static int curIndentLvl = 0;
+extern int prevIndentLvl;
+extern int curIndentLvl;
 
-static int retDedent = 0;
-static int retIndent = 0;
+extern int retDedent;
+extern int retIndent;
 
 void resetIndentation();
 void incOrdDecIndentation();
