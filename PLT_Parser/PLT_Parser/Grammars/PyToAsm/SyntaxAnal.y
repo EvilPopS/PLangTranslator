@@ -212,8 +212,19 @@ exp
 	| _ID %prec VAR_ID
 	| function_call
 	| _LPAREN num_exp _RPAREN
+	| list
 	;
 	
+list
+	: _LBRACKET list_elements _RBRACKET
+	;
+
+list_elements
+	: %empty 
+	| num_exp
+	| list_elements _COMMA num_exp
+	;
+
 literal
 	: _NUM_BOOL
 	| _STRING
