@@ -88,6 +88,7 @@ compound_statement
 	: function_def
 	| if_statement
 	| while_statement
+	| for_statement
 	| try_except_statement
 	;
 	
@@ -158,34 +159,27 @@ elif_part
 	;
 
 while_statement
-	: while_part else_part 
+	: _WHILE num_exp _COLON new_line body else_part 
 	;
 
-while_part
-	: _WHILE num_exp _COLON new_line body 
+for_statement
+	: _FOR _ID _IN num_exp _COLON new_line body else_part
 	;
 
 try_except_statement
-	: try_part except_part finally_or_else_part
-	;
-
-try_part
-	: _TRY _COLON new_line body
+	: _TRY _COLON new_line body except_part finally_or_else_part
 	;
 
 except_part
 	: %empty  /* no except block */
-	| except_part _EXCEPT _ID except_finally_body
-	| except_part _EXCEPT except_finally_body
+	| except_part _EXCEPT _ID _COLON new_line body
+	| except_part _EXCEPT _COLON new_line body
 	;
 
-except_finally_body
-	: _COLON new_line body
-	;
 finally_or_else_part
 	: %empty  /* no else or finally part */
-	| _FINALLY except_finally_body
-	| _ELSE except_finally_body
+	| _FINALLY _COLON new_line body
+	| _ELSE _COLON new_line body
 	;
 
 else_part
@@ -196,7 +190,6 @@ else_part
 body
 	: _INDENT statement_list _DEDENT 
 	;
-		
 
 num_exp
 	: exp
