@@ -55,6 +55,7 @@
 				return _NEW_LINE;
 			}
 
+"__init__"	{ return _INIT; }
 "and"       { yylval.i = AND; return _LOP;}
 "break"     { return _BREAK; }
 "class"		{ return _CLASS; }

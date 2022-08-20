@@ -21,6 +21,7 @@
 
 %token _NEW_LINE _INDENT _DEDENT 
 
+%token _INIT
 %token _AND
 %token _BREAK
 %token _CLASS
@@ -62,6 +63,7 @@ file
 	: %empty  /* empty */ 
 	| statement_list
 	| new_line statement_list
+	| file new_line
 	;
 
 statement_list
@@ -86,6 +88,7 @@ simple_statement
 
 compound_statement
 	: function_def
+	| class_def
 	| if_statement
 	| while_statement
 	| for_statement
@@ -143,6 +146,29 @@ parameters
 	
 param_with_default_val
 	: _ID _ASSIGN num_exp
+	;
+
+class_def
+	: _CLASS _ID _COLON new_line class_body
+	;
+
+class_body
+	: _INDENT class_methods _DEDENT
+	;
+
+class_methods
+	: singular_method
+	| class_methods singular_method 
+	;
+
+singular_method 
+	: _DEF _INIT _LPAREN _ID init_method_params _RPAREN _COLON new_line body
+	| function_def
+	;
+
+init_method_params
+	: %empty
+	| _COMMA parameters
 	;
 
 if_statement
@@ -234,14 +260,16 @@ new_line
 
 int parser_main(int argc, char* argv[]) {
 	int synerr;
+	char* FILE_PATH = "Tests/PyToAsm/test1.txt";
 
-	fopen_s(&yyin, "Tests/PyToAsm/test1.txt" , "r");
-
-	synerr = yyparse(); 
-
+	fopen_s(&yyin, FILE_PATH , "a");
+	fprintf(yyin, "\n");
 	fclose(yyin);
 
-	printf("%d", synerr);
+	fopen_s(&yyin, FILE_PATH , "r");
+	synerr = yyparse(); 
+	fclose(yyin);
+
 	if(synerr)
 		return -1;
 	else

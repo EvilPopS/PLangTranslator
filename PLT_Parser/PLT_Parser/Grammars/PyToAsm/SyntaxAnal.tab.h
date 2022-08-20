@@ -57,40 +57,41 @@ extern int yydebug;
     _NEW_LINE = 258,               /* _NEW_LINE  */
     _INDENT = 259,                 /* _INDENT  */
     _DEDENT = 260,                 /* _DEDENT  */
-    _AND = 261,                    /* _AND  */
-    _BREAK = 262,                  /* _BREAK  */
-    _CLASS = 263,                  /* _CLASS  */
-    _CONTINUE = 264,               /* _CONTINUE  */
-    _DEF = 265,                    /* _DEF  */
-    _ELIF = 266,                   /* _ELIF  */
-    _ELSE = 267,                   /* _ELSE  */
-    _EXCEPT = 268,                 /* _EXCEPT  */
-    _FINALLY = 269,                /* _FINALLY  */
-    _FOR = 270,                    /* _FOR  */
-    _IF = 271,                     /* _IF  */
-    _IN = 272,                     /* _IN  */
-    _NOT = 273,                    /* _NOT  */
-    _OR = 274,                     /* _OR  */
-    _PASS = 275,                   /* _PASS  */
-    _RETURN = 276,                 /* _RETURN  */
-    _TRY = 277,                    /* _TRY  */
-    _WHILE = 278,                  /* _WHILE  */
-    _COMMA = 279,                  /* _COMMA  */
-    _COLON = 280,                  /* _COLON  */
-    _LBRACKET = 281,               /* _LBRACKET  */
-    _RBRACKET = 282,               /* _RBRACKET  */
-    _LPAREN = 283,                 /* _LPAREN  */
-    _RPAREN = 284,                 /* _RPAREN  */
-    _ASSIGN = 285,                 /* _ASSIGN  */
-    _ADD_SUB_OP = 286,             /* _ADD_SUB_OP  */
-    _MUL_DIV_OP = 287,             /* _MUL_DIV_OP  */
-    _LOP = 288,                    /* _LOP  */
-    _RELOP = 289,                  /* _RELOP  */
-    _ID = 290,                     /* _ID  */
-    _NUM_BOOL = 291,               /* _NUM_BOOL  */
-    _STRING = 292,                 /* _STRING  */
-    _NONE = 293,                   /* _NONE  */
-    VAR_ID = 294                   /* VAR_ID  */
+    _INIT = 261,                   /* _INIT  */
+    _AND = 262,                    /* _AND  */
+    _BREAK = 263,                  /* _BREAK  */
+    _CLASS = 264,                  /* _CLASS  */
+    _CONTINUE = 265,               /* _CONTINUE  */
+    _DEF = 266,                    /* _DEF  */
+    _ELIF = 267,                   /* _ELIF  */
+    _ELSE = 268,                   /* _ELSE  */
+    _EXCEPT = 269,                 /* _EXCEPT  */
+    _FINALLY = 270,                /* _FINALLY  */
+    _FOR = 271,                    /* _FOR  */
+    _IF = 272,                     /* _IF  */
+    _IN = 273,                     /* _IN  */
+    _NOT = 274,                    /* _NOT  */
+    _OR = 275,                     /* _OR  */
+    _PASS = 276,                   /* _PASS  */
+    _RETURN = 277,                 /* _RETURN  */
+    _TRY = 278,                    /* _TRY  */
+    _WHILE = 279,                  /* _WHILE  */
+    _COMMA = 280,                  /* _COMMA  */
+    _COLON = 281,                  /* _COLON  */
+    _LBRACKET = 282,               /* _LBRACKET  */
+    _RBRACKET = 283,               /* _RBRACKET  */
+    _LPAREN = 284,                 /* _LPAREN  */
+    _RPAREN = 285,                 /* _RPAREN  */
+    _ASSIGN = 286,                 /* _ASSIGN  */
+    _ADD_SUB_OP = 287,             /* _ADD_SUB_OP  */
+    _MUL_DIV_OP = 288,             /* _MUL_DIV_OP  */
+    _LOP = 289,                    /* _LOP  */
+    _RELOP = 290,                  /* _RELOP  */
+    _ID = 291,                     /* _ID  */
+    _NUM_BOOL = 292,               /* _NUM_BOOL  */
+    _STRING = 293,                 /* _STRING  */
+    _NONE = 294,                   /* _NONE  */
+    VAR_ID = 295                   /* VAR_ID  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -104,7 +105,7 @@ union YYSTYPE
   int i;
   char *s;
 
-#line 108 "SyntaxAnal.tab.h"
+#line 109 "SyntaxAnal.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

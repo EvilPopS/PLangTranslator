@@ -1,10 +1,12 @@
 Terminals unused in grammar
 
     _AND
-    _CLASS
-    _FOR
-    _IN
     _OR
+
+
+State 0 conflicts: 1 shift/reduce
+State 53 conflicts: 1 shift/reduce
+State 55 conflicts: 1 shift/reduce
 
 
 Grammar
@@ -14,263 +16,285 @@ Grammar
     1 file: %empty
     2     | statement_list
     3     | new_line statement_list
+    4     | file new_line
 
-    4 statement_list: statement
-    5               | statement_list statement
+    5 statement_list: statement
+    6               | statement_list statement
 
-    6 statement: simple_statement new_line
-    7          | compound_statement
+    7 statement: simple_statement new_line
+    8          | compound_statement
 
-    8 simple_statement: assign_statement
-    9                 | multi_assign_statement
-   10                 | return_statement
-   11                 | function_call
-   12                 | _BREAK
-   13                 | _CONTINUE
-   14                 | _PASS
+    9 simple_statement: assign_statement
+   10                 | multi_assign_statement
+   11                 | return_statement
+   12                 | function_call
+   13                 | _BREAK
+   14                 | _CONTINUE
+   15                 | _PASS
 
-   15 compound_statement: function_def
-   16                   | if_statement
-   17                   | while_statement
-   18                   | try_except_statement
+   16 compound_statement: function_def
+   17                   | class_def
+   18                   | if_statement
+   19                   | while_statement
+   20                   | for_statement
+   21                   | try_except_statement
 
-   19 assign_statement: _ID _ASSIGN num_exp
+   22 assign_statement: _ID _ASSIGN num_exp
 
-   20 multi_assign_statement: multi_assign_vars multi_assign_values
+   23 multi_assign_statement: multi_assign_vars multi_assign_values
 
-   21 multi_assign_vars: _ID _COMMA _ID
-   22                  | multi_assign_vars _COMMA _ID
+   24 multi_assign_vars: _ID _COMMA _ID
+   25                  | multi_assign_vars _COMMA _ID
 
-   23 multi_assign_values: _ASSIGN num_exp _COMMA num_exp
-   24                    | multi_assign_values _COMMA num_exp
+   26 multi_assign_values: _ASSIGN num_exp _COMMA num_exp
+   27                    | multi_assign_values _COMMA num_exp
 
-   25 return_statement: _RETURN
-   26                 | _RETURN num_exp
+   28 return_statement: _RETURN
+   29                 | _RETURN num_exp
 
-   27 function_call: _ID _LPAREN arguments _RPAREN
+   30 function_call: _ID _LPAREN arguments _RPAREN
 
-   28 arguments: %empty
-   29          | arguments args
+   31 arguments: %empty
+   32          | arguments args
 
-   30 args: num_exp
-   31     | args _COMMA num_exp
+   33 args: num_exp
+   34     | args _COMMA num_exp
 
-   32 function_def: _DEF _ID _LPAREN parameters _RPAREN _COLON new_line body
+   35 function_def: _DEF _ID _LPAREN parameters _RPAREN _COLON new_line body
 
-   33 parameters: %empty
-   34           | _ID
-   35           | param_with_default_val
-   36           | parameters _COMMA _ID
-   37           | parameters _COMMA param_with_default_val
+   36 parameters: %empty
+   37           | _ID
+   38           | param_with_default_val
+   39           | parameters _COMMA _ID
+   40           | parameters _COMMA param_with_default_val
 
-   38 param_with_default_val: _ID _ASSIGN num_exp
+   41 param_with_default_val: _ID _ASSIGN num_exp
 
-   39 if_statement: if_part elif_part else_part
+   42 class_def: _CLASS _ID _COLON new_line class_body
 
-   40 if_part: _IF num_exp _COLON new_line body
+   43 class_body: _INDENT class_methods _DEDENT
 
-   41 elif_part: %empty
-   42          | elif_part _ELIF num_exp _COLON new_line body
+   44 class_methods: singular_method
+   45              | class_methods singular_method
 
-   43 while_statement: while_part else_part
+   46 singular_method: _DEF _INIT _LPAREN _ID init_method_params _RPAREN _COLON new_line body
+   47                | function_def
 
-   44 while_part: _WHILE num_exp _COLON new_line body
+   48 init_method_params: %empty
+   49                   | _COMMA parameters
 
-   45 try_except_statement: try_part except_part finally_or_else_part
+   50 if_statement: if_part elif_part else_part
 
-   46 try_part: _TRY _COLON new_line body
+   51 if_part: _IF num_exp _COLON new_line body
 
-   47 except_part: %empty
-   48            | except_part _EXCEPT _ID except_finally_body
-   49            | except_part _EXCEPT except_finally_body
+   52 elif_part: %empty
+   53          | elif_part _ELIF num_exp _COLON new_line body
 
-   50 except_finally_body: _COLON new_line body
+   54 while_statement: _WHILE num_exp _COLON new_line body else_part
 
-   51 finally_or_else_part: %empty
-   52                     | _FINALLY except_finally_body
-   53                     | _ELSE except_finally_body
+   55 for_statement: _FOR _ID _IN num_exp _COLON new_line body else_part
 
-   54 else_part: %empty
-   55          | _ELSE _COLON new_line body
+   56 try_except_statement: _TRY _COLON new_line body except_part finally_or_else_part
 
-   56 body: _INDENT statement_list _DEDENT
+   57 except_part: %empty
+   58            | except_part _EXCEPT _ID _COLON new_line body
+   59            | except_part _EXCEPT _COLON new_line body
 
-   57 num_exp: exp
-   58        | _NOT num_exp
-   59        | num_exp _ADD_SUB_OP num_exp
-   60        | num_exp _MUL_DIV_OP num_exp
-   61        | num_exp _LOP num_exp
-   62        | num_exp _RELOP num_exp
+   60 finally_or_else_part: %empty
+   61                     | _FINALLY _COLON new_line body
+   62                     | _ELSE _COLON new_line body
 
-   63 exp: literal
-   64    | _ID
-   65    | function_call
-   66    | _LPAREN num_exp _RPAREN
-   67    | list
+   63 else_part: %empty
+   64          | _ELSE _COLON new_line body
 
-   68 list: _LBRACKET list_elements _RBRACKET
+   65 body: _INDENT statement_list _DEDENT
 
-   69 list_elements: %empty
-   70              | num_exp
-   71              | list_elements _COMMA num_exp
+   66 num_exp: exp
+   67        | _NOT num_exp
+   68        | num_exp _ADD_SUB_OP num_exp
+   69        | num_exp _MUL_DIV_OP num_exp
+   70        | num_exp _LOP num_exp
+   71        | num_exp _RELOP num_exp
 
-   72 literal: _NUM_BOOL
-   73        | _STRING
-   74        | _NONE
+   72 exp: literal
+   73    | _ID
+   74    | function_call
+   75    | _LPAREN num_exp _RPAREN
+   76    | list
 
-   75 new_line: _NEW_LINE
-   76         | new_line _NEW_LINE
+   77 list: _LBRACKET list_elements _RBRACKET
+
+   78 list_elements: %empty
+   79              | num_exp
+   80              | list_elements _COMMA num_exp
+
+   81 literal: _NUM_BOOL
+   82        | _STRING
+   83        | _NONE
+
+   84 new_line: _NEW_LINE
+   85         | new_line _NEW_LINE
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
-    _NEW_LINE (258) 75 76
-    _INDENT (259) 56
-    _DEDENT (260) 56
-    _AND (261)
-    _BREAK (262) 12
-    _CLASS (263)
-    _CONTINUE (264) 13
-    _DEF (265) 32
-    _ELIF (266) 42
-    _ELSE (267) 53 55
-    _EXCEPT (268) 48 49
-    _FINALLY (269) 52
-    _FOR (270)
-    _IF (271) 40
-    _IN (272)
-    _NOT (273) 58
-    _OR (274)
-    _PASS (275) 14
-    _RETURN (276) 25 26
-    _TRY (277) 46
-    _WHILE (278) 44
-    _COMMA (279) 21 22 23 24 31 36 37 71
-    _COLON (280) 32 40 42 44 46 50 55
-    _LBRACKET (281) 68
-    _RBRACKET (282) 68
-    _LPAREN (283) 27 32 66
-    _RPAREN (284) 27 32 66
-    _ASSIGN (285) 19 23 38
-    _ADD_SUB_OP <i> (286) 59
-    _MUL_DIV_OP <i> (287) 60
-    _LOP <i> (288) 61
-    _RELOP <i> (289) 62
-    _ID <s> (290) 19 21 22 27 32 34 36 38 48 64
-    _NUM_BOOL <s> (291) 72
-    _STRING <s> (292) 73
-    _NONE <s> (293) 74
-    VAR_ID (294)
+    _NEW_LINE (258) 84 85
+    _INDENT (259) 43 65
+    _DEDENT (260) 43 65
+    _INIT (261) 46
+    _AND (262)
+    _BREAK (263) 13
+    _CLASS (264) 42
+    _CONTINUE (265) 14
+    _DEF (266) 35 46
+    _ELIF (267) 53
+    _ELSE (268) 62 64
+    _EXCEPT (269) 58 59
+    _FINALLY (270) 61
+    _FOR (271) 55
+    _IF (272) 51
+    _IN (273) 55
+    _NOT (274) 67
+    _OR (275)
+    _PASS (276) 15
+    _RETURN (277) 28 29
+    _TRY (278) 56
+    _WHILE (279) 54
+    _COMMA (280) 24 25 26 27 34 39 40 49 80
+    _COLON (281) 35 42 46 51 53 54 55 56 58 59 61 62 64
+    _LBRACKET (282) 77
+    _RBRACKET (283) 77
+    _LPAREN (284) 30 35 46 75
+    _RPAREN (285) 30 35 46 75
+    _ASSIGN (286) 22 26 41
+    _ADD_SUB_OP <i> (287) 68
+    _MUL_DIV_OP <i> (288) 69
+    _LOP <i> (289) 70
+    _RELOP <i> (290) 71
+    _ID <s> (291) 22 24 25 30 35 37 39 41 42 46 55 58 73
+    _NUM_BOOL <s> (292) 81
+    _STRING <s> (293) 82
+    _NONE <s> (294) 83
+    VAR_ID (295)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (40)
+    $accept (41)
         on left: 0
-    file (41)
-        on left: 1 2 3
-        on right: 0
-    statement_list (42)
-        on left: 4 5
-        on right: 2 3 5 56
-    statement (43)
-        on left: 6 7
-        on right: 4 5
-    simple_statement (44)
-        on left: 8 9 10 11 12 13 14
-        on right: 6
-    compound_statement (45)
-        on left: 15 16 17 18
+    file (42)
+        on left: 1 2 3 4
+        on right: 0 4
+    statement_list (43)
+        on left: 5 6
+        on right: 2 3 6 65
+    statement (44)
+        on left: 7 8
+        on right: 5 6
+    simple_statement (45)
+        on left: 9 10 11 12 13 14 15
         on right: 7
-    assign_statement (46)
-        on left: 19
+    compound_statement (46)
+        on left: 16 17 18 19 20 21
         on right: 8
-    multi_assign_statement (47)
-        on left: 20
+    assign_statement (47)
+        on left: 22
         on right: 9
-    multi_assign_vars (48)
-        on left: 21 22
-        on right: 20 22
-    multi_assign_values (49)
-        on left: 23 24
-        on right: 20 24
-    return_statement (50)
-        on left: 25 26
+    multi_assign_statement (48)
+        on left: 23
         on right: 10
-    function_call (51)
-        on left: 27
-        on right: 11 65
-    arguments (52)
+    multi_assign_vars (49)
+        on left: 24 25
+        on right: 23 25
+    multi_assign_values (50)
+        on left: 26 27
+        on right: 23 27
+    return_statement (51)
         on left: 28 29
-        on right: 27 29
-    args (53)
-        on left: 30 31
-        on right: 29 31
-    function_def (54)
-        on left: 32
-        on right: 15
-    parameters (55)
-        on left: 33 34 35 36 37
-        on right: 32 36 37
-    param_with_default_val (56)
-        on left: 38
-        on right: 35 37
-    if_statement (57)
-        on left: 39
-        on right: 16
-    if_part (58)
-        on left: 40
-        on right: 39
-    elif_part (59)
-        on left: 41 42
-        on right: 39 42
-    while_statement (60)
-        on left: 43
+        on right: 11
+    function_call (52)
+        on left: 30
+        on right: 12 74
+    arguments (53)
+        on left: 31 32
+        on right: 30 32
+    args (54)
+        on left: 33 34
+        on right: 32 34
+    function_def (55)
+        on left: 35
+        on right: 16 47
+    parameters (56)
+        on left: 36 37 38 39 40
+        on right: 35 39 40 49
+    param_with_default_val (57)
+        on left: 41
+        on right: 38 40
+    class_def (58)
+        on left: 42
         on right: 17
-    while_part (61)
-        on left: 44
-        on right: 43
-    try_except_statement (62)
-        on left: 45
-        on right: 18
-    try_part (63)
-        on left: 46
-        on right: 45
-    except_part (64)
-        on left: 47 48 49
-        on right: 45 48 49
-    except_finally_body (65)
+    class_body (59)
+        on left: 43
+        on right: 42
+    class_methods (60)
+        on left: 44 45
+        on right: 43 45
+    singular_method (61)
+        on left: 46 47
+        on right: 44 45
+    init_method_params (62)
+        on left: 48 49
+        on right: 46
+    if_statement (63)
         on left: 50
-        on right: 48 49 52 53
-    finally_or_else_part (66)
-        on left: 51 52 53
-        on right: 45
-    else_part (67)
-        on left: 54 55
-        on right: 39 43
-    body (68)
+        on right: 18
+    if_part (64)
+        on left: 51
+        on right: 50
+    elif_part (65)
+        on left: 52 53
+        on right: 50 53
+    while_statement (66)
+        on left: 54
+        on right: 19
+    for_statement (67)
+        on left: 55
+        on right: 20
+    try_except_statement (68)
         on left: 56
-        on right: 32 40 42 44 46 50 55
-    num_exp (69)
-        on left: 57 58 59 60 61 62
-        on right: 19 23 24 26 30 31 38 40 42 44 58 59 60 61 62 66 70 71
-    exp (70)
-        on left: 63 64 65 66 67
-        on right: 57
-    list (71)
-        on left: 68
-        on right: 67
-    list_elements (72)
-        on left: 69 70 71
-        on right: 68 71
-    literal (73)
-        on left: 72 73 74
-        on right: 63
-    new_line (74)
-        on left: 75 76
-        on right: 3 6 32 40 42 44 46 50 55 76
+        on right: 21
+    except_part (69)
+        on left: 57 58 59
+        on right: 56 58 59
+    finally_or_else_part (70)
+        on left: 60 61 62
+        on right: 56
+    else_part (71)
+        on left: 63 64
+        on right: 50 54 55
+    body (72)
+        on left: 65
+        on right: 35 46 51 53 54 55 56 58 59 61 62 64
+    num_exp (73)
+        on left: 66 67 68 69 70 71
+        on right: 22 26 27 29 33 34 41 51 53 54 55 67 68 69 70 71 75 79 80
+    exp (74)
+        on left: 72 73 74 75 76
+        on right: 66
+    list (75)
+        on left: 77
+        on right: 76
+    list_elements (76)
+        on left: 78 79 80
+        on right: 77 80
+    literal (77)
+        on left: 81 82 83
+        on right: 72
+    new_line (78)
+        on left: 84 85
+        on right: 3 4 7 35 42 46 51 53 54 55 56 58 59 61 62 64 85
 
 
 State 0
@@ -279,1610 +303,1960 @@ State 0
 
     _NEW_LINE  shift, and go to state 1
     _BREAK     shift, and go to state 2
-    _CONTINUE  shift, and go to state 3
-    _DEF       shift, and go to state 4
-    _IF        shift, and go to state 5
-    _PASS      shift, and go to state 6
-    _RETURN    shift, and go to state 7
-    _TRY       shift, and go to state 8
-    _WHILE     shift, and go to state 9
-    _ID        shift, and go to state 10
+    _CLASS     shift, and go to state 3
+    _CONTINUE  shift, and go to state 4
+    _DEF       shift, and go to state 5
+    _FOR       shift, and go to state 6
+    _IF        shift, and go to state 7
+    _PASS      shift, and go to state 8
+    _RETURN    shift, and go to state 9
+    _TRY       shift, and go to state 10
+    _WHILE     shift, and go to state 11
+    _ID        shift, and go to state 12
 
-    $default  reduce using rule 1 (file)
+    _NEW_LINE  [reduce using rule 1 (file)]
+    $default   reduce using rule 1 (file)
 
-    file                    go to state 11
-    statement_list          go to state 12
-    statement               go to state 13
-    simple_statement        go to state 14
-    compound_statement      go to state 15
-    assign_statement        go to state 16
-    multi_assign_statement  go to state 17
-    multi_assign_vars       go to state 18
-    return_statement        go to state 19
-    function_call           go to state 20
-    function_def            go to state 21
-    if_statement            go to state 22
-    if_part                 go to state 23
-    while_statement         go to state 24
-    while_part              go to state 25
-    try_except_statement    go to state 26
-    try_part                go to state 27
-    new_line                go to state 28
+    file                    go to state 13
+    statement_list          go to state 14
+    statement               go to state 15
+    simple_statement        go to state 16
+    compound_statement      go to state 17
+    assign_statement        go to state 18
+    multi_assign_statement  go to state 19
+    multi_assign_vars       go to state 20
+    return_statement        go to state 21
+    function_call           go to state 22
+    function_def            go to state 23
+    class_def               go to state 24
+    if_statement            go to state 25
+    if_part                 go to state 26
+    while_statement         go to state 27
+    for_statement           go to state 28
+    try_except_statement    go to state 29
+    new_line                go to state 30
 
 
 State 1
 
-   75 new_line: _NEW_LINE .
+   84 new_line: _NEW_LINE .
 
-    $default  reduce using rule 75 (new_line)
+    $default  reduce using rule 84 (new_line)
 
 
 State 2
 
-   12 simple_statement: _BREAK .
-
-    $default  reduce using rule 12 (simple_statement)
-
-
-State 3
-
-   13 simple_statement: _CONTINUE .
+   13 simple_statement: _BREAK .
 
     $default  reduce using rule 13 (simple_statement)
 
 
+State 3
+
+   42 class_def: _CLASS . _ID _COLON new_line class_body
+
+    _ID  shift, and go to state 31
+
+
 State 4
 
-   32 function_def: _DEF . _ID _LPAREN parameters _RPAREN _COLON new_line body
-
-    _ID  shift, and go to state 29
-
-
-State 5
-
-   40 if_part: _IF . num_exp _COLON new_line body
-
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
-
-    function_call  go to state 37
-    num_exp        go to state 38
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
-
-
-State 6
-
-   14 simple_statement: _PASS .
+   14 simple_statement: _CONTINUE .
 
     $default  reduce using rule 14 (simple_statement)
 
 
+State 5
+
+   35 function_def: _DEF . _ID _LPAREN parameters _RPAREN _COLON new_line body
+
+    _ID  shift, and go to state 32
+
+
+State 6
+
+   55 for_statement: _FOR . _ID _IN num_exp _COLON new_line body else_part
+
+    _ID  shift, and go to state 33
+
+
 State 7
 
-   25 return_statement: _RETURN .
-   26                 | _RETURN . num_exp
+   51 if_part: _IF . num_exp _COLON new_line body
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
 
-    $default  reduce using rule 25 (return_statement)
-
-    function_call  go to state 37
+    function_call  go to state 41
     num_exp        go to state 42
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 8
 
-   46 try_part: _TRY . _COLON new_line body
+   15 simple_statement: _PASS .
 
-    _COLON  shift, and go to state 43
+    $default  reduce using rule 15 (simple_statement)
 
 
 State 9
 
-   44 while_part: _WHILE . num_exp _COLON new_line body
+   28 return_statement: _RETURN .
+   29                 | _RETURN . num_exp
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
 
-    function_call  go to state 37
-    num_exp        go to state 44
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    $default  reduce using rule 28 (return_statement)
+
+    function_call  go to state 41
+    num_exp        go to state 46
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 10
 
-   19 assign_statement: _ID . _ASSIGN num_exp
-   21 multi_assign_vars: _ID . _COMMA _ID
-   27 function_call: _ID . _LPAREN arguments _RPAREN
+   56 try_except_statement: _TRY . _COLON new_line body except_part finally_or_else_part
 
-    _COMMA   shift, and go to state 45
-    _LPAREN  shift, and go to state 46
-    _ASSIGN  shift, and go to state 47
+    _COLON  shift, and go to state 47
 
 
 State 11
 
-    0 $accept: file . $end
+   54 while_statement: _WHILE . num_exp _COLON new_line body else_part
 
-    $end  shift, and go to state 48
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
+
+    function_call  go to state 41
+    num_exp        go to state 48
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 12
 
-    2 file: statement_list .
-    5 statement_list: statement_list . statement
+   22 assign_statement: _ID . _ASSIGN num_exp
+   24 multi_assign_vars: _ID . _COMMA _ID
+   30 function_call: _ID . _LPAREN arguments _RPAREN
 
-    _BREAK     shift, and go to state 2
-    _CONTINUE  shift, and go to state 3
-    _DEF       shift, and go to state 4
-    _IF        shift, and go to state 5
-    _PASS      shift, and go to state 6
-    _RETURN    shift, and go to state 7
-    _TRY       shift, and go to state 8
-    _WHILE     shift, and go to state 9
-    _ID        shift, and go to state 10
-
-    $default  reduce using rule 2 (file)
-
-    statement               go to state 49
-    simple_statement        go to state 14
-    compound_statement      go to state 15
-    assign_statement        go to state 16
-    multi_assign_statement  go to state 17
-    multi_assign_vars       go to state 18
-    return_statement        go to state 19
-    function_call           go to state 20
-    function_def            go to state 21
-    if_statement            go to state 22
-    if_part                 go to state 23
-    while_statement         go to state 24
-    while_part              go to state 25
-    try_except_statement    go to state 26
-    try_part                go to state 27
+    _COMMA   shift, and go to state 49
+    _LPAREN  shift, and go to state 50
+    _ASSIGN  shift, and go to state 51
 
 
 State 13
 
-    4 statement_list: statement .
+    0 $accept: file . $end
+    4 file: file . new_line
 
-    $default  reduce using rule 4 (statement_list)
+    $end       shift, and go to state 52
+    _NEW_LINE  shift, and go to state 1
+
+    new_line  go to state 53
 
 
 State 14
 
-    6 statement: simple_statement . new_line
+    2 file: statement_list .
+    6 statement_list: statement_list . statement
 
-    _NEW_LINE  shift, and go to state 1
+    _BREAK     shift, and go to state 2
+    _CLASS     shift, and go to state 3
+    _CONTINUE  shift, and go to state 4
+    _DEF       shift, and go to state 5
+    _FOR       shift, and go to state 6
+    _IF        shift, and go to state 7
+    _PASS      shift, and go to state 8
+    _RETURN    shift, and go to state 9
+    _TRY       shift, and go to state 10
+    _WHILE     shift, and go to state 11
+    _ID        shift, and go to state 12
 
-    new_line  go to state 50
+    $default  reduce using rule 2 (file)
+
+    statement               go to state 54
+    simple_statement        go to state 16
+    compound_statement      go to state 17
+    assign_statement        go to state 18
+    multi_assign_statement  go to state 19
+    multi_assign_vars       go to state 20
+    return_statement        go to state 21
+    function_call           go to state 22
+    function_def            go to state 23
+    class_def               go to state 24
+    if_statement            go to state 25
+    if_part                 go to state 26
+    while_statement         go to state 27
+    for_statement           go to state 28
+    try_except_statement    go to state 29
 
 
 State 15
 
-    7 statement: compound_statement .
+    5 statement_list: statement .
 
-    $default  reduce using rule 7 (statement)
+    $default  reduce using rule 5 (statement_list)
 
 
 State 16
 
-    8 simple_statement: assign_statement .
+    7 statement: simple_statement . new_line
 
-    $default  reduce using rule 8 (simple_statement)
+    _NEW_LINE  shift, and go to state 1
+
+    new_line  go to state 55
 
 
 State 17
 
-    9 simple_statement: multi_assign_statement .
+    8 statement: compound_statement .
 
-    $default  reduce using rule 9 (simple_statement)
+    $default  reduce using rule 8 (statement)
 
 
 State 18
 
-   20 multi_assign_statement: multi_assign_vars . multi_assign_values
-   22 multi_assign_vars: multi_assign_vars . _COMMA _ID
+    9 simple_statement: assign_statement .
 
-    _COMMA   shift, and go to state 51
-    _ASSIGN  shift, and go to state 52
-
-    multi_assign_values  go to state 53
+    $default  reduce using rule 9 (simple_statement)
 
 
 State 19
 
-   10 simple_statement: return_statement .
+   10 simple_statement: multi_assign_statement .
 
     $default  reduce using rule 10 (simple_statement)
 
 
 State 20
 
-   11 simple_statement: function_call .
+   23 multi_assign_statement: multi_assign_vars . multi_assign_values
+   25 multi_assign_vars: multi_assign_vars . _COMMA _ID
 
-    $default  reduce using rule 11 (simple_statement)
+    _COMMA   shift, and go to state 56
+    _ASSIGN  shift, and go to state 57
+
+    multi_assign_values  go to state 58
 
 
 State 21
 
-   15 compound_statement: function_def .
+   11 simple_statement: return_statement .
 
-    $default  reduce using rule 15 (compound_statement)
+    $default  reduce using rule 11 (simple_statement)
 
 
 State 22
 
-   16 compound_statement: if_statement .
+   12 simple_statement: function_call .
 
-    $default  reduce using rule 16 (compound_statement)
+    $default  reduce using rule 12 (simple_statement)
 
 
 State 23
 
-   39 if_statement: if_part . elif_part else_part
+   16 compound_statement: function_def .
 
-    $default  reduce using rule 41 (elif_part)
-
-    elif_part  go to state 54
+    $default  reduce using rule 16 (compound_statement)
 
 
 State 24
 
-   17 compound_statement: while_statement .
+   17 compound_statement: class_def .
 
     $default  reduce using rule 17 (compound_statement)
 
 
 State 25
 
-   43 while_statement: while_part . else_part
-
-    _ELSE  shift, and go to state 55
-
-    $default  reduce using rule 54 (else_part)
-
-    else_part  go to state 56
-
-
-State 26
-
-   18 compound_statement: try_except_statement .
+   18 compound_statement: if_statement .
 
     $default  reduce using rule 18 (compound_statement)
 
 
+State 26
+
+   50 if_statement: if_part . elif_part else_part
+
+    $default  reduce using rule 52 (elif_part)
+
+    elif_part  go to state 59
+
+
 State 27
 
-   45 try_except_statement: try_part . except_part finally_or_else_part
+   19 compound_statement: while_statement .
 
-    $default  reduce using rule 47 (except_part)
-
-    except_part  go to state 57
+    $default  reduce using rule 19 (compound_statement)
 
 
 State 28
 
-    3 file: new_line . statement_list
-   76 new_line: new_line . _NEW_LINE
+   20 compound_statement: for_statement .
 
-    _NEW_LINE  shift, and go to state 58
-    _BREAK     shift, and go to state 2
-    _CONTINUE  shift, and go to state 3
-    _DEF       shift, and go to state 4
-    _IF        shift, and go to state 5
-    _PASS      shift, and go to state 6
-    _RETURN    shift, and go to state 7
-    _TRY       shift, and go to state 8
-    _WHILE     shift, and go to state 9
-    _ID        shift, and go to state 10
-
-    statement_list          go to state 59
-    statement               go to state 13
-    simple_statement        go to state 14
-    compound_statement      go to state 15
-    assign_statement        go to state 16
-    multi_assign_statement  go to state 17
-    multi_assign_vars       go to state 18
-    return_statement        go to state 19
-    function_call           go to state 20
-    function_def            go to state 21
-    if_statement            go to state 22
-    if_part                 go to state 23
-    while_statement         go to state 24
-    while_part              go to state 25
-    try_except_statement    go to state 26
-    try_part                go to state 27
+    $default  reduce using rule 20 (compound_statement)
 
 
 State 29
 
-   32 function_def: _DEF _ID . _LPAREN parameters _RPAREN _COLON new_line body
+   21 compound_statement: try_except_statement .
 
-    _LPAREN  shift, and go to state 60
+    $default  reduce using rule 21 (compound_statement)
 
 
 State 30
 
-   58 num_exp: _NOT . num_exp
+    3 file: new_line . statement_list
+   85 new_line: new_line . _NEW_LINE
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
+    _NEW_LINE  shift, and go to state 60
+    _BREAK     shift, and go to state 2
+    _CLASS     shift, and go to state 3
+    _CONTINUE  shift, and go to state 4
+    _DEF       shift, and go to state 5
+    _FOR       shift, and go to state 6
+    _IF        shift, and go to state 7
+    _PASS      shift, and go to state 8
+    _RETURN    shift, and go to state 9
+    _TRY       shift, and go to state 10
+    _WHILE     shift, and go to state 11
+    _ID        shift, and go to state 12
 
-    function_call  go to state 37
-    num_exp        go to state 61
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    statement_list          go to state 61
+    statement               go to state 15
+    simple_statement        go to state 16
+    compound_statement      go to state 17
+    assign_statement        go to state 18
+    multi_assign_statement  go to state 19
+    multi_assign_vars       go to state 20
+    return_statement        go to state 21
+    function_call           go to state 22
+    function_def            go to state 23
+    class_def               go to state 24
+    if_statement            go to state 25
+    if_part                 go to state 26
+    while_statement         go to state 27
+    for_statement           go to state 28
+    try_except_statement    go to state 29
 
 
 State 31
 
-   68 list: _LBRACKET . list_elements _RBRACKET
+   42 class_def: _CLASS _ID . _COLON new_line class_body
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
-
-    $default  reduce using rule 69 (list_elements)
-
-    function_call  go to state 37
-    num_exp        go to state 62
-    exp            go to state 39
-    list           go to state 40
-    list_elements  go to state 63
-    literal        go to state 41
+    _COLON  shift, and go to state 62
 
 
 State 32
 
-   66 exp: _LPAREN . num_exp _RPAREN
+   35 function_def: _DEF _ID . _LPAREN parameters _RPAREN _COLON new_line body
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
-
-    function_call  go to state 37
-    num_exp        go to state 64
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    _LPAREN  shift, and go to state 63
 
 
 State 33
 
-   27 function_call: _ID . _LPAREN arguments _RPAREN
-   64 exp: _ID .
+   55 for_statement: _FOR _ID . _IN num_exp _COLON new_line body else_part
 
-    _LPAREN  shift, and go to state 46
-
-    $default  reduce using rule 64 (exp)
+    _IN  shift, and go to state 64
 
 
 State 34
 
-   72 literal: _NUM_BOOL .
+   67 num_exp: _NOT . num_exp
 
-    $default  reduce using rule 72 (literal)
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
+
+    function_call  go to state 41
+    num_exp        go to state 65
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 35
 
-   73 literal: _STRING .
+   77 list: _LBRACKET . list_elements _RBRACKET
 
-    $default  reduce using rule 73 (literal)
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
+
+    $default  reduce using rule 78 (list_elements)
+
+    function_call  go to state 41
+    num_exp        go to state 66
+    exp            go to state 43
+    list           go to state 44
+    list_elements  go to state 67
+    literal        go to state 45
 
 
 State 36
 
-   74 literal: _NONE .
+   75 exp: _LPAREN . num_exp _RPAREN
 
-    $default  reduce using rule 74 (literal)
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
+
+    function_call  go to state 41
+    num_exp        go to state 68
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 37
 
-   65 exp: function_call .
+   30 function_call: _ID . _LPAREN arguments _RPAREN
+   73 exp: _ID .
 
-    $default  reduce using rule 65 (exp)
+    _LPAREN  shift, and go to state 50
+
+    $default  reduce using rule 73 (exp)
 
 
 State 38
 
-   40 if_part: _IF num_exp . _COLON new_line body
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+   81 literal: _NUM_BOOL .
 
-    _COLON       shift, and go to state 65
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
+    $default  reduce using rule 81 (literal)
 
 
 State 39
 
-   57 num_exp: exp .
+   82 literal: _STRING .
 
-    $default  reduce using rule 57 (num_exp)
+    $default  reduce using rule 82 (literal)
 
 
 State 40
 
-   67 exp: list .
+   83 literal: _NONE .
 
-    $default  reduce using rule 67 (exp)
+    $default  reduce using rule 83 (literal)
 
 
 State 41
 
-   63 exp: literal .
+   74 exp: function_call .
 
-    $default  reduce using rule 63 (exp)
+    $default  reduce using rule 74 (exp)
 
 
 State 42
 
-   26 return_statement: _RETURN num_exp .
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+   51 if_part: _IF num_exp . _COLON new_line body
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
 
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
-
-    $default  reduce using rule 26 (return_statement)
+    _COLON       shift, and go to state 69
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
 
 
 State 43
 
-   46 try_part: _TRY _COLON . new_line body
+   66 num_exp: exp .
 
-    _NEW_LINE  shift, and go to state 1
-
-    new_line  go to state 70
+    $default  reduce using rule 66 (num_exp)
 
 
 State 44
 
-   44 while_part: _WHILE num_exp . _COLON new_line body
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+   76 exp: list .
 
-    _COLON       shift, and go to state 71
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
+    $default  reduce using rule 76 (exp)
 
 
 State 45
 
-   21 multi_assign_vars: _ID _COMMA . _ID
+   72 exp: literal .
 
-    _ID  shift, and go to state 72
+    $default  reduce using rule 72 (exp)
 
 
 State 46
 
-   27 function_call: _ID _LPAREN . arguments _RPAREN
+   29 return_statement: _RETURN num_exp .
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
 
-    $default  reduce using rule 28 (arguments)
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
 
-    arguments  go to state 73
+    $default  reduce using rule 29 (return_statement)
 
 
 State 47
 
-   19 assign_statement: _ID _ASSIGN . num_exp
+   56 try_except_statement: _TRY _COLON . new_line body except_part finally_or_else_part
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
+    _NEW_LINE  shift, and go to state 1
 
-    function_call  go to state 37
-    num_exp        go to state 74
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    new_line  go to state 74
 
 
 State 48
+
+   54 while_statement: _WHILE num_exp . _COLON new_line body else_part
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
+
+    _COLON       shift, and go to state 75
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
+
+
+State 49
+
+   24 multi_assign_vars: _ID _COMMA . _ID
+
+    _ID  shift, and go to state 76
+
+
+State 50
+
+   30 function_call: _ID _LPAREN . arguments _RPAREN
+
+    $default  reduce using rule 31 (arguments)
+
+    arguments  go to state 77
+
+
+State 51
+
+   22 assign_statement: _ID _ASSIGN . num_exp
+
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
+
+    function_call  go to state 41
+    num_exp        go to state 78
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
+
+
+State 52
 
     0 $accept: file $end .
 
     $default  accept
 
 
-State 49
-
-    5 statement_list: statement_list statement .
-
-    $default  reduce using rule 5 (statement_list)
-
-
-State 50
-
-    6 statement: simple_statement new_line .
-   76 new_line: new_line . _NEW_LINE
-
-    _NEW_LINE  shift, and go to state 58
-
-    $default  reduce using rule 6 (statement)
-
-
-State 51
-
-   22 multi_assign_vars: multi_assign_vars _COMMA . _ID
-
-    _ID  shift, and go to state 75
-
-
-State 52
-
-   23 multi_assign_values: _ASSIGN . num_exp _COMMA num_exp
-
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
-
-    function_call  go to state 37
-    num_exp        go to state 76
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
-
-
 State 53
 
-   20 multi_assign_statement: multi_assign_vars multi_assign_values .
-   24 multi_assign_values: multi_assign_values . _COMMA num_exp
+    4 file: file new_line .
+   85 new_line: new_line . _NEW_LINE
 
-    _COMMA  shift, and go to state 77
+    _NEW_LINE  shift, and go to state 60
 
-    $default  reduce using rule 20 (multi_assign_statement)
+    _NEW_LINE  [reduce using rule 4 (file)]
+    $default   reduce using rule 4 (file)
 
 
 State 54
 
-   39 if_statement: if_part elif_part . else_part
-   42 elif_part: elif_part . _ELIF num_exp _COLON new_line body
+    6 statement_list: statement_list statement .
 
-    _ELIF  shift, and go to state 78
-    _ELSE  shift, and go to state 55
-
-    $default  reduce using rule 54 (else_part)
-
-    else_part  go to state 79
+    $default  reduce using rule 6 (statement_list)
 
 
 State 55
 
-   55 else_part: _ELSE . _COLON new_line body
+    7 statement: simple_statement new_line .
+   85 new_line: new_line . _NEW_LINE
 
-    _COLON  shift, and go to state 80
+    _NEW_LINE  shift, and go to state 60
+
+    _NEW_LINE  [reduce using rule 7 (statement)]
+    $default   reduce using rule 7 (statement)
 
 
 State 56
 
-   43 while_statement: while_part else_part .
+   25 multi_assign_vars: multi_assign_vars _COMMA . _ID
 
-    $default  reduce using rule 43 (while_statement)
+    _ID  shift, and go to state 79
 
 
 State 57
 
-   45 try_except_statement: try_part except_part . finally_or_else_part
-   48 except_part: except_part . _EXCEPT _ID except_finally_body
-   49            | except_part . _EXCEPT except_finally_body
+   26 multi_assign_values: _ASSIGN . num_exp _COMMA num_exp
 
-    _ELSE     shift, and go to state 81
-    _EXCEPT   shift, and go to state 82
-    _FINALLY  shift, and go to state 83
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
 
-    $default  reduce using rule 51 (finally_or_else_part)
-
-    finally_or_else_part  go to state 84
+    function_call  go to state 41
+    num_exp        go to state 80
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 58
 
-   76 new_line: new_line _NEW_LINE .
+   23 multi_assign_statement: multi_assign_vars multi_assign_values .
+   27 multi_assign_values: multi_assign_values . _COMMA num_exp
 
-    $default  reduce using rule 76 (new_line)
+    _COMMA  shift, and go to state 81
+
+    $default  reduce using rule 23 (multi_assign_statement)
 
 
 State 59
 
-    3 file: new_line statement_list .
-    5 statement_list: statement_list . statement
+   50 if_statement: if_part elif_part . else_part
+   53 elif_part: elif_part . _ELIF num_exp _COLON new_line body
 
-    _BREAK     shift, and go to state 2
-    _CONTINUE  shift, and go to state 3
-    _DEF       shift, and go to state 4
-    _IF        shift, and go to state 5
-    _PASS      shift, and go to state 6
-    _RETURN    shift, and go to state 7
-    _TRY       shift, and go to state 8
-    _WHILE     shift, and go to state 9
-    _ID        shift, and go to state 10
+    _ELIF  shift, and go to state 82
+    _ELSE  shift, and go to state 83
 
-    $default  reduce using rule 3 (file)
+    $default  reduce using rule 63 (else_part)
 
-    statement               go to state 49
-    simple_statement        go to state 14
-    compound_statement      go to state 15
-    assign_statement        go to state 16
-    multi_assign_statement  go to state 17
-    multi_assign_vars       go to state 18
-    return_statement        go to state 19
-    function_call           go to state 20
-    function_def            go to state 21
-    if_statement            go to state 22
-    if_part                 go to state 23
-    while_statement         go to state 24
-    while_part              go to state 25
-    try_except_statement    go to state 26
-    try_part                go to state 27
+    else_part  go to state 84
 
 
 State 60
 
-   32 function_def: _DEF _ID _LPAREN . parameters _RPAREN _COLON new_line body
+   85 new_line: new_line _NEW_LINE .
 
-    _ID  shift, and go to state 85
-
-    $default  reduce using rule 33 (parameters)
-
-    parameters              go to state 86
-    param_with_default_val  go to state 87
+    $default  reduce using rule 85 (new_line)
 
 
 State 61
 
-   58 num_exp: _NOT num_exp .
-   59        | num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+    3 file: new_line statement_list .
+    6 statement_list: statement_list . statement
 
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _RELOP       shift, and go to state 69
+    _BREAK     shift, and go to state 2
+    _CLASS     shift, and go to state 3
+    _CONTINUE  shift, and go to state 4
+    _DEF       shift, and go to state 5
+    _FOR       shift, and go to state 6
+    _IF        shift, and go to state 7
+    _PASS      shift, and go to state 8
+    _RETURN    shift, and go to state 9
+    _TRY       shift, and go to state 10
+    _WHILE     shift, and go to state 11
+    _ID        shift, and go to state 12
 
-    $default  reduce using rule 58 (num_exp)
+    $default  reduce using rule 3 (file)
+
+    statement               go to state 54
+    simple_statement        go to state 16
+    compound_statement      go to state 17
+    assign_statement        go to state 18
+    multi_assign_statement  go to state 19
+    multi_assign_vars       go to state 20
+    return_statement        go to state 21
+    function_call           go to state 22
+    function_def            go to state 23
+    class_def               go to state 24
+    if_statement            go to state 25
+    if_part                 go to state 26
+    while_statement         go to state 27
+    for_statement           go to state 28
+    try_except_statement    go to state 29
 
 
 State 62
 
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
-   70 list_elements: num_exp .
+   42 class_def: _CLASS _ID _COLON . new_line class_body
 
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
+    _NEW_LINE  shift, and go to state 1
 
-    $default  reduce using rule 70 (list_elements)
+    new_line  go to state 85
 
 
 State 63
 
-   68 list: _LBRACKET list_elements . _RBRACKET
-   71 list_elements: list_elements . _COMMA num_exp
+   35 function_def: _DEF _ID _LPAREN . parameters _RPAREN _COLON new_line body
 
-    _COMMA     shift, and go to state 88
-    _RBRACKET  shift, and go to state 89
+    _ID  shift, and go to state 86
+
+    $default  reduce using rule 36 (parameters)
+
+    parameters              go to state 87
+    param_with_default_val  go to state 88
 
 
 State 64
 
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
-   66 exp: _LPAREN num_exp . _RPAREN
+   55 for_statement: _FOR _ID _IN . num_exp _COLON new_line body else_part
 
-    _RPAREN      shift, and go to state 90
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
+
+    function_call  go to state 41
+    num_exp        go to state 89
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 65
 
-   40 if_part: _IF num_exp _COLON . new_line body
+   67 num_exp: _NOT num_exp .
+   68        | num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
 
-    _NEW_LINE  shift, and go to state 1
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _RELOP       shift, and go to state 73
 
-    new_line  go to state 91
+    $default  reduce using rule 67 (num_exp)
 
 
 State 66
 
-   59 num_exp: num_exp _ADD_SUB_OP . num_exp
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
+   79 list_elements: num_exp .
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
 
-    function_call  go to state 37
-    num_exp        go to state 92
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    $default  reduce using rule 79 (list_elements)
 
 
 State 67
 
-   60 num_exp: num_exp _MUL_DIV_OP . num_exp
+   77 list: _LBRACKET list_elements . _RBRACKET
+   80 list_elements: list_elements . _COMMA num_exp
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
-
-    function_call  go to state 37
-    num_exp        go to state 93
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    _COMMA     shift, and go to state 90
+    _RBRACKET  shift, and go to state 91
 
 
 State 68
 
-   61 num_exp: num_exp _LOP . num_exp
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
+   75 exp: _LPAREN num_exp . _RPAREN
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
-
-    function_call  go to state 37
-    num_exp        go to state 94
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    _RPAREN      shift, and go to state 92
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
 
 
 State 69
 
-   62 num_exp: num_exp _RELOP . num_exp
+   51 if_part: _IF num_exp _COLON . new_line body
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
+    _NEW_LINE  shift, and go to state 1
 
-    function_call  go to state 37
-    num_exp        go to state 95
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    new_line  go to state 93
 
 
 State 70
 
-   46 try_part: _TRY _COLON new_line . body
-   76 new_line: new_line . _NEW_LINE
+   68 num_exp: num_exp _ADD_SUB_OP . num_exp
 
-    _NEW_LINE  shift, and go to state 58
-    _INDENT    shift, and go to state 96
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
 
-    body  go to state 97
+    function_call  go to state 41
+    num_exp        go to state 94
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 71
 
-   44 while_part: _WHILE num_exp _COLON . new_line body
+   69 num_exp: num_exp _MUL_DIV_OP . num_exp
 
-    _NEW_LINE  shift, and go to state 1
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
 
-    new_line  go to state 98
+    function_call  go to state 41
+    num_exp        go to state 95
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 72
 
-   21 multi_assign_vars: _ID _COMMA _ID .
+   70 num_exp: num_exp _LOP . num_exp
 
-    $default  reduce using rule 21 (multi_assign_vars)
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
+
+    function_call  go to state 41
+    num_exp        go to state 96
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 73
 
-   27 function_call: _ID _LPAREN arguments . _RPAREN
-   29 arguments: arguments . args
+   71 num_exp: num_exp _RELOP . num_exp
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _RPAREN    shift, and go to state 99
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
 
-    function_call  go to state 37
-    args           go to state 100
-    num_exp        go to state 101
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    function_call  go to state 41
+    num_exp        go to state 97
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 74
 
-   19 assign_statement: _ID _ASSIGN num_exp .
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+   56 try_except_statement: _TRY _COLON new_line . body except_part finally_or_else_part
+   85 new_line: new_line . _NEW_LINE
 
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
+    _NEW_LINE  shift, and go to state 60
+    _INDENT    shift, and go to state 98
 
-    $default  reduce using rule 19 (assign_statement)
+    body  go to state 99
 
 
 State 75
 
-   22 multi_assign_vars: multi_assign_vars _COMMA _ID .
+   54 while_statement: _WHILE num_exp _COLON . new_line body else_part
 
-    $default  reduce using rule 22 (multi_assign_vars)
+    _NEW_LINE  shift, and go to state 1
+
+    new_line  go to state 100
 
 
 State 76
 
-   23 multi_assign_values: _ASSIGN num_exp . _COMMA num_exp
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+   24 multi_assign_vars: _ID _COMMA _ID .
 
-    _COMMA       shift, and go to state 102
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
+    $default  reduce using rule 24 (multi_assign_vars)
 
 
 State 77
 
-   24 multi_assign_values: multi_assign_values _COMMA . num_exp
+   30 function_call: _ID _LPAREN arguments . _RPAREN
+   32 arguments: arguments . args
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _RPAREN    shift, and go to state 101
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
 
-    function_call  go to state 37
+    function_call  go to state 41
+    args           go to state 102
     num_exp        go to state 103
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 78
 
-   42 elif_part: elif_part _ELIF . num_exp _COLON new_line body
+   22 assign_statement: _ID _ASSIGN num_exp .
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
 
-    function_call  go to state 37
-    num_exp        go to state 104
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    $default  reduce using rule 22 (assign_statement)
 
 
 State 79
 
-   39 if_statement: if_part elif_part else_part .
+   25 multi_assign_vars: multi_assign_vars _COMMA _ID .
 
-    $default  reduce using rule 39 (if_statement)
+    $default  reduce using rule 25 (multi_assign_vars)
 
 
 State 80
 
-   55 else_part: _ELSE _COLON . new_line body
+   26 multi_assign_values: _ASSIGN num_exp . _COMMA num_exp
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
 
-    _NEW_LINE  shift, and go to state 1
-
-    new_line  go to state 105
+    _COMMA       shift, and go to state 104
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
 
 
 State 81
 
-   53 finally_or_else_part: _ELSE . except_finally_body
+   27 multi_assign_values: multi_assign_values _COMMA . num_exp
 
-    _COLON  shift, and go to state 106
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
 
-    except_finally_body  go to state 107
+    function_call  go to state 41
+    num_exp        go to state 105
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 82
 
-   48 except_part: except_part _EXCEPT . _ID except_finally_body
-   49            | except_part _EXCEPT . except_finally_body
+   53 elif_part: elif_part _ELIF . num_exp _COLON new_line body
 
-    _COLON  shift, and go to state 106
-    _ID     shift, and go to state 108
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
 
-    except_finally_body  go to state 109
+    function_call  go to state 41
+    num_exp        go to state 106
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 83
 
-   52 finally_or_else_part: _FINALLY . except_finally_body
+   64 else_part: _ELSE . _COLON new_line body
 
-    _COLON  shift, and go to state 106
-
-    except_finally_body  go to state 110
+    _COLON  shift, and go to state 107
 
 
 State 84
 
-   45 try_except_statement: try_part except_part finally_or_else_part .
+   50 if_statement: if_part elif_part else_part .
 
-    $default  reduce using rule 45 (try_except_statement)
+    $default  reduce using rule 50 (if_statement)
 
 
 State 85
 
-   34 parameters: _ID .
-   38 param_with_default_val: _ID . _ASSIGN num_exp
+   42 class_def: _CLASS _ID _COLON new_line . class_body
+   85 new_line: new_line . _NEW_LINE
 
-    _ASSIGN  shift, and go to state 111
+    _NEW_LINE  shift, and go to state 60
+    _INDENT    shift, and go to state 108
 
-    $default  reduce using rule 34 (parameters)
+    class_body  go to state 109
 
 
 State 86
 
-   32 function_def: _DEF _ID _LPAREN parameters . _RPAREN _COLON new_line body
-   36 parameters: parameters . _COMMA _ID
-   37           | parameters . _COMMA param_with_default_val
+   37 parameters: _ID .
+   41 param_with_default_val: _ID . _ASSIGN num_exp
 
-    _COMMA   shift, and go to state 112
-    _RPAREN  shift, and go to state 113
+    _ASSIGN  shift, and go to state 110
+
+    $default  reduce using rule 37 (parameters)
 
 
 State 87
 
-   35 parameters: param_with_default_val .
+   35 function_def: _DEF _ID _LPAREN parameters . _RPAREN _COLON new_line body
+   39 parameters: parameters . _COMMA _ID
+   40           | parameters . _COMMA param_with_default_val
 
-    $default  reduce using rule 35 (parameters)
+    _COMMA   shift, and go to state 111
+    _RPAREN  shift, and go to state 112
 
 
 State 88
 
-   71 list_elements: list_elements _COMMA . num_exp
+   38 parameters: param_with_default_val .
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
-
-    function_call  go to state 37
-    num_exp        go to state 114
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    $default  reduce using rule 38 (parameters)
 
 
 State 89
 
-   68 list: _LBRACKET list_elements _RBRACKET .
+   55 for_statement: _FOR _ID _IN num_exp . _COLON new_line body else_part
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
 
-    $default  reduce using rule 68 (list)
+    _COLON       shift, and go to state 113
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
 
 
 State 90
 
-   66 exp: _LPAREN num_exp _RPAREN .
+   80 list_elements: list_elements _COMMA . num_exp
 
-    $default  reduce using rule 66 (exp)
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
+
+    function_call  go to state 41
+    num_exp        go to state 114
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 91
 
-   40 if_part: _IF num_exp _COLON new_line . body
-   76 new_line: new_line . _NEW_LINE
+   77 list: _LBRACKET list_elements _RBRACKET .
 
-    _NEW_LINE  shift, and go to state 58
-    _INDENT    shift, and go to state 96
-
-    body  go to state 115
+    $default  reduce using rule 77 (list)
 
 
 State 92
 
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   59        | num_exp _ADD_SUB_OP num_exp .
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+   75 exp: _LPAREN num_exp _RPAREN .
 
-    _MUL_DIV_OP  shift, and go to state 67
-
-    $default  reduce using rule 59 (num_exp)
+    $default  reduce using rule 75 (exp)
 
 
 State 93
 
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   60        | num_exp _MUL_DIV_OP num_exp .
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+   51 if_part: _IF num_exp _COLON new_line . body
+   85 new_line: new_line . _NEW_LINE
 
-    $default  reduce using rule 60 (num_exp)
+    _NEW_LINE  shift, and go to state 60
+    _INDENT    shift, and go to state 98
+
+    body  go to state 115
 
 
 State 94
 
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   61        | num_exp _LOP num_exp .
-   62        | num_exp . _RELOP num_exp
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   68        | num_exp _ADD_SUB_OP num_exp .
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
 
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _RELOP       shift, and go to state 69
+    _MUL_DIV_OP  shift, and go to state 71
 
-    $default  reduce using rule 61 (num_exp)
+    $default  reduce using rule 68 (num_exp)
 
 
 State 95
 
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
-   62        | num_exp _RELOP num_exp .
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   69        | num_exp _MUL_DIV_OP num_exp .
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
 
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-
-    $default  reduce using rule 62 (num_exp)
+    $default  reduce using rule 69 (num_exp)
 
 
 State 96
 
-   56 body: _INDENT . statement_list _DEDENT
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   70        | num_exp _LOP num_exp .
+   71        | num_exp . _RELOP num_exp
 
-    _BREAK     shift, and go to state 2
-    _CONTINUE  shift, and go to state 3
-    _DEF       shift, and go to state 4
-    _IF        shift, and go to state 5
-    _PASS      shift, and go to state 6
-    _RETURN    shift, and go to state 7
-    _TRY       shift, and go to state 8
-    _WHILE     shift, and go to state 9
-    _ID        shift, and go to state 10
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _RELOP       shift, and go to state 73
 
-    statement_list          go to state 116
-    statement               go to state 13
-    simple_statement        go to state 14
-    compound_statement      go to state 15
-    assign_statement        go to state 16
-    multi_assign_statement  go to state 17
-    multi_assign_vars       go to state 18
-    return_statement        go to state 19
-    function_call           go to state 20
-    function_def            go to state 21
-    if_statement            go to state 22
-    if_part                 go to state 23
-    while_statement         go to state 24
-    while_part              go to state 25
-    try_except_statement    go to state 26
-    try_part                go to state 27
+    $default  reduce using rule 70 (num_exp)
 
 
 State 97
 
-   46 try_part: _TRY _COLON new_line body .
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
+   71        | num_exp _RELOP num_exp .
 
-    $default  reduce using rule 46 (try_part)
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+
+    $default  reduce using rule 71 (num_exp)
 
 
 State 98
 
-   44 while_part: _WHILE num_exp _COLON new_line . body
-   76 new_line: new_line . _NEW_LINE
+   65 body: _INDENT . statement_list _DEDENT
 
-    _NEW_LINE  shift, and go to state 58
-    _INDENT    shift, and go to state 96
+    _BREAK     shift, and go to state 2
+    _CLASS     shift, and go to state 3
+    _CONTINUE  shift, and go to state 4
+    _DEF       shift, and go to state 5
+    _FOR       shift, and go to state 6
+    _IF        shift, and go to state 7
+    _PASS      shift, and go to state 8
+    _RETURN    shift, and go to state 9
+    _TRY       shift, and go to state 10
+    _WHILE     shift, and go to state 11
+    _ID        shift, and go to state 12
 
-    body  go to state 117
+    statement_list          go to state 116
+    statement               go to state 15
+    simple_statement        go to state 16
+    compound_statement      go to state 17
+    assign_statement        go to state 18
+    multi_assign_statement  go to state 19
+    multi_assign_vars       go to state 20
+    return_statement        go to state 21
+    function_call           go to state 22
+    function_def            go to state 23
+    class_def               go to state 24
+    if_statement            go to state 25
+    if_part                 go to state 26
+    while_statement         go to state 27
+    for_statement           go to state 28
+    try_except_statement    go to state 29
 
 
 State 99
 
-   27 function_call: _ID _LPAREN arguments _RPAREN .
+   56 try_except_statement: _TRY _COLON new_line body . except_part finally_or_else_part
 
-    $default  reduce using rule 27 (function_call)
+    $default  reduce using rule 57 (except_part)
+
+    except_part  go to state 117
 
 
 State 100
 
-   29 arguments: arguments args .
-   31 args: args . _COMMA num_exp
+   54 while_statement: _WHILE num_exp _COLON new_line . body else_part
+   85 new_line: new_line . _NEW_LINE
 
-    _COMMA  shift, and go to state 118
+    _NEW_LINE  shift, and go to state 60
+    _INDENT    shift, and go to state 98
 
-    $default  reduce using rule 29 (arguments)
+    body  go to state 118
 
 
 State 101
 
-   30 args: num_exp .
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+   30 function_call: _ID _LPAREN arguments _RPAREN .
 
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
-
-    $default  reduce using rule 30 (args)
+    $default  reduce using rule 30 (function_call)
 
 
 State 102
 
-   23 multi_assign_values: _ASSIGN num_exp _COMMA . num_exp
+   32 arguments: arguments args .
+   34 args: args . _COMMA num_exp
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
+    _COMMA  shift, and go to state 119
 
-    function_call  go to state 37
-    num_exp        go to state 119
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    $default  reduce using rule 32 (arguments)
 
 
 State 103
 
-   24 multi_assign_values: multi_assign_values _COMMA num_exp .
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+   33 args: num_exp .
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
 
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
 
-    $default  reduce using rule 24 (multi_assign_values)
+    $default  reduce using rule 33 (args)
 
 
 State 104
 
-   42 elif_part: elif_part _ELIF num_exp . _COLON new_line body
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+   26 multi_assign_values: _ASSIGN num_exp _COMMA . num_exp
 
-    _COLON       shift, and go to state 120
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
+
+    function_call  go to state 41
+    num_exp        go to state 120
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 105
 
-   55 else_part: _ELSE _COLON new_line . body
-   76 new_line: new_line . _NEW_LINE
+   27 multi_assign_values: multi_assign_values _COMMA num_exp .
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
 
-    _NEW_LINE  shift, and go to state 58
-    _INDENT    shift, and go to state 96
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
 
-    body  go to state 121
+    $default  reduce using rule 27 (multi_assign_values)
 
 
 State 106
 
-   50 except_finally_body: _COLON . new_line body
+   53 elif_part: elif_part _ELIF num_exp . _COLON new_line body
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
+
+    _COLON       shift, and go to state 121
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
+
+
+State 107
+
+   64 else_part: _ELSE _COLON . new_line body
 
     _NEW_LINE  shift, and go to state 1
 
     new_line  go to state 122
 
 
-State 107
-
-   53 finally_or_else_part: _ELSE except_finally_body .
-
-    $default  reduce using rule 53 (finally_or_else_part)
-
-
 State 108
 
-   48 except_part: except_part _EXCEPT _ID . except_finally_body
+   43 class_body: _INDENT . class_methods _DEDENT
 
-    _COLON  shift, and go to state 106
+    _DEF  shift, and go to state 123
 
-    except_finally_body  go to state 123
+    function_def     go to state 124
+    class_methods    go to state 125
+    singular_method  go to state 126
 
 
 State 109
 
-   49 except_part: except_part _EXCEPT except_finally_body .
+   42 class_def: _CLASS _ID _COLON new_line class_body .
 
-    $default  reduce using rule 49 (except_part)
+    $default  reduce using rule 42 (class_def)
 
 
 State 110
 
-   52 finally_or_else_part: _FINALLY except_finally_body .
+   41 param_with_default_val: _ID _ASSIGN . num_exp
 
-    $default  reduce using rule 52 (finally_or_else_part)
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
+
+    function_call  go to state 41
+    num_exp        go to state 127
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 111
 
-   38 param_with_default_val: _ID _ASSIGN . num_exp
+   39 parameters: parameters _COMMA . _ID
+   40           | parameters _COMMA . param_with_default_val
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
+    _ID  shift, and go to state 128
 
-    function_call  go to state 37
-    num_exp        go to state 124
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    param_with_default_val  go to state 129
 
 
 State 112
 
-   36 parameters: parameters _COMMA . _ID
-   37           | parameters _COMMA . param_with_default_val
+   35 function_def: _DEF _ID _LPAREN parameters _RPAREN . _COLON new_line body
 
-    _ID  shift, and go to state 125
-
-    param_with_default_val  go to state 126
+    _COLON  shift, and go to state 130
 
 
 State 113
 
-   32 function_def: _DEF _ID _LPAREN parameters _RPAREN . _COLON new_line body
+   55 for_statement: _FOR _ID _IN num_exp _COLON . new_line body else_part
 
-    _COLON  shift, and go to state 127
+    _NEW_LINE  shift, and go to state 1
+
+    new_line  go to state 131
 
 
 State 114
 
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
-   71 list_elements: list_elements _COMMA num_exp .
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
+   80 list_elements: list_elements _COMMA num_exp .
 
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
 
-    $default  reduce using rule 71 (list_elements)
+    $default  reduce using rule 80 (list_elements)
 
 
 State 115
 
-   40 if_part: _IF num_exp _COLON new_line body .
+   51 if_part: _IF num_exp _COLON new_line body .
 
-    $default  reduce using rule 40 (if_part)
+    $default  reduce using rule 51 (if_part)
 
 
 State 116
 
-    5 statement_list: statement_list . statement
-   56 body: _INDENT statement_list . _DEDENT
+    6 statement_list: statement_list . statement
+   65 body: _INDENT statement_list . _DEDENT
 
-    _DEDENT    shift, and go to state 128
+    _DEDENT    shift, and go to state 132
     _BREAK     shift, and go to state 2
-    _CONTINUE  shift, and go to state 3
-    _DEF       shift, and go to state 4
-    _IF        shift, and go to state 5
-    _PASS      shift, and go to state 6
-    _RETURN    shift, and go to state 7
-    _TRY       shift, and go to state 8
-    _WHILE     shift, and go to state 9
-    _ID        shift, and go to state 10
+    _CLASS     shift, and go to state 3
+    _CONTINUE  shift, and go to state 4
+    _DEF       shift, and go to state 5
+    _FOR       shift, and go to state 6
+    _IF        shift, and go to state 7
+    _PASS      shift, and go to state 8
+    _RETURN    shift, and go to state 9
+    _TRY       shift, and go to state 10
+    _WHILE     shift, and go to state 11
+    _ID        shift, and go to state 12
 
-    statement               go to state 49
-    simple_statement        go to state 14
-    compound_statement      go to state 15
-    assign_statement        go to state 16
-    multi_assign_statement  go to state 17
-    multi_assign_vars       go to state 18
-    return_statement        go to state 19
-    function_call           go to state 20
-    function_def            go to state 21
-    if_statement            go to state 22
-    if_part                 go to state 23
-    while_statement         go to state 24
-    while_part              go to state 25
-    try_except_statement    go to state 26
-    try_part                go to state 27
+    statement               go to state 54
+    simple_statement        go to state 16
+    compound_statement      go to state 17
+    assign_statement        go to state 18
+    multi_assign_statement  go to state 19
+    multi_assign_vars       go to state 20
+    return_statement        go to state 21
+    function_call           go to state 22
+    function_def            go to state 23
+    class_def               go to state 24
+    if_statement            go to state 25
+    if_part                 go to state 26
+    while_statement         go to state 27
+    for_statement           go to state 28
+    try_except_statement    go to state 29
 
 
 State 117
 
-   44 while_part: _WHILE num_exp _COLON new_line body .
+   56 try_except_statement: _TRY _COLON new_line body except_part . finally_or_else_part
+   58 except_part: except_part . _EXCEPT _ID _COLON new_line body
+   59            | except_part . _EXCEPT _COLON new_line body
 
-    $default  reduce using rule 44 (while_part)
+    _ELSE     shift, and go to state 133
+    _EXCEPT   shift, and go to state 134
+    _FINALLY  shift, and go to state 135
+
+    $default  reduce using rule 60 (finally_or_else_part)
+
+    finally_or_else_part  go to state 136
 
 
 State 118
 
-   31 args: args _COMMA . num_exp
+   54 while_statement: _WHILE num_exp _COLON new_line body . else_part
 
-    _NOT       shift, and go to state 30
-    _LBRACKET  shift, and go to state 31
-    _LPAREN    shift, and go to state 32
-    _ID        shift, and go to state 33
-    _NUM_BOOL  shift, and go to state 34
-    _STRING    shift, and go to state 35
-    _NONE      shift, and go to state 36
+    _ELSE  shift, and go to state 83
 
-    function_call  go to state 37
-    num_exp        go to state 129
-    exp            go to state 39
-    list           go to state 40
-    literal        go to state 41
+    $default  reduce using rule 63 (else_part)
+
+    else_part  go to state 137
 
 
 State 119
 
-   23 multi_assign_values: _ASSIGN num_exp _COMMA num_exp .
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+   34 args: args _COMMA . num_exp
 
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
+    _NOT       shift, and go to state 34
+    _LBRACKET  shift, and go to state 35
+    _LPAREN    shift, and go to state 36
+    _ID        shift, and go to state 37
+    _NUM_BOOL  shift, and go to state 38
+    _STRING    shift, and go to state 39
+    _NONE      shift, and go to state 40
 
-    $default  reduce using rule 23 (multi_assign_values)
+    function_call  go to state 41
+    num_exp        go to state 138
+    exp            go to state 43
+    list           go to state 44
+    literal        go to state 45
 
 
 State 120
 
-   42 elif_part: elif_part _ELIF num_exp _COLON . new_line body
+   26 multi_assign_values: _ASSIGN num_exp _COMMA num_exp .
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
 
-    _NEW_LINE  shift, and go to state 1
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
 
-    new_line  go to state 130
+    $default  reduce using rule 26 (multi_assign_values)
 
 
 State 121
 
-   55 else_part: _ELSE _COLON new_line body .
+   53 elif_part: elif_part _ELIF num_exp _COLON . new_line body
 
-    $default  reduce using rule 55 (else_part)
+    _NEW_LINE  shift, and go to state 1
+
+    new_line  go to state 139
 
 
 State 122
 
-   50 except_finally_body: _COLON new_line . body
-   76 new_line: new_line . _NEW_LINE
+   64 else_part: _ELSE _COLON new_line . body
+   85 new_line: new_line . _NEW_LINE
 
-    _NEW_LINE  shift, and go to state 58
-    _INDENT    shift, and go to state 96
+    _NEW_LINE  shift, and go to state 60
+    _INDENT    shift, and go to state 98
 
-    body  go to state 131
+    body  go to state 140
 
 
 State 123
 
-   48 except_part: except_part _EXCEPT _ID except_finally_body .
+   35 function_def: _DEF . _ID _LPAREN parameters _RPAREN _COLON new_line body
+   46 singular_method: _DEF . _INIT _LPAREN _ID init_method_params _RPAREN _COLON new_line body
 
-    $default  reduce using rule 48 (except_part)
+    _INIT  shift, and go to state 141
+    _ID    shift, and go to state 32
 
 
 State 124
 
-   38 param_with_default_val: _ID _ASSIGN num_exp .
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+   47 singular_method: function_def .
 
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
-
-    $default  reduce using rule 38 (param_with_default_val)
+    $default  reduce using rule 47 (singular_method)
 
 
 State 125
 
-   36 parameters: parameters _COMMA _ID .
-   38 param_with_default_val: _ID . _ASSIGN num_exp
+   43 class_body: _INDENT class_methods . _DEDENT
+   45 class_methods: class_methods . singular_method
 
-    _ASSIGN  shift, and go to state 111
+    _DEDENT  shift, and go to state 142
+    _DEF     shift, and go to state 123
 
-    $default  reduce using rule 36 (parameters)
+    function_def     go to state 124
+    singular_method  go to state 143
 
 
 State 126
 
-   37 parameters: parameters _COMMA param_with_default_val .
+   44 class_methods: singular_method .
 
-    $default  reduce using rule 37 (parameters)
+    $default  reduce using rule 44 (class_methods)
 
 
 State 127
 
-   32 function_def: _DEF _ID _LPAREN parameters _RPAREN _COLON . new_line body
+   41 param_with_default_val: _ID _ASSIGN num_exp .
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
 
-    _NEW_LINE  shift, and go to state 1
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
 
-    new_line  go to state 132
+    $default  reduce using rule 41 (param_with_default_val)
 
 
 State 128
 
-   56 body: _INDENT statement_list _DEDENT .
+   39 parameters: parameters _COMMA _ID .
+   41 param_with_default_val: _ID . _ASSIGN num_exp
 
-    $default  reduce using rule 56 (body)
+    _ASSIGN  shift, and go to state 110
+
+    $default  reduce using rule 39 (parameters)
 
 
 State 129
 
-   31 args: args _COMMA num_exp .
-   59 num_exp: num_exp . _ADD_SUB_OP num_exp
-   60        | num_exp . _MUL_DIV_OP num_exp
-   61        | num_exp . _LOP num_exp
-   62        | num_exp . _RELOP num_exp
+   40 parameters: parameters _COMMA param_with_default_val .
 
-    _ADD_SUB_OP  shift, and go to state 66
-    _MUL_DIV_OP  shift, and go to state 67
-    _LOP         shift, and go to state 68
-    _RELOP       shift, and go to state 69
-
-    $default  reduce using rule 31 (args)
+    $default  reduce using rule 40 (parameters)
 
 
 State 130
 
-   42 elif_part: elif_part _ELIF num_exp _COLON new_line . body
-   76 new_line: new_line . _NEW_LINE
+   35 function_def: _DEF _ID _LPAREN parameters _RPAREN _COLON . new_line body
 
-    _NEW_LINE  shift, and go to state 58
-    _INDENT    shift, and go to state 96
+    _NEW_LINE  shift, and go to state 1
 
-    body  go to state 133
+    new_line  go to state 144
 
 
 State 131
 
-   50 except_finally_body: _COLON new_line body .
+   55 for_statement: _FOR _ID _IN num_exp _COLON new_line . body else_part
+   85 new_line: new_line . _NEW_LINE
 
-    $default  reduce using rule 50 (except_finally_body)
+    _NEW_LINE  shift, and go to state 60
+    _INDENT    shift, and go to state 98
+
+    body  go to state 145
 
 
 State 132
 
-   32 function_def: _DEF _ID _LPAREN parameters _RPAREN _COLON new_line . body
-   76 new_line: new_line . _NEW_LINE
+   65 body: _INDENT statement_list _DEDENT .
 
-    _NEW_LINE  shift, and go to state 58
-    _INDENT    shift, and go to state 96
-
-    body  go to state 134
+    $default  reduce using rule 65 (body)
 
 
 State 133
 
-   42 elif_part: elif_part _ELIF num_exp _COLON new_line body .
+   62 finally_or_else_part: _ELSE . _COLON new_line body
 
-    $default  reduce using rule 42 (elif_part)
+    _COLON  shift, and go to state 146
 
 
 State 134
 
-   32 function_def: _DEF _ID _LPAREN parameters _RPAREN _COLON new_line body .
+   58 except_part: except_part _EXCEPT . _ID _COLON new_line body
+   59            | except_part _EXCEPT . _COLON new_line body
 
-    $default  reduce using rule 32 (function_def)
+    _COLON  shift, and go to state 147
+    _ID     shift, and go to state 148
+
+
+State 135
+
+   61 finally_or_else_part: _FINALLY . _COLON new_line body
+
+    _COLON  shift, and go to state 149
+
+
+State 136
+
+   56 try_except_statement: _TRY _COLON new_line body except_part finally_or_else_part .
+
+    $default  reduce using rule 56 (try_except_statement)
+
+
+State 137
+
+   54 while_statement: _WHILE num_exp _COLON new_line body else_part .
+
+    $default  reduce using rule 54 (while_statement)
+
+
+State 138
+
+   34 args: args _COMMA num_exp .
+   68 num_exp: num_exp . _ADD_SUB_OP num_exp
+   69        | num_exp . _MUL_DIV_OP num_exp
+   70        | num_exp . _LOP num_exp
+   71        | num_exp . _RELOP num_exp
+
+    _ADD_SUB_OP  shift, and go to state 70
+    _MUL_DIV_OP  shift, and go to state 71
+    _LOP         shift, and go to state 72
+    _RELOP       shift, and go to state 73
+
+    $default  reduce using rule 34 (args)
+
+
+State 139
+
+   53 elif_part: elif_part _ELIF num_exp _COLON new_line . body
+   85 new_line: new_line . _NEW_LINE
+
+    _NEW_LINE  shift, and go to state 60
+    _INDENT    shift, and go to state 98
+
+    body  go to state 150
+
+
+State 140
+
+   64 else_part: _ELSE _COLON new_line body .
+
+    $default  reduce using rule 64 (else_part)
+
+
+State 141
+
+   46 singular_method: _DEF _INIT . _LPAREN _ID init_method_params _RPAREN _COLON new_line body
+
+    _LPAREN  shift, and go to state 151
+
+
+State 142
+
+   43 class_body: _INDENT class_methods _DEDENT .
+
+    $default  reduce using rule 43 (class_body)
+
+
+State 143
+
+   45 class_methods: class_methods singular_method .
+
+    $default  reduce using rule 45 (class_methods)
+
+
+State 144
+
+   35 function_def: _DEF _ID _LPAREN parameters _RPAREN _COLON new_line . body
+   85 new_line: new_line . _NEW_LINE
+
+    _NEW_LINE  shift, and go to state 60
+    _INDENT    shift, and go to state 98
+
+    body  go to state 152
+
+
+State 145
+
+   55 for_statement: _FOR _ID _IN num_exp _COLON new_line body . else_part
+
+    _ELSE  shift, and go to state 83
+
+    $default  reduce using rule 63 (else_part)
+
+    else_part  go to state 153
+
+
+State 146
+
+   62 finally_or_else_part: _ELSE _COLON . new_line body
+
+    _NEW_LINE  shift, and go to state 1
+
+    new_line  go to state 154
+
+
+State 147
+
+   59 except_part: except_part _EXCEPT _COLON . new_line body
+
+    _NEW_LINE  shift, and go to state 1
+
+    new_line  go to state 155
+
+
+State 148
+
+   58 except_part: except_part _EXCEPT _ID . _COLON new_line body
+
+    _COLON  shift, and go to state 156
+
+
+State 149
+
+   61 finally_or_else_part: _FINALLY _COLON . new_line body
+
+    _NEW_LINE  shift, and go to state 1
+
+    new_line  go to state 157
+
+
+State 150
+
+   53 elif_part: elif_part _ELIF num_exp _COLON new_line body .
+
+    $default  reduce using rule 53 (elif_part)
+
+
+State 151
+
+   46 singular_method: _DEF _INIT _LPAREN . _ID init_method_params _RPAREN _COLON new_line body
+
+    _ID  shift, and go to state 158
+
+
+State 152
+
+   35 function_def: _DEF _ID _LPAREN parameters _RPAREN _COLON new_line body .
+
+    $default  reduce using rule 35 (function_def)
+
+
+State 153
+
+   55 for_statement: _FOR _ID _IN num_exp _COLON new_line body else_part .
+
+    $default  reduce using rule 55 (for_statement)
+
+
+State 154
+
+   62 finally_or_else_part: _ELSE _COLON new_line . body
+   85 new_line: new_line . _NEW_LINE
+
+    _NEW_LINE  shift, and go to state 60
+    _INDENT    shift, and go to state 98
+
+    body  go to state 159
+
+
+State 155
+
+   59 except_part: except_part _EXCEPT _COLON new_line . body
+   85 new_line: new_line . _NEW_LINE
+
+    _NEW_LINE  shift, and go to state 60
+    _INDENT    shift, and go to state 98
+
+    body  go to state 160
+
+
+State 156
+
+   58 except_part: except_part _EXCEPT _ID _COLON . new_line body
+
+    _NEW_LINE  shift, and go to state 1
+
+    new_line  go to state 161
+
+
+State 157
+
+   61 finally_or_else_part: _FINALLY _COLON new_line . body
+   85 new_line: new_line . _NEW_LINE
+
+    _NEW_LINE  shift, and go to state 60
+    _INDENT    shift, and go to state 98
+
+    body  go to state 162
+
+
+State 158
+
+   46 singular_method: _DEF _INIT _LPAREN _ID . init_method_params _RPAREN _COLON new_line body
+
+    _COMMA  shift, and go to state 163
+
+    $default  reduce using rule 48 (init_method_params)
+
+    init_method_params  go to state 164
+
+
+State 159
+
+   62 finally_or_else_part: _ELSE _COLON new_line body .
+
+    $default  reduce using rule 62 (finally_or_else_part)
+
+
+State 160
+
+   59 except_part: except_part _EXCEPT _COLON new_line body .
+
+    $default  reduce using rule 59 (except_part)
+
+
+State 161
+
+   58 except_part: except_part _EXCEPT _ID _COLON new_line . body
+   85 new_line: new_line . _NEW_LINE
+
+    _NEW_LINE  shift, and go to state 60
+    _INDENT    shift, and go to state 98
+
+    body  go to state 165
+
+
+State 162
+
+   61 finally_or_else_part: _FINALLY _COLON new_line body .
+
+    $default  reduce using rule 61 (finally_or_else_part)
+
+
+State 163
+
+   49 init_method_params: _COMMA . parameters
+
+    _ID  shift, and go to state 86
+
+    $default  reduce using rule 36 (parameters)
+
+    parameters              go to state 166
+    param_with_default_val  go to state 88
+
+
+State 164
+
+   46 singular_method: _DEF _INIT _LPAREN _ID init_method_params . _RPAREN _COLON new_line body
+
+    _RPAREN  shift, and go to state 167
+
+
+State 165
+
+   58 except_part: except_part _EXCEPT _ID _COLON new_line body .
+
+    $default  reduce using rule 58 (except_part)
+
+
+State 166
+
+   39 parameters: parameters . _COMMA _ID
+   40           | parameters . _COMMA param_with_default_val
+   49 init_method_params: _COMMA parameters .
+
+    _COMMA  shift, and go to state 111
+
+    $default  reduce using rule 49 (init_method_params)
+
+
+State 167
+
+   46 singular_method: _DEF _INIT _LPAREN _ID init_method_params _RPAREN . _COLON new_line body
+
+    _COLON  shift, and go to state 168
+
+
+State 168
+
+   46 singular_method: _DEF _INIT _LPAREN _ID init_method_params _RPAREN _COLON . new_line body
+
+    _NEW_LINE  shift, and go to state 1
+
+    new_line  go to state 169
+
+
+State 169
+
+   46 singular_method: _DEF _INIT _LPAREN _ID init_method_params _RPAREN _COLON new_line . body
+   85 new_line: new_line . _NEW_LINE
+
+    _NEW_LINE  shift, and go to state 60
+    _INDENT    shift, and go to state 98
+
+    body  go to state 170
+
+
+State 170
+
+   46 singular_method: _DEF _INIT _LPAREN _ID init_method_params _RPAREN _COLON new_line body .
+
+    $default  reduce using rule 46 (singular_method)

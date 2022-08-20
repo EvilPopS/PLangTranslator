@@ -1,5 +1,16 @@
-a = []
+class A:
+	def __init__(self):
+		pass
 
-b = [a]
+	def abc(a, a=2):
+		if a ==3:
+			pass
 
-c = [1, 3+4, b-a]
+	def abc(a, a=2):
+		if a ==3:
+			pass
+
+
+
+
+

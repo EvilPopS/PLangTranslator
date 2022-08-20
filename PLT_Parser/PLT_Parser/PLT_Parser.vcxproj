@@ -148,7 +148,6 @@
     <Bison Include="Grammars\PyToAsm\SyntaxAnal.y">
       <Warnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">all</Warnings>
       <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).tab.c</OutputFile>
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">-Wconflicts-sr %(AdditionalOptions)</AdditionalOptions>
       <Verbose Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</Verbose>
     </Bison>
   </ItemGroup>
