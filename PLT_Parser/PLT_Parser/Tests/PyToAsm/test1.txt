@@ -11,6 +11,18 @@ class A:
 			pass
 
 
+a = 2
+
+a = A()
+
+a.a()
+
+b = b.a()
+
+
+
+
+
 
 
 

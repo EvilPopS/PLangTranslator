@@ -60,7 +60,7 @@
 "break"     { return _BREAK; }
 "class"		{ return _CLASS; }
 "continue"  { return _CONTINUE; }
-"def"       { return _DEF; }  
+"def"       { return _DEF; } 
 "elif"      { return _ELIF; }
 "else"      { return _ELSE; }
 "except"    { return _EXCEPT; }
@@ -80,6 +80,7 @@
 "while"   	{ return _WHILE; }
 	
 ","		{ return _COMMA; }
+"."		{ return _DOT; }
 ":"		{ return _COLON; }
 
 "["     { return _LBRACKET; }

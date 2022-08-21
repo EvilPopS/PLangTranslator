@@ -37,7 +37,7 @@
 %token _TRY
 %token _WHILE
 
-%token _COMMA _COLON
+%token _COMMA _DOT _COLON 
 
 %token _LBRACKET _RBRACKET
 %token _LPAREN _RPAREN
@@ -48,8 +48,9 @@
 %token <s> _ID
 %token <s> _NUM_BOOL _STRING _NONE
 
-%nonassoc VAR_ID 
+%nonassoc PAREN_ASSOC_TOKEN 
 %nonassoc _LPAREN
+%nonassoc _RPAREN
 
 %left _LOP
 %right _NOT
@@ -80,7 +81,7 @@ simple_statement
 	: assign_statement
 	| multi_assign_statement
 	| return_statement
-	| function_call
+	| func_meth_call_or_class_inst
 	| _BREAK
 	| _CONTINUE
 	| _PASS
@@ -118,8 +119,10 @@ return_statement
 	| _RETURN num_exp
 	;
 
-function_call
-	: _ID _LPAREN arguments _RPAREN
+func_meth_call_or_class_inst
+	: _ID _LPAREN arguments _RPAREN 
+	| _ID _DOT _ID _LPAREN arguments _RPAREN
+	| func_meth_call_or_class_inst _DOT _ID _LPAREN arguments _RPAREN
 	;
 	
 arguments
@@ -228,8 +231,8 @@ num_exp
 	
 exp
 	: literal
-	| _ID %prec VAR_ID
-	| function_call
+	| _ID %prec PAREN_ASSOC_TOKEN
+	| func_meth_call_or_class_inst
 	| _LPAREN num_exp _RPAREN
 	| list
 	;

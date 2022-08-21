@@ -77,21 +77,22 @@ extern int yydebug;
     _TRY = 278,                    /* _TRY  */
     _WHILE = 279,                  /* _WHILE  */
     _COMMA = 280,                  /* _COMMA  */
-    _COLON = 281,                  /* _COLON  */
-    _LBRACKET = 282,               /* _LBRACKET  */
-    _RBRACKET = 283,               /* _RBRACKET  */
-    _LPAREN = 284,                 /* _LPAREN  */
-    _RPAREN = 285,                 /* _RPAREN  */
-    _ASSIGN = 286,                 /* _ASSIGN  */
-    _ADD_SUB_OP = 287,             /* _ADD_SUB_OP  */
-    _MUL_DIV_OP = 288,             /* _MUL_DIV_OP  */
-    _LOP = 289,                    /* _LOP  */
-    _RELOP = 290,                  /* _RELOP  */
-    _ID = 291,                     /* _ID  */
-    _NUM_BOOL = 292,               /* _NUM_BOOL  */
-    _STRING = 293,                 /* _STRING  */
-    _NONE = 294,                   /* _NONE  */
-    VAR_ID = 295                   /* VAR_ID  */
+    _DOT = 281,                    /* _DOT  */
+    _COLON = 282,                  /* _COLON  */
+    _LBRACKET = 283,               /* _LBRACKET  */
+    _RBRACKET = 284,               /* _RBRACKET  */
+    _LPAREN = 285,                 /* _LPAREN  */
+    _RPAREN = 286,                 /* _RPAREN  */
+    _ASSIGN = 287,                 /* _ASSIGN  */
+    _ADD_SUB_OP = 288,             /* _ADD_SUB_OP  */
+    _MUL_DIV_OP = 289,             /* _MUL_DIV_OP  */
+    _LOP = 290,                    /* _LOP  */
+    _RELOP = 291,                  /* _RELOP  */
+    _ID = 292,                     /* _ID  */
+    _NUM_BOOL = 293,               /* _NUM_BOOL  */
+    _STRING = 294,                 /* _STRING  */
+    _NONE = 295,                   /* _NONE  */
+    PAREN_ASSOC_TOKEN = 296        /* PAREN_ASSOC_TOKEN  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -105,7 +106,7 @@ union YYSTYPE
   int i;
   char *s;
 
-#line 109 "SyntaxAnal.tab.h"
+#line 110 "SyntaxAnal.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
