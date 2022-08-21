@@ -1,0 +1,4 @@
+^Grammars\PyToAsm\SyntaxAnal.y
+D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToAsm\SyntaxAnal.tab.cpp
+^Grammars\PyToAsm\LexAnal.l
+D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToAsm\LexAnal.flex.cpp

@@ -25,38 +25,54 @@
     <Filter Include="Source Files\PythonToAsmSrcFiles">
       <UniqueIdentifier>{9c86e5f2-82a6-492b-bb91-d2176b03cbbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{098e56dd-b328-434f-81b1-b34d38f453d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\PythonToAsm">
+      <UniqueIdentifier>{9c480c33-667f-40c8-8446-19af3306adf4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LexAnalyzer.c">
+    <ClCompile Include="Grammars\PyToAsm\LexAlgorithms.c">
       <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Parser.tab.c">
+    <ClCompile Include="Grammars\PyToAsm\SyntaxAnal.tab.c">
       <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
-    <ClCompile Include="LexAlgorithms.c">
+    <ClCompile Include="Grammars\PyToAsm\LexAnal.flex.c">
       <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="LexAnalyzer.l">
-      <Filter>Grammars\PythonToAsm</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Parser.y">
-      <Filter>Grammars\PythonToAsm</Filter>
-    </CustomBuild>
+    <ClInclude Include="Grammars\PyToAsm\EnumsAndDefs.h">
+      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammars\PyToAsm\LexAlgorithms.h">
+      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammars\PyToAsm\SyntaxAnal.tab.h">
+      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammars\PyToAsm\SyntaxMainHeader.h">
+      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Parser.tab.h">
-      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="LexAlgorithms.h">
-      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="EnumsAndDefs.h">
-      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
-    </ClInclude>
+    <Flex Include="Grammars\PyToAsm\LexAnal.l">
+      <Filter>Grammars\PythonToAsm</Filter>
+    </Flex>
+  </ItemGroup>
+  <ItemGroup>
+    <Bison Include="Grammars\PyToAsm\SyntaxAnal.y">
+      <Filter>Grammars\PythonToAsm</Filter>
+    </Bison>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Tests\PyToAsm\test1.txt">
+      <Filter>Tests\PythonToAsm</Filter>
+    </Text>
   </ItemGroup>
 </Project>

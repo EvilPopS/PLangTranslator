@@ -1,0 +1,28 @@
+class A:
+	def __init__(self):
+		pass
+
+	def abc(a, a=2):
+		if a ==3:
+			pass
+
+	def abc(a, a=2):
+		if a ==3:
+			pass
+
+
+a = 2
+
+a = A()
+
+a.a()
+
+b = b.a()
+
+
+
+
+
+
+
+
