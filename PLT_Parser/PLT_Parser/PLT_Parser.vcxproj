@@ -130,12 +130,14 @@
   <ItemGroup>
     <ClCompile Include="Grammars\PyToAsm\LexAlgorithms.c" />
     <ClCompile Include="Grammars\PyToAsm\LexAnal.flex.c" />
+    <ClCompile Include="Grammars\PyToAsm\SymbolTabs.c" />
     <ClCompile Include="Grammars\PyToAsm\SyntaxAnal.tab.c" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Grammars\PyToAsm\EnumsAndDefs.h" />
     <ClInclude Include="Grammars\PyToAsm\LexAlgorithms.h" />
+    <ClInclude Include="Grammars\PyToAsm\SymbolTabs.h" />
     <ClInclude Include="Grammars\PyToAsm\SyntaxAnal.tab.h" />
     <ClInclude Include="Grammars\PyToAsm\SyntaxMainHeader.h" />
   </ItemGroup>

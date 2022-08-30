@@ -24,12 +24,6 @@ extern int out_lin;
 extern void warning(char* s);
 extern int yyerror(const char* s);
 
-//tipovi podataka
-enum types { UNKNOWN, NONE, NUM_BOOL, STRING };
-
-//vrste simbola (moze ih biti maksimalno 32)
-enum kinds { NO_KIND = 0x1, REG = 0x2, LIT = 0x4, FUN = 0x8, VAR = 0x10, PAR = 0x20 };
-
 //konstante arithmetickih operatora
 enum arops { ADD, SUB, MUL, DIV };
 static const char* ar_instructions[] = { "ADDS", "SUBS", "MULS", "DIVS" };
