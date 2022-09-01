@@ -5,6 +5,7 @@
 	#include <stdlib.h>
 	#include "EnumsAndDefs.h"
 	#include "SyntaxMainHeader.h"
+	#include "SymbolTabs.h"
 
 	extern int yylex(void);
 	extern int yylineno;
@@ -16,7 +17,7 @@
 
 %union {
   int i;
-  char *s;
+  char* s;
 }
 
 %token _NEW_LINE _INDENT _DEDENT 
@@ -47,6 +48,8 @@
 
 %token <s> _ID
 %token <s> _NUM_BOOL _STRING _NONE
+
+%type <i> literal, exp, num_exp
 
 %nonassoc PAREN_ASSOC_TOKEN 
 %nonassoc _LPAREN
@@ -98,6 +101,12 @@ compound_statement
 	
 assign_statement
 	: _ID _ASSIGN num_exp
+		{
+			int index = findByName($1);
+
+			if(index == NO_INDEX)
+				index = insertVariableToTable($1, false, getSymbDataType($3), 1);
+		}
 	; 
 
 multi_assign_statement
@@ -221,7 +230,7 @@ body
 	;
 
 num_exp
-	: exp
+	: exp	{ $$ = $1; }
 	| _NOT num_exp  
 	| num_exp _ADD_SUB_OP num_exp
 	| num_exp _MUL_DIV_OP num_exp
@@ -230,7 +239,7 @@ num_exp
 	;
 	
 exp
-	: literal
+	: literal	{ $$ = $1; }
 	| _ID %prec PAREN_ASSOC_TOKEN
 	| func_meth_call_or_class_inst
 	| _LPAREN num_exp _RPAREN
@@ -248,9 +257,9 @@ list_elements
 	;
 
 literal
-	: _NUM_BOOL
-	| _STRING
-	| _NONE
+	: _NUM_BOOL	{ $$ = insertLiteralToTable($1, NUM_BOOL); }
+	| _STRING	{ $$ = insertLiteralToTable($1, STRING); }
+	| _NONE		{ $$ = insertLiteralToTable($1, NONE); }
 	;
 
 new_line

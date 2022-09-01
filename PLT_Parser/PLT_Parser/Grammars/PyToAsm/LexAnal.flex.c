@@ -554,9 +554,10 @@ char *yytext;
 	#include "SyntaxAnal.tab.h"
 	#include "LexAlgorithms.h"
 	#include "EnumsAndDefs.h"
+	#include "SymbolTabs.h"
 
-#line 558 "LexAnal.flex.c"
 #line 559 "LexAnal.flex.c"
+#line 560 "LexAnal.flex.c"
 
 #define INITIAL 0
 
@@ -770,10 +771,10 @@ YY_DECL
 		}
 
 	{
-#line 14 "LexAnal.l"
+#line 15 "LexAnal.l"
 
 
-#line 17 "LexAnal.l"
+#line 18 "LexAnal.l"
 	{		
 		// Pre reg-expressions indentation tokenizer
 		switch(preRegExprIndentTokenzier()) {
@@ -785,7 +786,7 @@ YY_DECL
 	}
 
 
-#line 788 "LexAnal.flex.c"
+#line 789 "LexAnal.flex.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -844,18 +845,18 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 28 "LexAnal.l"
+#line 29 "LexAnal.l"
 { /* skip */ }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 29 "LexAnal.l"
+#line 30 "LexAnal.l"
 { /* skip */ }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 31 "LexAnal.l"
+#line 32 "LexAnal.l"
 { 
 						resetIndentation();	  	  	  
 						return _NEW_LINE;
@@ -864,7 +865,7 @@ YY_RULE_SETUP
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 36 "LexAnal.l"
+#line 37 "LexAnal.l"
 {
 							int ind = (int)(strlen(yytext))-1;
 							while (yytext[ind] == '\t') {
@@ -879,7 +880,7 @@ YY_RULE_SETUP
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 48 "LexAnal.l"
+#line 49 "LexAnal.l"
 { 
 			resetIndentation();	  	  	  
 			return _NEW_LINE;
@@ -888,7 +889,7 @@ YY_RULE_SETUP
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 53 "LexAnal.l"
+#line 54 "LexAnal.l"
 {   
 				curIndentLvl = (int)(strlen(yytext))-1;
 				incOrdDecIndentation();
@@ -897,250 +898,250 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 59 "LexAnal.l"
+#line 60 "LexAnal.l"
 { return _INIT; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 60 "LexAnal.l"
+#line 61 "LexAnal.l"
 { yylval.i = AND; return _LOP;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 61 "LexAnal.l"
+#line 62 "LexAnal.l"
 { return _BREAK; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 62 "LexAnal.l"
+#line 63 "LexAnal.l"
 { return _CLASS; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 63 "LexAnal.l"
+#line 64 "LexAnal.l"
 { return _CONTINUE; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 64 "LexAnal.l"
+#line 65 "LexAnal.l"
 { return _DEF; } 
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 65 "LexAnal.l"
+#line 66 "LexAnal.l"
 { return _ELIF; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 66 "LexAnal.l"
+#line 67 "LexAnal.l"
 { return _ELSE; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 67 "LexAnal.l"
+#line 68 "LexAnal.l"
 { return _EXCEPT; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 68 "LexAnal.l"
+#line 69 "LexAnal.l"
 { return _FINALLY; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 69 "LexAnal.l"
-{ yylval.s = _strdup("0"); return _NUM_BOOL; }
+#line 70 "LexAnal.l"
+{ yylval.s = "0"; return _NUM_BOOL; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 70 "LexAnal.l"
+#line 71 "LexAnal.l"
 { return _FOR; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 71 "LexAnal.l"
+#line 72 "LexAnal.l"
 { return _IF; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 72 "LexAnal.l"
+#line 73 "LexAnal.l"
 { return _IN; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 73 "LexAnal.l"
+#line 74 "LexAnal.l"
 { yylval.i = IS; return _RELOP; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 74 "LexAnal.l"
+#line 75 "LexAnal.l"
 { yylval.i = NONE; return _NONE; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 75 "LexAnal.l"
+#line 76 "LexAnal.l"
 { return _NOT; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 76 "LexAnal.l"
+#line 77 "LexAnal.l"
 { yylval.i = OR; return _LOP; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 77 "LexAnal.l"
+#line 78 "LexAnal.l"
 { return _PASS; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 78 "LexAnal.l"
+#line 79 "LexAnal.l"
 { return _RETURN;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 79 "LexAnal.l"
-{ yylval.s = _strdup("1"); return _NUM_BOOL; }
+#line 80 "LexAnal.l"
+{ yylval.s = "1"; return _NUM_BOOL; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 80 "LexAnal.l"
+#line 81 "LexAnal.l"
 { return _TRY; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 81 "LexAnal.l"
+#line 82 "LexAnal.l"
 { return _WHILE; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 83 "LexAnal.l"
+#line 84 "LexAnal.l"
 { return _COMMA; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 84 "LexAnal.l"
+#line 85 "LexAnal.l"
 { return _DOT; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 85 "LexAnal.l"
+#line 86 "LexAnal.l"
 { return _COLON; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 87 "LexAnal.l"
+#line 88 "LexAnal.l"
 { return _LBRACKET; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 88 "LexAnal.l"
+#line 89 "LexAnal.l"
 { return _RBRACKET; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 89 "LexAnal.l"
+#line 90 "LexAnal.l"
 { return _LPAREN; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 90 "LexAnal.l"
+#line 91 "LexAnal.l"
 { return _RPAREN; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 91 "LexAnal.l"
+#line 92 "LexAnal.l"
 { return _ASSIGN; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 93 "LexAnal.l"
+#line 94 "LexAnal.l"
 { yylval.i = ADD; return _ADD_SUB_OP; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 94 "LexAnal.l"
+#line 95 "LexAnal.l"
 { yylval.i = SUB; return _ADD_SUB_OP; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 95 "LexAnal.l"
+#line 96 "LexAnal.l"
 { yylval.i = MUL; return _MUL_DIV_OP; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 96 "LexAnal.l"
+#line 97 "LexAnal.l"
 { yylval.i = DIV; return _MUL_DIV_OP; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 98 "LexAnal.l"
+#line 99 "LexAnal.l"
 { yylval.i = LS;   return _RELOP; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 99 "LexAnal.l"
+#line 100 "LexAnal.l"
 { yylval.i = GR;   return _RELOP; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 100 "LexAnal.l"
+#line 101 "LexAnal.l"
 { yylval.i = LSEQ; return _RELOP; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 101 "LexAnal.l"
+#line 102 "LexAnal.l"
 { yylval.i = GREQ; return _RELOP; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 102 "LexAnal.l"
+#line 103 "LexAnal.l"
 { yylval.i = EQ;   return _RELOP; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 103 "LexAnal.l"
+#line 104 "LexAnal.l"
 { yylval.i = NEQ;  return _RELOP; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 105 "LexAnal.l"
+#line 106 "LexAnal.l"
 { yylval.s = _strdup(yytext); return _ID; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 106 "LexAnal.l"
+#line 107 "LexAnal.l"
 { yylval.s = _strdup(yytext); return _NUM_BOOL; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 107 "LexAnal.l"
+#line 108 "LexAnal.l"
 { yylval.s = _strdup(yytext); return _NUM_BOOL; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 108 "LexAnal.l"
+#line 109 "LexAnal.l"
 { yylval.s = _strdup(yytext); return _NUM_BOOL; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 109 "LexAnal.l"
+#line 110 "LexAnal.l"
 { yylval.s = _strdup(yytext); return _STRING; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 110 "LexAnal.l"
+#line 111 "LexAnal.l"
 { yylval.s = _strdup(yytext); return _STRING; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 112 "LexAnal.l"
+#line 113 "LexAnal.l"
 { printf("line yylineno: LEXICAL ERROR on char %c\n", *yytext); }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 114 "LexAnal.l"
+#line 115 "LexAnal.l"
 ECHO;
 	YY_BREAK
-#line 1143 "LexAnal.flex.c"
+#line 1144 "LexAnal.flex.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2145,6 +2146,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 114 "LexAnal.l"
+#line 115 "LexAnal.l"
 
 

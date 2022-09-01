@@ -7,10 +7,6 @@ extern "C"
 #ifndef DEFS_H
 #define DEFS_H
 
-#define TRUE  1
-#define FALSE 0
-
-#define SYMBOL_TABLE_LENGTH   64
 #define NO_INDEX              -1
 #define NO_ATR                 0
 #define LAST_WORKING_REG      12

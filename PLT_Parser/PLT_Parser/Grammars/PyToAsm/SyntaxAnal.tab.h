@@ -101,10 +101,10 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 17 "SyntaxAnal.y"
+#line 18 "SyntaxAnal.y"
 
   int i;
-  char *s;
+  char* s;
 
 #line 110 "SyntaxAnal.tab.h"
 

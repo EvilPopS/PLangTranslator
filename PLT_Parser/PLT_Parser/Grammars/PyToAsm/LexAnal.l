@@ -8,6 +8,7 @@
 	#include "SyntaxAnal.tab.h"
 	#include "LexAlgorithms.h"
 	#include "EnumsAndDefs.h"
+	#include "SymbolTabs.h"
 
 %}
 
@@ -65,7 +66,7 @@
 "else"      { return _ELSE; }
 "except"    { return _EXCEPT; }
 "finally"   { return _FINALLY; }
-"False"     { yylval.s = _strdup("0"); return _NUM_BOOL; }
+"False"     { yylval.s = "0"; return _NUM_BOOL; }
 "for"		{ return _FOR; }
 "if"        { return _IF; }
 "in"        { return _IN; }
@@ -75,7 +76,7 @@
 "or"        { yylval.i = OR; return _LOP; }
 "pass"      { return _PASS; }
 "return"    { return _RETURN;}
-"True"      { yylval.s = _strdup("1"); return _NUM_BOOL; }
+"True"      { yylval.s = "1"; return _NUM_BOOL; }
 "try"       { return _TRY; }
 "while"   	{ return _WHILE; }
 	

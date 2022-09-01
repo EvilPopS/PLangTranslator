@@ -280,10 +280,10 @@ Nonterminals, with rules where they appear
     body (73)
         on left: 67
         on right: 37 48 53 55 56 57 58 60 61 63 64 66
-    num_exp (74)
+    num_exp <i> (74)
         on left: 68 69 70 71 72 73
         on right: 22 26 27 29 35 36 43 53 55 56 57 69 70 71 72 73 77 81 82
-    exp (75)
+    exp <i> (75)
         on left: 74 75 76 77 78
         on right: 68
     list (76)
@@ -292,7 +292,7 @@ Nonterminals, with rules where they appear
     list_elements (77)
         on left: 80 81 82
         on right: 79 82
-    literal (78)
+    literal <i> (78)
         on left: 83 84 85
         on right: 74
     new_line (79)

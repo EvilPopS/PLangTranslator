@@ -1,18 +1,27 @@
+#include <stdbool.h>
+#include "EnumsAndDefs.h"
+
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 
-constexpr unsigned MAX_PARAMS_NUM = 128;
-constexpr unsigned MAX_METHOD_PROPS_NUM = 256;
+#define MAX_PARAMS_NUM 128
+#define MAX_METHOD_PROPS_NUM 256
+#define MAX_TABLE_SIZE 512
 
-enum TableType { VARS, PARAMS, FUNCS, LITS, CLASSES, PROPS, LISTS };
-enum DataType { UNKNOWN, NONE, NUM_BOOL, STRING };
+extern int lastMainTabElem;
+extern int lastFuncTabElem;
+extern int lastClassTabElem;
+extern int lastVarTabElem;
+extern int lastLitTabElem;
+
+typedef enum TableType { NO_TAB_TYPE, VARS, PARAMS, FUNCS, LITS, CLASSES, PROPS, LISTS } TableType;
+typedef enum DataType { NO_DATA_TYPE, UNKNOWN, NONE, NUM_BOOL, STRING } DataType;
 
 
 typedef struct MainTable {
-	unsigned index;
+	int index;
 	TableType tableType;
 } MainTable;
 
@@ -20,43 +29,45 @@ typedef struct MainTable {
 typedef struct FunctionsTable {
 	char* name;
 	bool isMethod;
-	unsigned nonDefParamNum;
-	unsigned defParamNum;
-	unsigned defParamInds[MAX_PARAMS_NUM];
-	unsigned nonDefParamInds[MAX_PARAMS_NUM];
+	int nonDefParamNum;
+	int nonDefParamInds[MAX_PARAMS_NUM];
+	int defParamNum;
+	int defParamInds[MAX_PARAMS_NUM];
 } FunctionsTable;
 
 
 typedef struct ClassesTable {
 	char* name;
 	char* selfName;
-	unsigned methodsInds[MAX_METHOD_PROPS_NUM];
-	unsigned propertiesInds[MAX_METHOD_PROPS_NUM];
+	int numOfMethods;
+	int methodsInds[MAX_METHOD_PROPS_NUM];
+	int numOfProps;
+	int propertiesInds[MAX_METHOD_PROPS_NUM];
 } ClassesTable;
 
 
 typedef struct PropertiesTable {
 	char* name;
 	bool isList;
-	unsigned ind;
 	DataType type;
+	int ordNum;
 } PropertiesTable;
 
 
 typedef struct VariablesTable {
 	char* name;
 	bool isList;
-	unsigned ind;
 	DataType type;
+	int ordNum;
 } VariablesTable;
 
 
 typedef struct ParametersTable {
 	char* name;
 	bool isList;
-	unsigned ind;
 	DataType type;
 	bool hasDefVal;
+	int ordNum;
 } ParametersTable;
 
 
@@ -67,12 +78,31 @@ typedef struct LiteralsTable {
 
 
 typedef struct ListsTable {
-	unsigned ind;
+	int ind;
 	bool hasNext;
-	unsigned nextElemInd;
+	int nextElemInd;
 } ListsTable;
 
 
+// _FIND_ functions
+int findByName(char*);
+bool checkIfNameInTable(char*, TableType, int);
+
+// _INSERT_ functions
+void insertSymbolToMainTable(int, TableType);
+int insertFunctionToTable(char*, bool);
+int insertVariableToTable(char*, bool, DataType, int);
+int insertLiteralToTable(char*, DataType);
+
+// _CLEAR_ functions
+void clearMainTableFromInd(int);
+void clearFromSpecificTable(TableType, int);
+void clearElemFromFuncTable(int);
+void clearElemFromClassTable(int);
+void clearElemFromVarTable(int);
+
+// _GET_ functions
+DataType getSymbDataType(int);
 
 #ifdef __cplusplus
 }

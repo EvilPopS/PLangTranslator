@@ -75,6 +75,7 @@
 	#include <stdlib.h>
 	#include "EnumsAndDefs.h"
 	#include "SyntaxMainHeader.h"
+	#include "SymbolTabs.h"
 
 	extern int yylex(void);
 	extern int yylineno;
@@ -83,7 +84,7 @@
 	int yyerror(const char *);
 
 
-#line 87 "SyntaxAnal.tab.c"
+#line 88 "SyntaxAnal.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -562,15 +563,15 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    64,    64,    65,    66,    67,    71,    72,    76,    77,
-      81,    82,    83,    84,    85,    86,    87,    91,    92,    93,
-      94,    95,    96,   100,   104,   108,   109,   113,   114,   118,
-     119,   123,   124,   125,   129,   130,   134,   135,   139,   143,
-     144,   145,   146,   147,   151,   155,   159,   163,   164,   168,
-     169,   173,   174,   178,   182,   186,   187,   191,   195,   199,
-     203,   204,   205,   209,   210,   211,   215,   216,   220,   224,
-     225,   226,   227,   228,   229,   233,   234,   235,   236,   237,
-     241,   245,   246,   247,   251,   252,   253,   257,   258
+       0,    67,    67,    68,    69,    70,    74,    75,    79,    80,
+      84,    85,    86,    87,    88,    89,    90,    94,    95,    96,
+      97,    98,    99,   103,   113,   117,   118,   122,   123,   127,
+     128,   132,   133,   134,   138,   139,   143,   144,   148,   152,
+     153,   154,   155,   156,   160,   164,   168,   172,   173,   177,
+     178,   182,   183,   187,   191,   195,   196,   200,   204,   208,
+     212,   213,   214,   218,   219,   220,   224,   225,   229,   233,
+     234,   235,   236,   237,   238,   242,   243,   244,   245,   246,
+     250,   254,   255,   256,   260,   261,   262,   266,   267
 };
 #endif
 
@@ -1285,8 +1286,49 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
+  case 23: /* assign_statement: _ID _ASSIGN num_exp  */
+#line 104 "SyntaxAnal.y"
+                {
+			int index = findByName((yyvsp[-2].s));
 
-#line 1290 "SyntaxAnal.tab.c"
+			if(index == NO_INDEX)
+				index = insertVariableToTable((yyvsp[-2].s), false, getSymbDataType((yyvsp[0].i)), 1);
+		}
+#line 1298 "SyntaxAnal.tab.c"
+    break;
+
+  case 69: /* num_exp: exp  */
+#line 233 "SyntaxAnal.y"
+                { (yyval.i) = (yyvsp[0].i); }
+#line 1304 "SyntaxAnal.tab.c"
+    break;
+
+  case 75: /* exp: literal  */
+#line 242 "SyntaxAnal.y"
+                        { (yyval.i) = (yyvsp[0].i); }
+#line 1310 "SyntaxAnal.tab.c"
+    break;
+
+  case 84: /* literal: _NUM_BOOL  */
+#line 260 "SyntaxAnal.y"
+                        { (yyval.i) = insertLiteralToTable((yyvsp[0].s), NUM_BOOL); }
+#line 1316 "SyntaxAnal.tab.c"
+    break;
+
+  case 85: /* literal: _STRING  */
+#line 261 "SyntaxAnal.y"
+                        { (yyval.i) = insertLiteralToTable((yyvsp[0].s), STRING); }
+#line 1322 "SyntaxAnal.tab.c"
+    break;
+
+  case 86: /* literal: _NONE  */
+#line 262 "SyntaxAnal.y"
+                        { (yyval.i) = insertLiteralToTable((yyvsp[0].s), NONE); }
+#line 1328 "SyntaxAnal.tab.c"
+    break;
+
+
+#line 1332 "SyntaxAnal.tab.c"
 
       default: break;
     }
@@ -1480,7 +1522,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 261 "SyntaxAnal.y"
+#line 270 "SyntaxAnal.y"
 
 
 
