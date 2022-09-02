@@ -31,6 +31,9 @@
     <Filter Include="Tests\PythonToAsm">
       <UniqueIdentifier>{9c480c33-667f-40c8-8446-19af3306adf4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ErrorOutputHandler">
+      <UniqueIdentifier>{6870477b-d28b-47a3-9f0a-8763afbeae3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -47,6 +50,12 @@
     </ClCompile>
     <ClCompile Include="Grammars\PyToAsm\SymbolTabs.c">
       <Filter>Source Files\PythonToAsmSrcFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammars\PyToAsm\SyntaxAnalUtils.c">
+      <Filter>Source Files\PythonToAsmSrcFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorOutputHandler\ErrorHandler.c">
+      <Filter>ErrorOutputHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +74,12 @@
     <ClInclude Include="Grammars\PyToAsm\SymbolTabs.h">
       <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
     </ClInclude>
+    <ClInclude Include="Grammars\PyToAsm\SyntaxAnalUtils.h">
+      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorOutputHandler\ErrorHandler.h">
+      <Filter>ErrorOutputHandler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Flex Include="Grammars\PyToAsm\LexAnal.l">
@@ -79,6 +94,9 @@
   <ItemGroup>
     <Text Include="Tests\PyToAsm\test1.txt">
       <Filter>Tests\PythonToAsm</Filter>
+    </Text>
+    <Text Include="ErrorOutputHandler\ErrorOutputFile.txt">
+      <Filter>ErrorOutputHandler</Filter>
     </Text>
   </ItemGroup>
 </Project>

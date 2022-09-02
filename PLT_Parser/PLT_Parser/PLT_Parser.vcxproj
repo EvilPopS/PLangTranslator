@@ -128,17 +128,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ErrorOutputHandler\ErrorHandler.c" />
     <ClCompile Include="Grammars\PyToAsm\LexAlgorithms.c" />
     <ClCompile Include="Grammars\PyToAsm\LexAnal.flex.c" />
     <ClCompile Include="Grammars\PyToAsm\SymbolTabs.c" />
     <ClCompile Include="Grammars\PyToAsm\SyntaxAnal.tab.c" />
+    <ClCompile Include="Grammars\PyToAsm\SyntaxAnalUtils.c" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ErrorOutputHandler\ErrorHandler.h" />
     <ClInclude Include="Grammars\PyToAsm\EnumsAndDefs.h" />
     <ClInclude Include="Grammars\PyToAsm\LexAlgorithms.h" />
     <ClInclude Include="Grammars\PyToAsm\SymbolTabs.h" />
     <ClInclude Include="Grammars\PyToAsm\SyntaxAnal.tab.h" />
+    <ClInclude Include="Grammars\PyToAsm\SyntaxAnalUtils.h" />
     <ClInclude Include="Grammars\PyToAsm\SyntaxMainHeader.h" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +158,7 @@
     </Bison>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="ErrorOutputHandler\ErrorOutputFile.txt" />
     <Text Include="Tests\PyToAsm\test1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

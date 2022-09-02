@@ -20,7 +20,7 @@ lastLitTabElem = -1;
 
 
 // _FIND_ functions -------------------------------------------------------------------
-int findByName(char* name) {
+int findSymbolByName(char* name) {
 	for (int i = 0; i < MAX_TABLE_SIZE; i++) {
 		MainTable mt = mainTable[i];
 		if (checkIfNameInTable(name, mt.tableType, mt.index))
@@ -151,10 +151,11 @@ DataType getSymbDataType(int ind) {
 	case VARS:
 		return variableTable[mt.index].type;
 	case PARAMS:
-		break;
+		return NO_DATA_TYPE;
 	case PROPS:
-		break;
+		return NO_DATA_TYPE;
 	}
+	return NO_DATA_TYPE;
 }
 // ------------------------------------------------------------------------------------
 

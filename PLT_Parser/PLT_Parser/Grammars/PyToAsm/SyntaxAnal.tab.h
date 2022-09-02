@@ -101,7 +101,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 18 "SyntaxAnal.y"
+#line 20 "SyntaxAnal.y"
 
   int i;
   char* s;

@@ -76,6 +76,8 @@
 	#include "EnumsAndDefs.h"
 	#include "SyntaxMainHeader.h"
 	#include "SymbolTabs.h"
+	#include "../../ErrorOutputHandler/ErrorHandler.h"
+
 
 	extern int yylex(void);
 	extern int yylineno;
@@ -84,7 +86,7 @@
 	int yyerror(const char *);
 
 
-#line 88 "SyntaxAnal.tab.c"
+#line 90 "SyntaxAnal.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -563,15 +565,15 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    67,    67,    68,    69,    70,    74,    75,    79,    80,
-      84,    85,    86,    87,    88,    89,    90,    94,    95,    96,
-      97,    98,    99,   103,   113,   117,   118,   122,   123,   127,
-     128,   132,   133,   134,   138,   139,   143,   144,   148,   152,
-     153,   154,   155,   156,   160,   164,   168,   172,   173,   177,
-     178,   182,   183,   187,   191,   195,   196,   200,   204,   208,
-     212,   213,   214,   218,   219,   220,   224,   225,   229,   233,
-     234,   235,   236,   237,   238,   242,   243,   244,   245,   246,
-     250,   254,   255,   256,   260,   261,   262,   266,   267
+       0,    69,    69,    70,    71,    72,    76,    77,    81,    82,
+      86,    87,    88,    89,    90,    91,    92,    96,    97,    98,
+      99,   100,   101,   105,   115,   119,   120,   124,   125,   129,
+     130,   134,   135,   136,   140,   141,   145,   146,   150,   154,
+     155,   156,   157,   158,   162,   166,   170,   174,   175,   179,
+     180,   184,   185,   189,   193,   197,   198,   202,   206,   210,
+     214,   215,   216,   220,   221,   222,   226,   227,   231,   235,
+     236,   237,   238,   239,   240,   244,   245,   252,   253,   254,
+     258,   262,   263,   264,   268,   269,   270,   274,   275
 };
 #endif
 
@@ -1287,48 +1289,65 @@ yyreduce:
   switch (yyn)
     {
   case 23: /* assign_statement: _ID _ASSIGN num_exp  */
-#line 104 "SyntaxAnal.y"
+#line 106 "SyntaxAnal.y"
                 {
-			int index = findByName((yyvsp[-2].s));
+			int index = findSymbolByName((yyvsp[-2].s));
 
 			if(index == NO_INDEX)
 				index = insertVariableToTable((yyvsp[-2].s), false, getSymbDataType((yyvsp[0].i)), 1);
 		}
-#line 1298 "SyntaxAnal.tab.c"
+#line 1300 "SyntaxAnal.tab.c"
     break;
 
   case 69: /* num_exp: exp  */
-#line 233 "SyntaxAnal.y"
+#line 235 "SyntaxAnal.y"
                 { (yyval.i) = (yyvsp[0].i); }
-#line 1304 "SyntaxAnal.tab.c"
+#line 1306 "SyntaxAnal.tab.c"
     break;
 
   case 75: /* exp: literal  */
-#line 242 "SyntaxAnal.y"
+#line 244 "SyntaxAnal.y"
                         { (yyval.i) = (yyvsp[0].i); }
-#line 1310 "SyntaxAnal.tab.c"
+#line 1312 "SyntaxAnal.tab.c"
+    break;
+
+  case 76: /* exp: _ID  */
+#line 246 "SyntaxAnal.y"
+                { 
+			int idInd = findSymbolByName((yyvsp[0].s));
+			if (idInd == NO_INDEX)
+				return raiseError("Variable '%s' does not exist!", (yyvsp[0].s));
+			(yyval.i) = idInd; 
+		}
+#line 1323 "SyntaxAnal.tab.c"
+    break;
+
+  case 78: /* exp: _LPAREN num_exp _RPAREN  */
+#line 253 "SyntaxAnal.y"
+                                        { (yyval.i) = (yyvsp[-1].i); }
+#line 1329 "SyntaxAnal.tab.c"
     break;
 
   case 84: /* literal: _NUM_BOOL  */
-#line 260 "SyntaxAnal.y"
+#line 268 "SyntaxAnal.y"
                         { (yyval.i) = insertLiteralToTable((yyvsp[0].s), NUM_BOOL); }
-#line 1316 "SyntaxAnal.tab.c"
+#line 1335 "SyntaxAnal.tab.c"
     break;
 
   case 85: /* literal: _STRING  */
-#line 261 "SyntaxAnal.y"
+#line 269 "SyntaxAnal.y"
                         { (yyval.i) = insertLiteralToTable((yyvsp[0].s), STRING); }
-#line 1322 "SyntaxAnal.tab.c"
+#line 1341 "SyntaxAnal.tab.c"
     break;
 
   case 86: /* literal: _NONE  */
-#line 262 "SyntaxAnal.y"
+#line 270 "SyntaxAnal.y"
                         { (yyval.i) = insertLiteralToTable((yyvsp[0].s), NONE); }
-#line 1328 "SyntaxAnal.tab.c"
+#line 1347 "SyntaxAnal.tab.c"
     break;
 
 
-#line 1332 "SyntaxAnal.tab.c"
+#line 1351 "SyntaxAnal.tab.c"
 
       default: break;
     }
@@ -1522,7 +1541,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 270 "SyntaxAnal.y"
+#line 278 "SyntaxAnal.y"
 
 
 

@@ -6,6 +6,8 @@
 	#include "EnumsAndDefs.h"
 	#include "SyntaxMainHeader.h"
 	#include "SymbolTabs.h"
+	#include "../../ErrorOutputHandler/ErrorHandler.h"
+
 
 	extern int yylex(void);
 	extern int yylineno;
@@ -102,7 +104,7 @@ compound_statement
 assign_statement
 	: _ID _ASSIGN num_exp
 		{
-			int index = findByName($1);
+			int index = findSymbolByName($1);
 
 			if(index == NO_INDEX)
 				index = insertVariableToTable($1, false, getSymbDataType($3), 1);
@@ -240,9 +242,15 @@ num_exp
 	
 exp
 	: literal	{ $$ = $1; }
-	| _ID %prec PAREN_ASSOC_TOKEN
+	| _ID %prec PAREN_ASSOC_TOKEN	
+		{ 
+			int idInd = findSymbolByName($1);
+			if (idInd == NO_INDEX)
+				return raiseError("Variable '%s' does not exist!", $1);
+			$$ = idInd; 
+		}
 	| func_meth_call_or_class_inst
-	| _LPAREN num_exp _RPAREN
+	| _LPAREN num_exp _RPAREN	{ $$ = $2; }
 	| list
 	;
 	

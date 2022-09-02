@@ -85,7 +85,7 @@ typedef struct ListsTable {
 
 
 // _FIND_ functions
-int findByName(char*);
+int findSymbolByName(char*);
 bool checkIfNameInTable(char*, TableType, int);
 
 // _INSERT_ functions
