@@ -555,9 +555,10 @@ char *yytext;
 	#include "LexAlgorithms.h"
 	#include "EnumsAndDefs.h"
 	#include "SymbolTabs.h"
+	#include "../../ErrorOutputHandler/ErrorHandler.h"
 
-#line 559 "LexAnal.flex.c"
 #line 560 "LexAnal.flex.c"
+#line 561 "LexAnal.flex.c"
 
 #define INITIAL 0
 
@@ -771,10 +772,10 @@ YY_DECL
 		}
 
 	{
-#line 15 "LexAnal.l"
+#line 16 "LexAnal.l"
 
 
-#line 18 "LexAnal.l"
+#line 19 "LexAnal.l"
 	{		
 		// Pre reg-expressions indentation tokenizer
 		switch(preRegExprIndentTokenzier()) {
@@ -786,7 +787,7 @@ YY_DECL
 	}
 
 
-#line 789 "LexAnal.flex.c"
+#line 790 "LexAnal.flex.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -845,34 +846,31 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 29 "LexAnal.l"
+#line 30 "LexAnal.l"
 { /* skip */ }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 30 "LexAnal.l"
+#line 31 "LexAnal.l"
 { /* skip */ }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 32 "LexAnal.l"
+#line 33 "LexAnal.l"
 { 
-						resetIndentation();	  	  	  
+						yylineno += countNewLines(yytext);
+						resetIndentation();	  
 						return _NEW_LINE;
 					}
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 37 "LexAnal.l"
+#line 39 "LexAnal.l"
 {
-							int ind = (int)(strlen(yytext))-1;
-							while (yytext[ind] == '\t') {
-								ind --;
-								curIndentLvl++;
-							}
-
+							yylineno += countNewLines(yytext);
+							setCurrIndentByNumOfTabs(yytext);
 							incOrdDecIndentation();
 							return _NEW_LINE;
 						}					
@@ -880,8 +878,9 @@ YY_RULE_SETUP
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 49 "LexAnal.l"
+#line 47 "LexAnal.l"
 { 
+			yylineno++;
 			resetIndentation();	  	  	  
 			return _NEW_LINE;
 		}
@@ -889,8 +888,9 @@ YY_RULE_SETUP
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 54 "LexAnal.l"
+#line 53 "LexAnal.l"
 {   
+				yylineno++;
 				curIndentLvl = (int)(strlen(yytext))-1;
 				incOrdDecIndentation();
 				return _NEW_LINE;
@@ -1134,14 +1134,17 @@ YY_RULE_SETUP
 case 54:
 YY_RULE_SETUP
 #line 113 "LexAnal.l"
-{ printf("line yylineno: LEXICAL ERROR on char %c\n", *yytext); }
+{ 
+				raiseError(LEXICAL_ERR, yylineno, "Unexpected character '%c'", *yytext); 
+				return YYerror; 
+			}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 115 "LexAnal.l"
+#line 118 "LexAnal.l"
 ECHO;
 	YY_BREAK
-#line 1144 "LexAnal.flex.c"
+#line 1147 "LexAnal.flex.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2146,6 +2149,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 115 "LexAnal.l"
+#line 118 "LexAnal.l"
 
 

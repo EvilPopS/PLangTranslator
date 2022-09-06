@@ -9,6 +9,7 @@
 	#include "LexAlgorithms.h"
 	#include "EnumsAndDefs.h"
 	#include "SymbolTabs.h"
+	#include "../../ErrorOutputHandler/ErrorHandler.h"
 
 %}
 
@@ -29,28 +30,27 @@
 \#.*	{ /* skip */ }
 
 [\n][ \n\t]*[\n]	{ 
-						resetIndentation();	  	  	  
+						yylineno += countNewLines(yytext);
+						resetIndentation();	  
 						return _NEW_LINE;
 					}
 
 [\n][ \n\t]*[\n][\t]+	{
-							int ind = (int)(strlen(yytext))-1;
-							while (yytext[ind] == '\t') {
-								ind --;
-								curIndentLvl++;
-							}
-
+							yylineno += countNewLines(yytext);
+							setCurrIndentByNumOfTabs(yytext);
 							incOrdDecIndentation();
 							return _NEW_LINE;
 						}					
  
 
 [\n]	{ 
+			yylineno++;
 			resetIndentation();	  	  	  
 			return _NEW_LINE;
 		}
 
 [\n][\t]+	{   
+				yylineno++;
 				curIndentLvl = (int)(strlen(yytext))-1;
 				incOrdDecIndentation();
 				return _NEW_LINE;
@@ -109,6 +109,9 @@
 \"[^"\n]*\"     				{ yylval.s = _strdup(yytext); return _STRING; }
 \'[^'\n]*\'     				{ yylval.s = _strdup(yytext); return _STRING; }
 
-.			{ printf("line yylineno: LEXICAL ERROR on char %c\n", *yytext); }
+.			{ 
+				raiseError(LEXICAL_ERR, yylineno, "Unexpected character '%c'", *yytext); 
+				return YYerror; 
+			}
 
 %%

@@ -38,3 +38,19 @@ int preRegExprIndentTokenzier() {
 
 	return 0;
 }
+
+void setCurrIndentByNumOfTabs(char* yytext) {
+	int ind = (int)(strlen(yytext)) - 1;
+	while (yytext[ind] == '\t') {
+		ind--;
+		curIndentLvl++;
+	}
+}
+
+int countNewLines(char* yytext) {
+	int newLineCounter = 0;
+	for (int ind = (int)(strlen(yytext))-1; ind >= 0; ind--)
+		if (yytext[ind] == '\n')
+			newLineCounter++;
+	return newLineCounter;
+}

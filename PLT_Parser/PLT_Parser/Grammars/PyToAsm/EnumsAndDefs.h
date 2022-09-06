@@ -1,16 +1,14 @@
 #pragma once
+#ifndef ENUMS_AND_DEFS_H
+#define ENUMS_AND_DEFS_H
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#ifndef DEFS_H
-#define DEFS_H
 
 #define NO_INDEX              -1
-#define NO_ATR                 0
-#define LAST_WORKING_REG      12
-#define FUN_REG               13
 #define CHAR_BUFFER_LENGTH   128
 
 extern char char_buffer[CHAR_BUFFER_LENGTH];
@@ -34,8 +32,9 @@ enum relops { LS, GR, LSEQ, GREQ, EQ, NEQ, IS };
 static const char* jumps[] = { "JLTS", "JGTS", "JLES", "JGES", "JEQ ", "JNE ", "JEQ " };
 
 static const char* opp_jumps[] = { "JGES", "JLES", "JGTS", "JLTS", "JNE ", "JEQ ", "JNE " };
-#endif
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

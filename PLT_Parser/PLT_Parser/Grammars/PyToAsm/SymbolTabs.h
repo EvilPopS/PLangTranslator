@@ -1,9 +1,13 @@
-#include <stdbool.h>
-#include "EnumsAndDefs.h"
+#pragma once
+#ifndef SYMBOL_TABS_H
+#define SYMBOL_TABS_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#include <stdbool.h>
+#include "EnumsAndDefs.h"
 
 
 #define MAX_PARAMS_NUM 128
@@ -104,6 +108,9 @@ void clearElemFromVarTable(int);
 // _GET_ functions
 DataType getSymbDataType(int);
 
+
 #ifdef __cplusplus
 }
+#endif
+
 #endif

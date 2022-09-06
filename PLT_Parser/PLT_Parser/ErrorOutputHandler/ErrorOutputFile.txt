@@ -1,1 +1,5 @@
-Variable 'cadg' does not exist!
+{
+	ErrorType: "Semantic"
+	Line: "3"
+	ErrorMessage : "Variable 'b' isn't defined yet!"
+}

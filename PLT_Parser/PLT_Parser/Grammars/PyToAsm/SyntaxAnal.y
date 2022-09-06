@@ -7,7 +7,7 @@
 	#include "SyntaxMainHeader.h"
 	#include "SymbolTabs.h"
 	#include "../../ErrorOutputHandler/ErrorHandler.h"
-
+	#include "SyntaxAnalUtils.h"
 
 	extern int yylex(void);
 	extern int yylineno;
@@ -246,7 +246,7 @@ exp
 		{ 
 			int idInd = findSymbolByName($1);
 			if (idInd == NO_INDEX)
-				return raiseError("Variable '%s' does not exist!", $1);
+				return raiseError(SEMANTIC_ERR, yylineno, "Variable '%s' isn't defined yet!", $1);
 			$$ = idInd; 
 		}
 	| func_meth_call_or_class_inst
@@ -280,23 +280,18 @@ new_line
 
 int parser_main(int argc, char* argv[]) {
 	int synerr;
-	char* FILE_PATH = "Tests/PyToAsm/test1.txt";
-
-	fopen_s(&yyin, FILE_PATH , "a");
-	fprintf(yyin, "\n");
-	fclose(yyin);
-
-	fopen_s(&yyin, FILE_PATH , "r");
+	appendNewLineToFileIfNotExists(yyin);
+	fopen_s(&yyin, INPUT_FILE_PATH , "r");
 	synerr = yyparse(); 
 	fclose(yyin);
 
-	if(synerr)
-		return -1;
-	else
-		return 0;
+	return synerr;
 }
 
-int yyerror(const char *s) {
-	fprintf(stderr, "line %d: SYNTAX ERROR %s\n", yylineno, s);
-	return 0;
+int yyerror(const char* errMess) {
+	return raiseError(
+		SYNTAX_ERR,
+		yylineno,
+		"unexpected token"
+	);
 }
