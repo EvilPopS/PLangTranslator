@@ -4,10 +4,10 @@
 	#include <stdbool.h>
 	#include <stdlib.h>
 	#include "EnumsAndDefs.h"
-	#include "SyntaxMainHeader.h"
+	#include "SyntaxAnalUtils.h"
 	#include "SymbolTabs.h"
 	#include "../../ErrorOutputHandler/ErrorHandler.h"
-	#include "SyntaxAnalUtils.h"
+	#include "SemanticAnal.h"
 
 	extern int yylex(void);
 	extern int yylineno;
@@ -235,9 +235,30 @@ num_exp
 	: exp	{ $$ = $1; }
 	| _NOT num_exp  
 	| num_exp _ADD_SUB_OP num_exp
+		{
+			char errMessage[200];
+			DataType newType;
+			if (!aritOpExpTypesValidation(errMessage, &newType, getSymbDataType($1), getSymbDataType($3), $2))
+					return raiseError(SEMANTIC_ERR, yylineno, errMessage);
+			setSymbDataType($1, newType);
+		}
 	| num_exp _MUL_DIV_OP num_exp
+		{
+			char errMessage[200];
+			DataType newType;
+			if (!aritOpExpTypesValidation(errMessage, &newType, getSymbDataType($1), getSymbDataType($3), $2))
+					return raiseError(SEMANTIC_ERR, yylineno, errMessage);
+			setSymbDataType($1, newType);
+		}
 	| num_exp _LOP num_exp
+		{
+		}
 	| num_exp _RELOP num_exp
+		{
+			char errMessage[200];
+			if (!relopExpTypesValidation(errMessage, getSymbDataType($1), getSymbDataType($3), $2))
+					return raiseError(SEMANTIC_ERR, yylineno, errMessage);
+		}
 	;
 	
 exp

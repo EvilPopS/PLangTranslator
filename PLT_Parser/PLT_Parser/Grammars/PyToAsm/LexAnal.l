@@ -70,7 +70,6 @@
 "for"		{ return _FOR; }
 "if"        { return _IF; }
 "in"        { return _IN; }
-"is"        { yylval.i = IS; return _RELOP; }
 "None"      { yylval.i = NONE; return _NONE; }
 "not"       { return _NOT; }
 "or"        { yylval.i = OR; return _LOP; }

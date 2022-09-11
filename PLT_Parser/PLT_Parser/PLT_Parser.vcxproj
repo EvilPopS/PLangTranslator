@@ -133,6 +133,7 @@
     <ClCompile Include="Grammars\PyToAsm\LexAnal.flex.c" />
     <ClCompile Include="Grammars\PyToAsm\SymbolTabs.c" />
     <ClCompile Include="Grammars\PyToAsm\SyntaxAnal.tab.c" />
+    <ClCompile Include="Grammars\PyToAsm\SemanticAnal.c" />
     <ClCompile Include="Grammars\PyToAsm\SyntaxAnalUtils.c" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -142,8 +143,8 @@
     <ClInclude Include="Grammars\PyToAsm\LexAlgorithms.h" />
     <ClInclude Include="Grammars\PyToAsm\SymbolTabs.h" />
     <ClInclude Include="Grammars\PyToAsm\SyntaxAnal.tab.h" />
+    <ClInclude Include="Grammars\PyToAsm\SemanticAnal.h" />
     <ClInclude Include="Grammars\PyToAsm\SyntaxAnalUtils.h" />
-    <ClInclude Include="Grammars\PyToAsm\SyntaxMainHeader.h" />
   </ItemGroup>
   <ItemGroup>
     <Flex Include="Grammars\PyToAsm\LexAnal.l">

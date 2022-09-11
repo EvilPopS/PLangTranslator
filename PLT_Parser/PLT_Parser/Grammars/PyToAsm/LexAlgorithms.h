@@ -27,4 +27,4 @@ int countNewLines(char*);
 }
 #endif
 
-#endif
+#endif	// LEX_ALGORITHMS_H

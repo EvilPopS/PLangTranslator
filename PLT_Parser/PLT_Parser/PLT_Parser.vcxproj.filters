@@ -51,11 +51,14 @@
     <ClCompile Include="Grammars\PyToAsm\SymbolTabs.c">
       <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Grammars\PyToAsm\SyntaxAnalUtils.c">
+    <ClCompile Include="Grammars\PyToAsm\SemanticAnal.c">
       <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
     <ClCompile Include="ErrorOutputHandler\ErrorHandler.c">
       <Filter>ErrorOutputHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammars\PyToAsm\SyntaxAnalUtils.c">
+      <Filter>Source Files\PythonToAsmSrcFiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -68,13 +71,13 @@
     <ClInclude Include="Grammars\PyToAsm\SyntaxAnal.tab.h">
       <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
     </ClInclude>
-    <ClInclude Include="Grammars\PyToAsm\SyntaxMainHeader.h">
+    <ClInclude Include="Grammars\PyToAsm\SyntaxAnalUtils.h">
       <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="Grammars\PyToAsm\SymbolTabs.h">
       <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
     </ClInclude>
-    <ClInclude Include="Grammars\PyToAsm\SyntaxAnalUtils.h">
+    <ClInclude Include="Grammars\PyToAsm\SemanticAnal.h">
       <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="ErrorOutputHandler\ErrorHandler.h">

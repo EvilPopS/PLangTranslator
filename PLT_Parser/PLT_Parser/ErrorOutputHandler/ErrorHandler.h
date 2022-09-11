@@ -29,4 +29,4 @@ void writeErrMessToFile(char*);
 }
 #endif
 
-#endif
+#endif	// ERROR_HANDLER_H

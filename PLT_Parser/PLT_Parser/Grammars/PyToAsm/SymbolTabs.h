@@ -20,8 +20,7 @@ extern int lastClassTabElem;
 extern int lastVarTabElem;
 extern int lastLitTabElem;
 
-typedef enum TableType { NO_TAB_TYPE, VARS, PARAMS, FUNCS, LITS, CLASSES, PROPS, LISTS } TableType;
-typedef enum DataType { NO_DATA_TYPE, UNKNOWN, NONE, NUM_BOOL, STRING } DataType;
+typedef enum TableType { NO_TAB_TYPE, TB_VARS, TB_PARAMS, TB_FUNCS, TB_LITS, TB_CLASSES, TB_PROPS, TB_LISTS } TableType;
 
 
 typedef struct MainTable {
@@ -82,9 +81,11 @@ typedef struct LiteralsTable {
 
 
 typedef struct ListsTable {
-	int ind;
+	int elementInd;
+	TableType tableType;
+	bool isListPointer;
 	bool hasNext;
-	int nextElemInd;
+	int nextElemInd;	
 } ListsTable;
 
 
@@ -108,9 +109,10 @@ void clearElemFromVarTable(int);
 // _GET_ functions
 DataType getSymbDataType(int);
 
-
+// _SET_ functions
+void setSymbDataType(int, DataType); 
 #ifdef __cplusplus
 }
 #endif
 
-#endif
+#endif	// SYMBOL_TABS_H

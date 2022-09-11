@@ -1,5 +1,5 @@
 {
 	ErrorType: "Semantic"
-	Line: "3"
-	ErrorMessage : "Variable 'b' isn't defined yet!"
+	Line: "8"
+	ErrorMessage : "Cannot use the operator '+' for values of types 'Number/Boolean' and 'String'"
 }

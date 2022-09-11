@@ -74,10 +74,10 @@
 	#include <stdbool.h>
 	#include <stdlib.h>
 	#include "EnumsAndDefs.h"
-	#include "SyntaxMainHeader.h"
+	#include "SyntaxAnalUtils.h"
 	#include "SymbolTabs.h"
 	#include "../../ErrorOutputHandler/ErrorHandler.h"
-	#include "SyntaxAnalUtils.h"
+	#include "SemanticAnal.h"
 
 	extern int yylex(void);
 	extern int yylineno;
@@ -572,8 +572,8 @@ static const yytype_int16 yyrline[] =
      155,   156,   157,   158,   162,   166,   170,   174,   175,   179,
      180,   184,   185,   189,   193,   197,   198,   202,   206,   210,
      214,   215,   216,   220,   221,   222,   226,   227,   231,   235,
-     236,   237,   238,   239,   240,   244,   245,   252,   253,   254,
-     258,   262,   263,   264,   268,   269,   270,   274,   275
+     236,   237,   245,   253,   256,   265,   266,   273,   274,   275,
+     279,   283,   284,   285,   289,   290,   291,   295,   296
 };
 #endif
 
@@ -1305,49 +1305,90 @@ yyreduce:
 #line 1306 "SyntaxAnal.tab.c"
     break;
 
+  case 71: /* num_exp: num_exp _ADD_SUB_OP num_exp  */
+#line 238 "SyntaxAnal.y"
+                {
+			char errMessage[200];
+			DataType newType;
+			if (!aritOpExpTypesValidation(errMessage, &newType, getSymbDataType((yyvsp[-2].i)), getSymbDataType((yyvsp[0].i)), (yyvsp[-1].i)))
+					return raiseError(SEMANTIC_ERR, yylineno, errMessage);
+			setSymbDataType((yyvsp[-2].i), newType);
+		}
+#line 1318 "SyntaxAnal.tab.c"
+    break;
+
+  case 72: /* num_exp: num_exp _MUL_DIV_OP num_exp  */
+#line 246 "SyntaxAnal.y"
+                {
+			char errMessage[200];
+			DataType newType;
+			if (!aritOpExpTypesValidation(errMessage, &newType, getSymbDataType((yyvsp[-2].i)), getSymbDataType((yyvsp[0].i)), (yyvsp[-1].i)))
+					return raiseError(SEMANTIC_ERR, yylineno, errMessage);
+			setSymbDataType((yyvsp[-2].i), newType);
+		}
+#line 1330 "SyntaxAnal.tab.c"
+    break;
+
+  case 73: /* num_exp: num_exp _LOP num_exp  */
+#line 254 "SyntaxAnal.y"
+                {
+		}
+#line 1337 "SyntaxAnal.tab.c"
+    break;
+
+  case 74: /* num_exp: num_exp _RELOP num_exp  */
+#line 257 "SyntaxAnal.y"
+                {
+			char errMessage[200];
+			if (!relopExpTypesValidation(errMessage, getSymbDataType((yyvsp[-2].i)), getSymbDataType((yyvsp[0].i)), (yyvsp[-1].i)))
+					return raiseError(SEMANTIC_ERR, yylineno, errMessage);
+		}
+#line 1347 "SyntaxAnal.tab.c"
+    break;
+
   case 75: /* exp: literal  */
-#line 244 "SyntaxAnal.y"
+#line 265 "SyntaxAnal.y"
                         { (yyval.i) = (yyvsp[0].i); }
-#line 1312 "SyntaxAnal.tab.c"
+#line 1353 "SyntaxAnal.tab.c"
     break;
 
   case 76: /* exp: _ID  */
-#line 246 "SyntaxAnal.y"
+#line 267 "SyntaxAnal.y"
                 { 
 			int idInd = findSymbolByName((yyvsp[0].s));
 			if (idInd == NO_INDEX)
 				return raiseError(SEMANTIC_ERR, yylineno, "Variable '%s' isn't defined yet!", (yyvsp[0].s));
 			(yyval.i) = idInd; 
 		}
-#line 1323 "SyntaxAnal.tab.c"
+#line 1364 "SyntaxAnal.tab.c"
     break;
 
   case 78: /* exp: _LPAREN num_exp _RPAREN  */
-#line 253 "SyntaxAnal.y"
+#line 274 "SyntaxAnal.y"
                                         { (yyval.i) = (yyvsp[-1].i); }
-#line 1329 "SyntaxAnal.tab.c"
+#line 1370 "SyntaxAnal.tab.c"
     break;
 
   case 84: /* literal: _NUM_BOOL  */
-#line 268 "SyntaxAnal.y"
+#line 289 "SyntaxAnal.y"
                         { (yyval.i) = insertLiteralToTable((yyvsp[0].s), NUM_BOOL); }
-#line 1335 "SyntaxAnal.tab.c"
+#line 1376 "SyntaxAnal.tab.c"
     break;
 
   case 85: /* literal: _STRING  */
-#line 269 "SyntaxAnal.y"
+#line 290 "SyntaxAnal.y"
                         { (yyval.i) = insertLiteralToTable((yyvsp[0].s), STRING); }
-#line 1341 "SyntaxAnal.tab.c"
+#line 1382 "SyntaxAnal.tab.c"
     break;
 
   case 86: /* literal: _NONE  */
-#line 270 "SyntaxAnal.y"
+#line 291 "SyntaxAnal.y"
                         { (yyval.i) = insertLiteralToTable((yyvsp[0].s), NONE); }
-#line 1347 "SyntaxAnal.tab.c"
+#line 1388 "SyntaxAnal.tab.c"
     break;
 
 
-#line 1351 "SyntaxAnal.tab.c"
+#line 1392 "SyntaxAnal.tab.c"
 
       default: break;
     }
@@ -1541,7 +1582,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 278 "SyntaxAnal.y"
+#line 299 "SyntaxAnal.y"
 
 
 

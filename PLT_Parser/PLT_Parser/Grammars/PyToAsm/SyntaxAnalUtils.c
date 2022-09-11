@@ -3,7 +3,7 @@
 
 void appendNewLineToFileIfNotExists(FILE* file) {
 	fopen_s(&file, INPUT_FILE_PATH, "a+");
-	
+
 	int nextCharVal;
 	char prevChar;
 	while ((nextCharVal = fgetc(file)) != EOF)
@@ -11,7 +11,6 @@ void appendNewLineToFileIfNotExists(FILE* file) {
 
 	if (prevChar != '\n')
 		fprintf(file, "\n");
-	
+
 	fclose(file);
 }
-

@@ -3,6 +3,7 @@ d:\projects\c#\plangtranslator\plt_parser\plt_parser\grammars\pytoasm\lexanal.fl
 d:\projects\c#\plangtranslator\plt_parser\plt_parser\x64\debug\vc143.pdb
 d:\projects\c#\plangtranslator\plt_parser\plt_parser\x64\debug\vc143.idb
 d:\projects\c#\plangtranslator\plt_parser\plt_parser\x64\debug\syntaxanalutils.obj
+d:\projects\c#\plangtranslator\plt_parser\plt_parser\x64\debug\semanticanal.obj
 d:\projects\c#\plangtranslator\plt_parser\plt_parser\x64\debug\syntaxanal.tab.obj
 d:\projects\c#\plangtranslator\plt_parser\plt_parser\x64\debug\symboltabs.obj
 d:\projects\c#\plangtranslator\plt_parser\plt_parser\x64\debug\lexanal.flex.obj
@@ -12,7 +13,6 @@ d:\projects\c#\plangtranslator\plt_parser\plt_parser\x64\debug\main.obj
 d:\projects\c#\plangtranslator\plt_parser\x64\debug\plt_parser.exe
 d:\projects\c#\plangtranslator\plt_parser\plt_parser\x64\debug\plt_parser.ilk
 d:\projects\c#\plangtranslator\plt_parser\x64\debug\plt_parser.pdb
-d:\projects\c#\plangtranslator\plt_parser\plt_parser\x64\debug\errorhandler.obj.enc
 d:\projects\c#\plangtranslator\plt_parser\plt_parser\x64\debug\plt_parser.write.1.tlog
 d:\projects\c#\plangtranslator\plt_parser\plt_parser\x64\debug\plt_parser.tlog\cl.command.1.tlog
 d:\projects\c#\plangtranslator\plt_parser\plt_parser\x64\debug\plt_parser.tlog\cl.read.1.tlog

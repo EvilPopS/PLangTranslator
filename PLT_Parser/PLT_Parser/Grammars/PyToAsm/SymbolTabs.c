@@ -31,15 +31,15 @@ int findSymbolByName(char* name) {
 
 bool checkIfNameInTable(char* name, TableType tableType, int ind) {
 	switch (tableType) {
-		case FUNCS:
+		case TB_FUNCS:
 			return strcmp(functionTable[ind].name, name) == 0;
-		case VARS:
+		case TB_VARS:
 			return strcmp(variableTable[ind].name, name) == 0;
-		case PARAMS:
+		case TB_PARAMS:
 			return strcmp(parametersTable[ind].name, name) == 0;
-		case CLASSES:
+		case TB_CLASSES:
 			return strcmp(classesTable[ind].name, name) == 0;
-		case PROPS:
+		case TB_PROPS:
 			return strcmp(propertiesTable[ind].name, name) == 0;
 		default:
 			return false;
@@ -55,14 +55,14 @@ void insertSymbolToMainTable(int index, TableType tableType) {
 }
 
 int insertFunctionToTable(char* name, bool isMethod) {
-	insertSymbolToMainTable(++lastFuncTabElem, FUNCS);
+	insertSymbolToMainTable(++lastFuncTabElem, TB_FUNCS);
 	functionTable[lastFuncTabElem].name = name;
 	functionTable[lastFuncTabElem].isMethod = isMethod;
 	return lastMainTabElem;
 }
 
 int insertVariableToTable(char* name, bool isList, DataType type, int ordNum) {
-	insertSymbolToMainTable(++lastVarTabElem, VARS);
+	insertSymbolToMainTable(++lastVarTabElem, TB_VARS);
 	variableTable[lastVarTabElem].name = name;
 	variableTable[lastVarTabElem].isList = isList;
 	variableTable[lastVarTabElem].type = type;
@@ -71,7 +71,7 @@ int insertVariableToTable(char* name, bool isList, DataType type, int ordNum) {
 }
 
 int insertLiteralToTable(char* value, DataType type) {
-	insertSymbolToMainTable(++lastLitTabElem, LITS);
+	insertSymbolToMainTable(++lastLitTabElem, TB_LITS);
 	literalTable[lastLitTabElem].value = value;
 	literalTable[lastLitTabElem].type = type;
 	return lastMainTabElem;
@@ -88,18 +88,18 @@ void clearMainTableFromInd(int ind) {
 
 void clearFromSpecificTable(TableType tableType, int ind) {
 	switch (tableType) {
-		case FUNCS:
+		case TB_FUNCS:
 			clearElemFromFuncTable(ind);
 			break;
-		case CLASSES:
+		case TB_CLASSES:
 			clearElemFromClassTable(ind);
 			break;
-		case VARS:
+		case TB_VARS:
 			clearElemFromVarTable(ind);
 			break;
-		case PARAMS:
+		case TB_PARAMS:
 			break;
-		case PROPS:
+		case TB_PROPS:
 			break;
 	}
 }
@@ -148,14 +148,35 @@ void clearElemFromVarTable(int ind) {
 DataType getSymbDataType(int ind) {
 	MainTable mt = mainTable[ind];
 	switch (mt.tableType) {
-	case VARS:
-		return variableTable[mt.index].type;
-	case PARAMS:
-		return NO_DATA_TYPE;
-	case PROPS:
-		return NO_DATA_TYPE;
+		case TB_LITS:
+			return literalTable[mt.index].type;
+		case TB_VARS:
+			return variableTable[mt.index].type;
+		case TB_PARAMS:
+			return NO_DATA_TYPE;
+		case TB_CLASSES:
+			return CLASS;
+		case TB_PROPS:
+			return NO_DATA_TYPE;
+		case TB_LISTS:
+			return LIST;
 	}
 	return NO_DATA_TYPE;
+}
+// ------------------------------------------------------------------------------------
+
+
+// _SET_ functions --------------------------------------------------------------------
+void setSymbDataType(int ind, DataType newType) {
+	MainTable mt = mainTable[ind];
+	switch (mt.tableType) {
+		case TB_VARS:
+			variableTable[mt.index].type = newType;
+		case TB_PARAMS:
+			break;
+		case TB_PROPS:
+			break;
+	}
 }
 // ------------------------------------------------------------------------------------
 
