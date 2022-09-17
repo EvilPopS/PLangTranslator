@@ -3,10 +3,8 @@ SyntaxAnal.y : warning : 3 shift/reduce conflicts [-Wconflicts-sr]
   Process "LexAnal.l" flex file
   LexAnal.flex.c
   SemanticAnal.c
-D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToAsm\SemanticAnal.c(105,2): warning C4013: 'sprintf_s' undefined; assuming extern returning int
-  SymbolTabs.c
-D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToAsm\SymbolTabs.c(35,11): warning C4013: 'strcmp' undefined; assuming extern returning int
+D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToAsm\SemanticAnal.c(106,2): warning C4013: 'sprintf_s' undefined; assuming extern returning int
   SyntaxAnal.tab.c
-SyntaxAnal.tab.c(1123,41): warning C4244: 'initializing': conversion from '__int64' to 'long', possible loss of data
+SyntaxAnal.tab.c(1131,41): warning C4244: 'initializing': conversion from '__int64' to 'long', possible loss of data
   Generating Code...
   PLT_Parser.vcxproj -> D:\Projects\c#\PLangTranslator\PLT_Parser\x64\Debug\PLT_Parser.exe

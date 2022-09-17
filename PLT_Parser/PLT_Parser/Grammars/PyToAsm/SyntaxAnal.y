@@ -46,7 +46,7 @@
 %token _LPAREN _RPAREN
 %token _ASSIGN
 
-%token <i> _ADD_SUB_OP _MUL_DIV_OP _LOP _RELOP
+%token <i> _LOP _RELOP _ADD_SUB_OP _MUL_DIV_OP
 
 %token <s> _ID
 %token <s> _NUM_BOOL _STRING _NONE
@@ -87,8 +87,16 @@ simple_statement
 	| multi_assign_statement
 	| return_statement
 	| func_meth_call_or_class_inst
-	| _BREAK
+	| _BREAK 
+		{
+			if (!checkIfIsInLoop())
+				return raiseError(SEMANTIC_ERR, yylineno, "'break' statement must be inside a 'while' or 'for' loop.");
+		}
 	| _CONTINUE
+		{
+			if (!checkIfIsInLoop())
+				return raiseError(SEMANTIC_ERR, yylineno, "'continue' statement must be inside a 'while' or 'for' loop.");
+		}
 	| _PASS
 	;
 
@@ -199,11 +207,27 @@ elif_part
 	;
 
 while_statement
-	: _WHILE num_exp _COLON new_line body else_part 
+	: _WHILE num_exp _COLON new_line
+		{
+			incLoopCounter();				
+		}
+	  body
+		{
+			decLoopCounter();
+		}
+	  else_part 
 	;
 
 for_statement
-	: _FOR _ID _IN num_exp _COLON new_line body else_part
+	: _FOR _ID _IN num_exp _COLON new_line 
+		{
+			incLoopCounter();				
+		}
+	  body 
+		{
+			decLoopCounter();
+		}
+	  else_part
 	;
 
 try_except_statement
@@ -234,6 +258,8 @@ body
 num_exp
 	: exp	{ $$ = $1; }
 	| _NOT num_exp  
+		{
+		}
 	| num_exp _ADD_SUB_OP num_exp
 		{
 			char errMessage[200];
@@ -258,6 +284,7 @@ num_exp
 			char errMessage[200];
 			if (!relopExpTypesValidation(errMessage, getSymbDataType($1), getSymbDataType($3), $2))
 					return raiseError(SEMANTIC_ERR, yylineno, errMessage);
+			setSymbDataType($1, NUM_BOOL);
 		}
 	;
 	

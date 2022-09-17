@@ -30,6 +30,9 @@ typedef enum TypeCompatArrayKind {
 } TypeCompatArrayKind;
 
 
+int loopsCounter;
+
+
 bool checkIfTypesCompatible(DataType, DataType, TypeCompatArrayKind);
 bool getCompatibilityFromArray(TypeCompatArrayKind, TypeCompatArrayInds, DataType);
 
@@ -37,6 +40,11 @@ bool aritOpExpTypesValidation(char*, DataType*, DataType, DataType, ArithmeticOp
 void setAritOpKindAndStr(TypeCompatArrayKind*, char**, ArithmeticOperator);
 DataType makeNewTypeByAritOp(ArithmeticOperator, DataType, DataType);
 bool relopExpTypesValidation(char*, DataType, DataType, RelationOperator);
+
+bool checkIfIsInLoop();
+void incLoopCounter();
+void decLoopCounter();
+
 
 
 #ifdef __cplusplus

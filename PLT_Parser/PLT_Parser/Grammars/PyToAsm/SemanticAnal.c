@@ -40,6 +40,7 @@ DataType relationsCompatArray[][NUM_OF_DATA_TYPES] = {
 
 
 char* dataTypeStrNames[15] = { "No Type", "Unknown", "None", "Number/Boolean", "String", "List", "Class" };
+int loopsCounter = 0;
 
 
 bool checkIfTypesCompatible(DataType type1, DataType type2, TypeCompatArrayKind arrKind) {
@@ -161,3 +162,11 @@ bool relopExpTypesValidation(char* errMessage, DataType type1, DataType type2, R
 	);
 	return false;
 }
+
+
+bool checkIfIsInLoop() { return loopsCounter > 0; }
+
+void incLoopCounter() {	loopsCounter++; }
+
+void decLoopCounter() { loopsCounter--; }
+

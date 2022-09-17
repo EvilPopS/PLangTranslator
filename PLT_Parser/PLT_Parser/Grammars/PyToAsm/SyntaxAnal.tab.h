@@ -84,10 +84,10 @@ extern int yydebug;
     _LPAREN = 285,                 /* _LPAREN  */
     _RPAREN = 286,                 /* _RPAREN  */
     _ASSIGN = 287,                 /* _ASSIGN  */
-    _ADD_SUB_OP = 288,             /* _ADD_SUB_OP  */
-    _MUL_DIV_OP = 289,             /* _MUL_DIV_OP  */
-    _LOP = 290,                    /* _LOP  */
-    _RELOP = 291,                  /* _RELOP  */
+    _LOP = 288,                    /* _LOP  */
+    _RELOP = 289,                  /* _RELOP  */
+    _ADD_SUB_OP = 290,             /* _ADD_SUB_OP  */
+    _MUL_DIV_OP = 291,             /* _MUL_DIV_OP  */
     _ID = 292,                     /* _ID  */
     _NUM_BOOL = 293,               /* _NUM_BOOL  */
     _STRING = 294,                 /* _STRING  */

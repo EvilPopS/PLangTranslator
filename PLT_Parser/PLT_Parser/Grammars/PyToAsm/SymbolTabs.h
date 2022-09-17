@@ -20,7 +20,7 @@ extern int lastClassTabElem;
 extern int lastVarTabElem;
 extern int lastLitTabElem;
 
-typedef enum TableType { NO_TAB_TYPE, TB_VARS, TB_PARAMS, TB_FUNCS, TB_LITS, TB_CLASSES, TB_PROPS, TB_LISTS } TableType;
+typedef enum TableType { NO_TAB_TYPE, TB_VARS, TB_PARAMS, TB_FUNCS, TB_LITS, TB_CLASSES, TB_PROPS, TB_LISTS, TB_REGS } TableType;
 
 
 typedef struct MainTable {
@@ -28,6 +28,10 @@ typedef struct MainTable {
 	TableType tableType;
 } MainTable;
 
+typedef struct RegistersTable {
+	int index;
+	TableType tableType;
+} RegistersTable;
 
 typedef struct FunctionsTable {
 	char* name;
