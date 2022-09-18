@@ -1,5 +1,5 @@
 {
 	ErrorType: "Semantic"
-	Line: "2"
-	ErrorMessage : "'break' statement must be inside a 'while' or 'for' loop."
+	Line: "1"
+	ErrorMessage : "Cannot use the operator '+' for values of types 'No Type' and 'Number/Boolean'"
 }

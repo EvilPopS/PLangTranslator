@@ -3,8 +3,13 @@ SyntaxAnal.y : warning : 3 shift/reduce conflicts [-Wconflicts-sr]
   Process "LexAnal.l" flex file
   LexAnal.flex.c
   SemanticAnal.c
-D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToAsm\SemanticAnal.c(106,2): warning C4013: 'sprintf_s' undefined; assuming extern returning int
+D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToAsm\SemanticAnal.c(114,2): warning C4013: 'sprintf_s' undefined; assuming extern returning int
+D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToAsm\SemanticAnal.c(195,70): warning C4020: 'insertVariableToTable': too many actual parameters
+  SymbolTabs.c
+D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToAsm\SymbolTabs.c(35,11): warning C4013: 'strcmp' undefined; assuming extern returning int
+D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToAsm\SymbolTabs.c(64,67): warning C4029: declared formal parameter list different from definition
   SyntaxAnal.tab.c
-SyntaxAnal.tab.c(1131,41): warning C4244: 'initializing': conversion from '__int64' to 'long', possible loss of data
+SyntaxAnal.y(118,57): warning C4020: 'insertVariableToTable': too many actual parameters
+SyntaxAnal.tab.c(1130,41): warning C4244: 'initializing': conversion from '__int64' to 'long', possible loss of data
   Generating Code...
   PLT_Parser.vcxproj -> D:\Projects\c#\PLangTranslator\PLT_Parser\x64\Debug\PLT_Parser.exe

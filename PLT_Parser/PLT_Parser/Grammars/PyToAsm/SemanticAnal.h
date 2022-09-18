@@ -11,6 +11,7 @@ extern "C" {
 
 
 #define NUM_OF_DATA_TYPES 5
+#define MA_VARS_ARRAY_SIZE 64
 
 
 typedef enum TypeCompatArrayInds {
@@ -30,9 +31,6 @@ typedef enum TypeCompatArrayKind {
 } TypeCompatArrayKind;
 
 
-int loopsCounter;
-
-
 bool checkIfTypesCompatible(DataType, DataType, TypeCompatArrayKind);
 bool getCompatibilityFromArray(TypeCompatArrayKind, TypeCompatArrayInds, DataType);
 
@@ -41,10 +39,18 @@ void setAritOpKindAndStr(TypeCompatArrayKind*, char**, ArithmeticOperator);
 DataType makeNewTypeByAritOp(ArithmeticOperator, DataType, DataType);
 bool relopExpTypesValidation(char*, DataType, DataType, RelationOperator);
 
+// LOOPS functions
 bool checkIfIsInLoop();
 void incLoopCounter();
 void decLoopCounter();
 
+// MULTI ASSIGNMENT functions
+bool multiAssIsEqualNumOfVarsAndVals();
+void incMultiAssNumOfVars();
+void incMultiAssNumOfVals();
+void resetMultiAssCounters();
+void addVarToMultiAssArray();
+void setVarDataTypeInMultiAss();
 
 
 #ifdef __cplusplus

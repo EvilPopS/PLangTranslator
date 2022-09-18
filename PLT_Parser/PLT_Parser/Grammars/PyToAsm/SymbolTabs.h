@@ -55,26 +55,20 @@ typedef struct ClassesTable {
 
 typedef struct PropertiesTable {
 	char* name;
-	bool isList;
 	DataType type;
-	int ordNum;
 } PropertiesTable;
 
 
 typedef struct VariablesTable {
 	char* name;
-	bool isList;
 	DataType type;
-	int ordNum;
 } VariablesTable;
 
 
 typedef struct ParametersTable {
 	char* name;
-	bool isList;
 	DataType type;
 	bool hasDefVal;
-	int ordNum;
 } ParametersTable;
 
 
@@ -100,7 +94,7 @@ bool checkIfNameInTable(char*, TableType, int);
 // _INSERT_ functions
 void insertSymbolToMainTable(int, TableType);
 int insertFunctionToTable(char*, bool);
-int insertVariableToTable(char*, bool, DataType, int);
+int insertVariableToTable(char*, DataType);
 int insertLiteralToTable(char*, DataType);
 
 // _CLEAR_ functions
@@ -115,6 +109,12 @@ DataType getSymbDataType(int);
 
 // _SET_ functions
 void setSymbDataType(int, DataType); 
+
+// _CHECK_ functions
+bool checkIfIsGivenTableType(int, TableType);
+
+
+
 #ifdef __cplusplus
 }
 #endif

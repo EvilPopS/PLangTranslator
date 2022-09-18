@@ -121,16 +121,38 @@ assign_statement
 
 multi_assign_statement
 	: multi_assign_vars multi_assign_values 
+		{
+			if (!multiAssIsEqualNumOfVarsAndVals())
+				return raiseError(SEMANTIC_ERR, yylineno, "There must be equal number of variables and values in multiple assignment statement");
+			resetMultiAssCounters();
+		}
 	;
 
 multi_assign_vars
 	: _ID _COMMA _ID 
+		{
+			addVarToMultiAssArray($1);
+			addVarToMultiAssArray($3);
+		}
 	| multi_assign_vars _COMMA _ID 
+		{
+			addVarToMultiAssArray($3);
+		}
 	;
 	
 multi_assign_values
-	: _ASSIGN num_exp _COMMA num_exp 
-	| multi_assign_values _COMMA num_exp 
+	: _ASSIGN num_exp 
+		{
+			setVarDataTypeInMultiAss($2);
+		}
+	  _COMMA num_exp
+		{
+			setVarDataTypeInMultiAss($5);
+		}
+	| multi_assign_values _COMMA num_exp
+		{
+			setVarDataTypeInMultiAss($3);
+		}
 	;
 
 return_statement

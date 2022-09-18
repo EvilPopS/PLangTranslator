@@ -21,7 +21,7 @@ lastLitTabElem = -1;
 
 // _FIND_ functions -------------------------------------------------------------------
 int findSymbolByName(char* name) {
-	for (int i = 0; i < MAX_TABLE_SIZE; i++) {
+	for (int i = lastMainTabElem; i >= 0; i--) {
 		MainTable mt = mainTable[i];
 		if (checkIfNameInTable(name, mt.tableType, mt.index))
 			return mt.index;
@@ -61,12 +61,10 @@ int insertFunctionToTable(char* name, bool isMethod) {
 	return lastMainTabElem;
 }
 
-int insertVariableToTable(char* name, bool isList, DataType type, int ordNum) {
+int insertVariableToTable(char* name, bool isList, DataType type) {
 	insertSymbolToMainTable(++lastVarTabElem, TB_VARS);
 	variableTable[lastVarTabElem].name = name;
-	variableTable[lastVarTabElem].isList = isList;
 	variableTable[lastVarTabElem].type = type;
-	variableTable[lastVarTabElem].ordNum = ordNum;
 	return lastMainTabElem;
 }
 
@@ -136,9 +134,7 @@ void clearElemFromClassTable(int ind) {
 
 void clearElemFromVarTable(int ind) {
 	variableTable[ind].name = "";
-	variableTable[ind].isList = false;
 	variableTable[ind].type = NO_DATA_TYPE;
-	variableTable[ind].ordNum = -1;
 
 	lastVarTabElem--;
 }
@@ -172,6 +168,7 @@ void setSymbDataType(int ind, DataType newType) {
 	switch (mt.tableType) {
 		case TB_VARS:
 			variableTable[mt.index].type = newType;
+			break;
 		case TB_PARAMS:
 			break;
 		case TB_PROPS:
@@ -180,3 +177,8 @@ void setSymbDataType(int ind, DataType newType) {
 }
 // ------------------------------------------------------------------------------------
 
+// _CHECK_ functions ------------------------------------------------------------------
+bool checkIfIsGivenTableType(int index, TableType type) {
+	return mainTable[index].tableType == type;
+}
+// ------------------------------------------------------------------------------------

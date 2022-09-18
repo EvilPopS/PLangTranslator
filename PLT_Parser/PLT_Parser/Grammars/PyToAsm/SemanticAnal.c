@@ -40,7 +40,15 @@ DataType relationsCompatArray[][NUM_OF_DATA_TYPES] = {
 
 
 char* dataTypeStrNames[15] = { "No Type", "Unknown", "None", "Number/Boolean", "String", "List", "Class" };
+
+// counts current level of nested 'while' or 'for' loop
 int loopsCounter = 0;
+
+// multi-assignment needed variables
+int maVarsCounter = 0;
+int maValsCounter = 0;
+int maVarInds[MA_VARS_ARRAY_SIZE] = {0};
+
 
 
 bool checkIfTypesCompatible(DataType type1, DataType type2, TypeCompatArrayKind arrKind) {
@@ -163,10 +171,33 @@ bool relopExpTypesValidation(char* errMessage, DataType type1, DataType type2, R
 	return false;
 }
 
-
+// LOOPS functions --------------------------------------------------------
 bool checkIfIsInLoop() { return loopsCounter > 0; }
 
 void incLoopCounter() {	loopsCounter++; }
 
 void decLoopCounter() { loopsCounter--; }
+// ------------------------------------------------------------------------
 
+// MULTI ASSIGNMENT functions ---------------------------------------------
+bool multiAssIsEqualNumOfVarsAndVals() { return maVarsCounter == maValsCounter; }
+
+void incMultiAssNumOfVars() { maVarsCounter++; }
+
+void incMultiAssNumOfVals() { maValsCounter++; }
+
+void resetMultiAssCounters() { maVarsCounter = 0; maValsCounter = 0; }
+
+void addVarToMultiAssArray(char* varName) {
+	int varInd = findSymbolByName(varName);
+	
+	if (varInd == NO_INDEX || checkIfIsGivenTableType(varInd, TB_FUNCS))
+		maVarInds[maVarsCounter++] = insertVariableToTable(varName, false, NO_DATA_TYPE);
+	else
+		maVarInds[maVarsCounter++] = varInd;
+}
+
+void setVarDataTypeInMultiAss(int valInd) {
+	setSymbDataType(maVarInds[maValsCounter++], getSymbDataType(valInd));
+}
+// ------------------------------------------------------------------------
