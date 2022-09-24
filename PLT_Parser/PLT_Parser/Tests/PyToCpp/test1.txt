@@ -1,0 +1,6 @@
+def func(a, b=2 ):
+	pass
+
+
+def func(a, b=2):
+	pass

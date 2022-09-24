@@ -129,38 +129,36 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ErrorOutputHandler\ErrorHandler.c" />
-    <ClCompile Include="Grammars\PyToAsm\LexAlgorithms.c" />
-    <ClCompile Include="Grammars\PyToAsm\LexAnal.flex.c" />
-    <ClCompile Include="Grammars\PyToAsm\SymbolTabs.c" />
-    <ClCompile Include="Grammars\PyToAsm\SyntaxAnal.tab.c" />
-    <ClCompile Include="Grammars\PyToAsm\SemanticAnal.c" />
-    <ClCompile Include="Grammars\PyToAsm\SyntaxAnalUtils.c" />
+    <ClCompile Include="Grammars\PyToCpp\LexAlgorithms.c" />
+    <ClCompile Include="Grammars\PyToCpp\LexAnal.flex.c" />
+    <ClCompile Include="Grammars\PyToCpp\SemanticAnal.c" />
+    <ClCompile Include="Grammars\PyToCpp\SymbolTabs.c" />
+    <ClCompile Include="Grammars\PyToCpp\SyntaxAnal.tab.c" />
+    <ClCompile Include="Grammars\PyToCpp\SyntaxAnalUtils.c" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ErrorOutputHandler\ErrorHandler.h" />
-    <ClInclude Include="Grammars\PyToAsm\EnumsAndDefs.h" />
-    <ClInclude Include="Grammars\PyToAsm\LexAlgorithms.h" />
-    <ClInclude Include="Grammars\PyToAsm\SymbolTabs.h" />
-    <ClInclude Include="Grammars\PyToAsm\SyntaxAnal.tab.h" />
-    <ClInclude Include="Grammars\PyToAsm\SemanticAnal.h" />
-    <ClInclude Include="Grammars\PyToAsm\SyntaxAnalUtils.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Flex Include="Grammars\PyToAsm\LexAnal.l">
-      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).flex.c</OutputFile>
-    </Flex>
-  </ItemGroup>
-  <ItemGroup>
-    <Bison Include="Grammars\PyToAsm\SyntaxAnal.y">
-      <Warnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">all</Warnings>
-      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).tab.c</OutputFile>
-      <Verbose Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</Verbose>
-    </Bison>
+    <ClInclude Include="Grammars\PyToCpp\EnumsAndDefs.h" />
+    <ClInclude Include="Grammars\PyToCpp\LexAlgorithms.h" />
+    <ClInclude Include="Grammars\PyToCpp\SemanticAnal.h" />
+    <ClInclude Include="Grammars\PyToCpp\SymbolTabs.h" />
+    <ClInclude Include="Grammars\PyToCpp\SyntaxAnal.tab.h" />
+    <ClInclude Include="Grammars\PyToCpp\SyntaxAnalUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ErrorOutputHandler\ErrorOutputFile.txt" />
-    <Text Include="Tests\PyToAsm\test1.txt" />
+    <Text Include="Tests\PyToCpp\test1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Bison Include="Grammars\PyToCpp\SyntaxAnal.y">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).tab.c</OutputFile>
+    </Bison>
+  </ItemGroup>
+  <ItemGroup>
+    <Flex Include="Grammars\PyToCpp\LexAnal.l">
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).flex.c</OutputFile>
+    </Flex>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

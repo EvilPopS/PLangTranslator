@@ -1,5 +1,5 @@
 {
-	ErrorType: "Semantic"
-	Line: "1"
-	ErrorMessage : "Cannot use the operator '+' for values of types 'No Type' and 'Number/Boolean'"
+	ErrorType: "Syntax"
+	Line: "5"
+	ErrorMessage : "unexpected token"
 }

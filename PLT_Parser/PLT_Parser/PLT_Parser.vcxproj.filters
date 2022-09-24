@@ -16,90 +16,90 @@
     <Filter Include="Grammars">
       <UniqueIdentifier>{b1192598-63eb-46c8-8d81-fcd378fea640}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Grammars\PythonToAsm">
-      <UniqueIdentifier>{5f4d1f10-99f0-4d6d-9a44-2abb59b7d92f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\PythonToAsmHeaderFiles">
-      <UniqueIdentifier>{b283aa6c-9757-4eaf-abb0-a03840fb109c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\PythonToAsmSrcFiles">
-      <UniqueIdentifier>{9c86e5f2-82a6-492b-bb91-d2176b03cbbb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Tests">
       <UniqueIdentifier>{098e56dd-b328-434f-81b1-b34d38f453d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tests\PythonToAsm">
-      <UniqueIdentifier>{9c480c33-667f-40c8-8446-19af3306adf4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ErrorOutputHandler">
       <UniqueIdentifier>{6870477b-d28b-47a3-9f0a-8763afbeae3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Grammars\PythonToCpp">
+      <UniqueIdentifier>{5f4d1f10-99f0-4d6d-9a44-2abb59b7d92f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PythonToCppHeaderFiles">
+      <UniqueIdentifier>{b283aa6c-9757-4eaf-abb0-a03840fb109c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PythonToCppSrcFiles">
+      <UniqueIdentifier>{9c86e5f2-82a6-492b-bb91-d2176b03cbbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\PythonToCpp">
+      <UniqueIdentifier>{9c480c33-667f-40c8-8446-19af3306adf4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Grammars\PyToAsm\LexAlgorithms.c">
-      <Filter>Source Files\PythonToAsmSrcFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="Grammars\PyToAsm\SyntaxAnal.tab.c">
-      <Filter>Source Files\PythonToAsmSrcFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="Grammars\PyToAsm\LexAnal.flex.c">
-      <Filter>Source Files\PythonToAsmSrcFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="Grammars\PyToAsm\SymbolTabs.c">
-      <Filter>Source Files\PythonToAsmSrcFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="Grammars\PyToAsm\SemanticAnal.c">
-      <Filter>Source Files\PythonToAsmSrcFiles</Filter>
-    </ClCompile>
     <ClCompile Include="ErrorOutputHandler\ErrorHandler.c">
       <Filter>ErrorOutputHandler</Filter>
     </ClCompile>
-    <ClCompile Include="Grammars\PyToAsm\SyntaxAnalUtils.c">
-      <Filter>Source Files\PythonToAsmSrcFiles</Filter>
+    <ClCompile Include="Grammars\PyToCpp\LexAlgorithms.c">
+      <Filter>Source Files\PythonToCppSrcFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammars\PyToCpp\LexAnal.flex.c">
+      <Filter>Source Files\PythonToCppSrcFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammars\PyToCpp\SemanticAnal.c">
+      <Filter>Source Files\PythonToCppSrcFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammars\PyToCpp\SymbolTabs.c">
+      <Filter>Source Files\PythonToCppSrcFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammars\PyToCpp\SyntaxAnal.tab.c">
+      <Filter>Source Files\PythonToCppSrcFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Grammars\PyToCpp\SyntaxAnalUtils.c">
+      <Filter>Source Files\PythonToCppSrcFiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Grammars\PyToAsm\EnumsAndDefs.h">
-      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Grammars\PyToAsm\LexAlgorithms.h">
-      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Grammars\PyToAsm\SyntaxAnal.tab.h">
-      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Grammars\PyToAsm\SyntaxAnalUtils.h">
-      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Grammars\PyToAsm\SymbolTabs.h">
-      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Grammars\PyToAsm\SemanticAnal.h">
-      <Filter>Header Files\PythonToAsmHeaderFiles</Filter>
-    </ClInclude>
     <ClInclude Include="ErrorOutputHandler\ErrorHandler.h">
       <Filter>ErrorOutputHandler</Filter>
     </ClInclude>
+    <ClInclude Include="Grammars\PyToCpp\EnumsAndDefs.h">
+      <Filter>Header Files\PythonToCppHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammars\PyToCpp\LexAlgorithms.h">
+      <Filter>Header Files\PythonToCppHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammars\PyToCpp\SemanticAnal.h">
+      <Filter>Header Files\PythonToCppHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammars\PyToCpp\SymbolTabs.h">
+      <Filter>Header Files\PythonToCppHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammars\PyToCpp\SyntaxAnal.tab.h">
+      <Filter>Header Files\PythonToCppHeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Grammars\PyToCpp\SyntaxAnalUtils.h">
+      <Filter>Header Files\PythonToCppHeaderFiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Flex Include="Grammars\PyToAsm\LexAnal.l">
-      <Filter>Grammars\PythonToAsm</Filter>
-    </Flex>
-  </ItemGroup>
-  <ItemGroup>
-    <Bison Include="Grammars\PyToAsm\SyntaxAnal.y">
-      <Filter>Grammars\PythonToAsm</Filter>
-    </Bison>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Tests\PyToAsm\test1.txt">
-      <Filter>Tests\PythonToAsm</Filter>
-    </Text>
     <Text Include="ErrorOutputHandler\ErrorOutputFile.txt">
       <Filter>ErrorOutputHandler</Filter>
     </Text>
+    <Text Include="Tests\PyToCpp\test1.txt">
+      <Filter>Tests\PythonToCpp</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Bison Include="Grammars\PyToCpp\SyntaxAnal.y">
+      <Filter>Grammars\PythonToCpp</Filter>
+    </Bison>
+  </ItemGroup>
+  <ItemGroup>
+    <Flex Include="Grammars\PyToCpp\LexAnal.l">
+      <Filter>Grammars\PythonToCpp</Filter>
+    </Flex>
   </ItemGroup>
 </Project>

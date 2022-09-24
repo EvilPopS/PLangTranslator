@@ -1,4 +1,4 @@
-#include "Grammars/PyToAsm/SyntaxAnalUtils.h"
+#include "Grammars/PyToCpp/SyntaxAnalUtils.h"
 
 int main(int argc, char* argv[]) {
 	return parser_main(argc, argv);
