@@ -49,8 +49,8 @@ bool multiAssIsEqualNumOfVarsAndVals();
 void incMultiAssNumOfVars();
 void incMultiAssNumOfVals();
 void resetMultiAssCounters();
-void addVarToMultiAssArray();
-void setVarDataTypeInMultiAss();
+void addVarToMultiAssArray(char*);
+void setVarDataTypeInMultiAss(int);
 
 // 'DEF/CALL FUNCTIONS' functions
 void incCurrNestFuncArrInd();
@@ -61,6 +61,10 @@ bool canDefNonDefParams();
 void setCanDefNonDefParams(bool);
 
 
+// RETURN statement functions
+bool canUseReturnStatement();
+void setCanUseRetStat(bool);
+void updateFuncRetType(DataType);
 
 #ifdef __cplusplus
 }

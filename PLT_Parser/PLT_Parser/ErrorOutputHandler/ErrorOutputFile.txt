@@ -1,5 +1,5 @@
 {
 	ErrorType: "Syntax"
-	Line: "5"
+	Line: "7"
 	ErrorMessage : "unexpected token"
 }

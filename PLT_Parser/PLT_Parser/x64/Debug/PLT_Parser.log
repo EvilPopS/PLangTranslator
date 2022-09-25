@@ -3,10 +3,8 @@ SyntaxAnal.y : warning : 3 shift/reduce conflicts [-Wconflicts-sr]
   Process "LexAnal.l" flex file
   LexAnal.flex.c
   SemanticAnal.c
-D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToCpp\SemanticAnal.c(122,2): warning C4013: 'sprintf_s' undefined; assuming extern returning int
-D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToCpp\SemanticAnal.c(205,70): warning C4020: 'insertVariableToTable': too many actual parameters
+D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToCpp\SemanticAnal.c(125,2): warning C4013: 'sprintf_s' undefined; assuming extern returning int
   SyntaxAnal.tab.c
-SyntaxAnal.y(117,57): warning C4020: 'insertVariableToTable': too many actual parameters
-SyntaxAnal.tab.c(1116,41): warning C4244: 'initializing': conversion from '__int64' to 'long', possible loss of data
+SyntaxAnal.tab.c(1115,41): warning C4244: 'initializing': conversion from '__int64' to 'long', possible loss of data
   Generating Code...
   PLT_Parser.vcxproj -> D:\Projects\c#\PLangTranslator\PLT_Parser\x64\Debug\PLT_Parser.exe

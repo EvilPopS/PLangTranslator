@@ -114,7 +114,7 @@ assign_statement
 			int index = findSymbolByName($1);
 
 			if(index == NO_INDEX)
-				index = insertVariableToTable($1, false, getSymbDataType($3), 1);
+				index = insertVariableToTable($1, getSymbDataType($3));
 		}
 	; 
 
@@ -155,8 +155,22 @@ multi_assign_values
 	;
 
 return_statement
-	: _RETURN
-	| _RETURN num_exp
+	: return_token
+		{
+			updateFuncRetType(NONE);
+		}
+	| return_token num_exp
+		{
+			updateFuncRetType(getSymbDataType($2));
+		}
+	;
+
+return_token
+	: _RETURN 
+		{
+			if (!canUseReturnStatement)
+				return raiseError(SEMANTIC_ERR, yylineno, "'Return' statement must be inside a function definition.");
+		}
 	;
 
 func_meth_call_or_class_inst
@@ -179,7 +193,7 @@ function_def
 	: _DEF _ID 
 		{
 			incCurrNestFuncArrInd();
-			setCurrFuncIndex(insertFunctionToTable($2, false));
+			setCurrFuncIndex(insertFunctionToTable($2, false, NO_DATA_TYPE));
 		}
 	  _LPAREN parameters 
 		{
@@ -200,7 +214,7 @@ param_without_default_val
 	: _ID
 		{
 			if (!canDefNonDefParams())
-					return raiseError(SEMANTIC_ERR, yylineno, "Cannot define parameters without default values after defining parameter with default value.");
+				return raiseError(SEMANTIC_ERR, yylineno, "Cannot define parameters without default values after defining parameter with default value.");
 			setNextFuncParam(getCurrFuncIndex(), insertParameterToTable($1, UNKNOWN, false), false);
 		}
 	;

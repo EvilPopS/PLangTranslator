@@ -1,6 +1,4 @@
-def func(a, b=2 ):
-	pass
+def abc():
+	return "asfasfas"
+	return
 
-
-def func(a, b=2):
-	pass

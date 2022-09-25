@@ -58,10 +58,11 @@ void insertSymbolToMainTable(int index, TableType tableType) {
 	mainTable[lastMainTabElem].tableType = tableType;
 }
 
-int insertFunctionToTable(char* name, bool isMethod) {
+int insertFunctionToTable(char* name, bool isMethod, DataType type) {
 	insertSymbolToMainTable(++lastFuncTabElem, TB_FUNCS);
 	functionTable[lastFuncTabElem].name = name;
 	functionTable[lastFuncTabElem].isMethod = isMethod;
+	functionTable[lastFuncTabElem].type = type;
 	return lastMainTabElem;
 }
 
@@ -160,6 +161,8 @@ DataType getSymbDataType(int ind) {
 			return literalTable[mt.index].type;
 		case TB_VARS:
 			return variableTable[mt.index].type;
+		case TB_FUNCS:
+			return functionTable[mt.index].type;
 		case TB_PARAMS:
 			return NO_DATA_TYPE;
 		case TB_CLASSES:
@@ -195,6 +198,11 @@ void setNextFuncParam(int funcInd, int paramInd, bool isDefault) {
 	else
 		functionTable[funcInd].nonDefParamInds[functionTable[funcInd].nonDefParamNum++] = paramInd;
 }
+
+void setFuncType(int funcInd, DataType newType) {
+	functionTable[mainTable[funcInd].index].type = newType;
+}
+
 
 // ------------------------------------------------------------------------------------
 

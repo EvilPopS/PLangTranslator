@@ -30,6 +30,7 @@ typedef struct RegistersTable {
 typedef struct FunctionsTable {
 	char* name;
 	bool isMethod;
+	DataType type;
 	int nonDefParamNum;
 	int nonDefParamInds[MAX_PARAMS_NUM];
 	int defParamNum;
@@ -87,7 +88,7 @@ bool checkIfNameInTable(char*, TableType, int);
 
 // _INSERT_ functions
 void insertSymbolToMainTable(int, TableType);
-int insertFunctionToTable(char*, bool);
+int insertFunctionToTable(char*, bool, DataType);
 int insertVariableToTable(char*, DataType);
 int insertParameterToTable(char*, DataType, bool);
 int insertLiteralToTable(char*, DataType);
@@ -105,6 +106,7 @@ DataType getSymbDataType(int);
 // _SET_ functions
 void setSymbDataType(int, DataType);
 void setNextFuncParam(int, int, bool);
+void setFuncType(int, DataType);
 
 // _CHECK_ functions
 bool checkIfIsGivenTableType(int, TableType);

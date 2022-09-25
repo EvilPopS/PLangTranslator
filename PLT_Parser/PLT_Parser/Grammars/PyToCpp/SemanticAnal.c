@@ -57,6 +57,9 @@ int currNestFuncArrInd = -1;
 int nestedFunctionsInds[NESTED_FUNCS_ARR_SIZE] = { -1 };
 bool canDefineNonDefParams = true;
 
+// return statement variables
+bool canUseRetStat = false;
+
 
 // TYPE COMPAT checker functions ------------------------------------------
 bool checkIfTypesCompatible(DataType type1, DataType type2, TypeCompatArrayKind arrKind) {
@@ -202,7 +205,7 @@ void addVarToMultiAssArray(char* varName) {
 	int varInd = findSymbolByName(varName);
 	
 	if (varInd == NO_INDEX || checkIfIsGivenTableType(varInd, TB_FUNCS))
-		maVarInds[maVarsCounter++] = insertVariableToTable(varName, false, NO_DATA_TYPE);
+		maVarInds[maVarsCounter++] = insertVariableToTable(varName, NO_DATA_TYPE);
 	else
 		maVarInds[maVarsCounter++] = varInd;
 }
@@ -221,5 +224,36 @@ void setCurrFuncIndex(int currInd) { nestedFunctionsInds[currNestFuncArrInd] = c
 
 bool canDefNonDefParams() { return canDefineNonDefParams; }
 void setCanDefNonDefParams(bool canDefine) { canDefineNonDefParams = canDefine; }
+// ------------------------------------------------------------------------
+
+// RETURN statement functions ---------------------------------------------
+bool canUseReturnStatement() { return canUseRetStat; }
+void setCanUseRetStat(bool canUse) { canUseRetStat = canUse; }
+
+void updateFuncRetType(DataType newType) {
+	int currFuncInd = getCurrFuncIndex();
+	DataType currType = getSymbDataType(currFuncInd);
+
+	if (currType == newType || currType == UNKNOWN)
+		return;
+
+	if (currType != NO_DATA_TYPE) {
+		if (currType == NONE) {
+			if (newType == NUM_BOOL)
+				setFuncType(currFuncInd, UNKNOWN);
+			else
+				setFuncType(currFuncInd, newType);
+		}
+		else if (currType != NUM_BOOL) {
+			if (newType != NONE)
+				setFuncType(currFuncInd, UNKNOWN);
+		}
+		else
+			setFuncType(currFuncInd, UNKNOWN);
+	}
+	else 
+		setFuncType(currFuncInd, newType);
+}
+
 // ------------------------------------------------------------------------
 
