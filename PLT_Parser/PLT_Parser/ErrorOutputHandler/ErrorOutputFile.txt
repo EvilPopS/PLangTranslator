@@ -1,5 +1,5 @@
 {
-	ErrorType: "Syntax"
-	Line: "7"
-	ErrorMessage : "unexpected token"
+	ErrorType: "Semantic"
+	Line: "4"
+	ErrorMessage : "Invalid number of arguments given on identifier 'v' call."
 }

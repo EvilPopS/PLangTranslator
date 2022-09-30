@@ -70,6 +70,7 @@ int insertVariableToTable(char* name, DataType type) {
 	insertSymbolToMainTable(++lastVarTabElem, TB_VARS);
 	variableTable[lastVarTabElem].name = name;
 	variableTable[lastVarTabElem].type = type;
+	variableTable[lastVarTabElem].classTypeName = "";
 	return lastMainTabElem;
 }
 
@@ -78,6 +79,7 @@ int insertParameterToTable(char* name, DataType type, bool hasDefVal) {
 	parametersTable[lastParamTabElem].name = name;
 	parametersTable[lastParamTabElem].type = type;
 	parametersTable[lastParamTabElem].hasDefVal = hasDefVal;
+	parametersTable[lastParamTabElem].classTypeName = "";
 	return lastMainTabElem;
 }
 
@@ -173,6 +175,24 @@ DataType getSymbDataType(int ind) {
 			return LIST;
 	}
 	return NO_DATA_TYPE;
+}
+
+int getNumOfNonDefParams(int funcInd) {
+	/* 
+		Gotta update this one for class initialization 
+		( main -> if class -> classTable -> find __init__ index ->
+		-> functiontable -> get params num)
+	*/
+	return functionTable[mainTable[funcInd].index].nonDefParamNum; 
+}
+
+int getNumOfDefParams(int funcInd) { 
+	/*
+		Gotta update this one for class initialization
+		( main -> if class -> classTable -> find __init__ index ->
+		-> functiontable -> get params num)
+	*/
+	return functionTable[mainTable[funcInd].index].defParamNum;
 }
 // ------------------------------------------------------------------------------------
 

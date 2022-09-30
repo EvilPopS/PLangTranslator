@@ -51,12 +51,14 @@ typedef struct ClassesTable {
 typedef struct PropertiesTable {
 	char* name;
 	DataType type;
+	char* classTypeName;
 } PropertiesTable;
 
 
 typedef struct VariablesTable {
 	char* name;
 	DataType type;
+	char* classTypeName;
 } VariablesTable;
 
 
@@ -64,6 +66,7 @@ typedef struct ParametersTable {
 	char* name;
 	DataType type;
 	bool hasDefVal;
+	char* classTypeName;
 } ParametersTable;
 
 
@@ -102,6 +105,9 @@ void clearElemFromVarTable(int);
 
 // _GET_ functions
 DataType getSymbDataType(int);
+int getNumOfNonDefParams(int);
+int getNumOfDefParams(int);
+
 
 // _SET_ functions
 void setSymbDataType(int, DataType);

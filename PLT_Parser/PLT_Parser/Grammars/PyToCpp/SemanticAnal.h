@@ -52,7 +52,7 @@ void resetMultiAssCounters();
 void addVarToMultiAssArray(char*);
 void setVarDataTypeInMultiAss(int);
 
-// 'DEF/CALL FUNCTIONS' functions
+// 'DEF FUNCTIONS' functions
 void incCurrNestFuncArrInd();
 void decCurrNestFuncArrInd();
 int getCurrFuncIndex();
@@ -60,6 +60,12 @@ void setCurrFuncIndex(int);
 bool canDefNonDefParams();
 void setCanDefNonDefParams(bool);
 
+// 'CALL/INST FUNCTIONS/CLASS' functions
+bool canCallFuncOrInstClass(int);
+bool methodIsCalledOnClass(int);
+bool argsNumEqParamNum(int);
+void incArgsNum();
+void resetArgsNum();
 
 // RETURN statement functions
 bool canUseReturnStatement();

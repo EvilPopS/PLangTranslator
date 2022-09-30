@@ -113,7 +113,7 @@ assign_statement
 		{
 			int index = findSymbolByName($1);
 
-			if(index == NO_INDEX)
+			if(index == NO_INDEX || checkIfIsGivenTableType(index, TB_FUNCS))
 				index = insertVariableToTable($1, getSymbDataType($3));
 		}
 	; 
@@ -174,19 +174,43 @@ return_token
 	;
 
 func_meth_call_or_class_inst
-	: _ID _LPAREN arguments _RPAREN 
-	| _ID _DOT _ID _LPAREN arguments _RPAREN
-	| func_meth_call_or_class_inst _DOT _ID _LPAREN arguments _RPAREN
+	: singular_func_call_or_class_inst
+	| _ID 
+		{
+			if (!methodIsCalledOnClass($1))
+				return raiseError(SEMANTIC_ERR, yylineno, "Cannot call members on identifier '%s' as it is not a class.", $1);
+
+		}
+	  _DOT singular_func_call_or_class_inst
+	| func_meth_call_or_class_inst _DOT singular_func_call_or_class_inst
 	;
 	
+singular_func_call_or_class_inst
+	: _ID _LPAREN arguments _RPAREN
+		{
+			int ind = findSymbolByName($1);
+			if (!canCallFuncOrInstClass(ind))
+				return raiseError(SEMANTIC_ERR, yylineno, "Cannot call identifier '%s' or is unknown.", $1);
+			
+			if (!argsNumEqParamNum(ind))
+				return raiseError(SEMANTIC_ERR, yylineno, "Invalid number of arguments given on identifier '%s' call.", $1);
+				
+			resetArgsNum();
+		}
+	;
+
 arguments
 	: %empty  /* no arguments */
-	| arguments args
+	| arguments arg_list
 	;
 	
-args
-	: num_exp
-	| args _COMMA num_exp
+arg_list
+	: arg
+	| arg_list _COMMA arg
+	;
+
+arg
+	: num_exp { incArgsNum(); }
 	;
 
 function_def
@@ -223,7 +247,7 @@ param_with_default_val
 	: _ID _ASSIGN num_exp
 		{
 			
-			setNextFuncParam(getCurrFuncIndex(), insertParameterToTable($1, getSymbDataType($3), true), false);
+			setNextFuncParam(getCurrFuncIndex(), insertParameterToTable($1, getSymbDataType($3), true), true);
 			setCanDefNonDefParams(false);
 		}
 	;

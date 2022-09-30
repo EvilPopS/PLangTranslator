@@ -52,13 +52,17 @@ int maVarsCounter = 0;
 int maValsCounter = 0;
 int maVarInds[MA_VARS_ARRAY_SIZE] = { -1 };
 
-// functions call/definitions variables
+// functions definitions variables
 int currNestFuncArrInd = -1;
 int nestedFunctionsInds[NESTED_FUNCS_ARR_SIZE] = { -1 };
 bool canDefineNonDefParams = true;
 
+// functions call variables
+int argsNum = 0;
+
 // return statement variables
 bool canUseRetStat = false;
+
 
 
 // TYPE COMPAT checker functions ------------------------------------------
@@ -215,7 +219,7 @@ void setVarDataTypeInMultiAss(int valInd) {
 }
 // ------------------------------------------------------------------------
 
-// 'DEF/CALL FUNCTIONS' functions -----------------------------------------
+// 'DEF FUNCTIONS' functions -----------------------------------------
 void incCurrNestFuncArrInd() { currNestFuncArrInd++; }
 void decCurrNestFuncArrInd() { currNestFuncArrInd--; }
 
@@ -224,6 +228,25 @@ void setCurrFuncIndex(int currInd) { nestedFunctionsInds[currNestFuncArrInd] = c
 
 bool canDefNonDefParams() { return canDefineNonDefParams; }
 void setCanDefNonDefParams(bool canDefine) { canDefineNonDefParams = canDefine; }
+// ------------------------------------------------------------------------
+
+// 'CALL/INST FUNCTIONS/CLASS' functions ----------------------------------
+bool canCallFuncOrInstClass(int symbInd) {
+	return symbInd != NO_INDEX && (checkIfIsGivenTableType(symbInd, TB_FUNCS) || checkIfIsGivenTableType(symbInd, TB_CLASSES));
+}
+
+bool methodIsCalledOnClass(int symbInd) {
+	return symbInd != NO_INDEX && checkIfIsGivenTableType(symbInd, TB_CLASSES);
+}
+
+bool argsNumEqParamNum(int ind) {
+	int nonDefParamNum = getNumOfNonDefParams(ind);
+	int defParamNum = getNumOfDefParams(ind);
+	return argsNum >= nonDefParamNum && argsNum <= nonDefParamNum + defParamNum;
+}
+
+void incArgsNum() { argsNum++; }
+void resetArgsNum() { argsNum = 0; }
 // ------------------------------------------------------------------------
 
 // RETURN statement functions ---------------------------------------------
