@@ -69,7 +69,6 @@ file
 	: %empty  /* empty */ 
 	| statement_list
 	| new_line statement_list
-	| file new_line
 	;
 
 statement_list
@@ -177,7 +176,7 @@ func_meth_call_or_class_inst
 	: singular_func_call_or_class_inst
 	| _ID 
 		{
-			if (!methodIsCalledOnClass($1))
+			if (!methodIsCalledOnClass(findSymbolByName($1)))
 				return raiseError(SEMANTIC_ERR, yylineno, "Cannot call members on identifier '%s' as it is not a class.", $1);
 
 		}
@@ -199,6 +198,8 @@ singular_func_call_or_class_inst
 		}
 	;
 
+
+
 arguments
 	: %empty  /* no arguments */
 	| arguments arg_list
@@ -217,13 +218,16 @@ function_def
 	: _DEF _ID 
 		{
 			incCurrNestFuncArrInd();
-			setCurrFuncIndex(insertFunctionToTable($2, false, NO_DATA_TYPE));
+			setCurrFuncIndex($<i>$ = insertFunctionToTable($2, false, NO_DATA_TYPE));
 		}
 	  _LPAREN parameters 
 		{
 			setCanDefNonDefParams(true);
 		} 
-	  _RPAREN _COLON new_line body 
+	  _RPAREN _COLON new_line body
+		{
+			clearMainTableFromInd($<i>3);
+		}
 	;
 
 parameters 

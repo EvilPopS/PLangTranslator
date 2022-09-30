@@ -1,5 +1,4 @@
 ﻿  Process "SyntaxAnal.y" bison file
-SyntaxAnal.y : warning : 3 shift/reduce conflicts [-Wconflicts-sr]
   Process "LexAnal.l" flex file
   LexAnal.flex.c
   SemanticAnal.c
@@ -7,8 +6,6 @@ D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToCpp\SemanticAn
   SymbolTabs.c
 D:\Projects\c#\PLangTranslator\PLT_Parser\PLT_Parser\Grammars\PyToCpp\SymbolTabs.c(39,11): warning C4013: 'strcmp' undefined; assuming extern returning int
   SyntaxAnal.tab.c
-SyntaxAnal.y(180,43): warning C4047: 'function': 'int' differs in levels of indirection from 'char *'
-SyntaxAnal.y(180,40): warning C4024: 'methodIsCalledOnClass': different types for formal and actual parameter 1
 SyntaxAnal.tab.c(1120,41): warning C4244: 'initializing': conversion from '__int64' to 'long', possible loss of data
   Generating Code...
   PLT_Parser.vcxproj -> D:\Projects\c#\PLangTranslator\PLT_Parser\x64\Debug\PLT_Parser.exe

@@ -153,6 +153,8 @@
   <ItemGroup>
     <Bison Include="Grammars\PyToCpp\SyntaxAnal.y">
       <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).tab.c</OutputFile>
+      <Report Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">all</Report>
+      <ReportFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">grammar_report.txt;%(ReportFile)</ReportFile>
     </Bison>
   </ItemGroup>
   <ItemGroup>
